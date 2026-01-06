@@ -46,7 +46,7 @@
 \setlength{\droptitle}{-4em} 
 \title{\course\ - HW \#9}
 \author{\myname}
-\date{2025.12.02}
+\date{2025.12.04}
 
 \begin{document}
 \maketitle
@@ -54,6 +54,31 @@
 
 %------------------------------------------------------------------------------%
 
+\section{}
+\subsection{}
+Composing the homomorphisms $\pi: R \rightarrow R/I$ and $\iota: R/I \rightarrow (R/I) [x]$ yields a homomorphism $\varphi: R \rightarrow (R/I) [x]$.
+By the substition principle, there is a unique homomorphism
+$$\varPhi: R[x] \rightarrow (R/I) [x] \quad \text{ satisfying } \left.\varPhi\right|_{R} = \varphi, \quad x \mapsto x$$
+
+$\varPhi$ is surjective because $\pi$ is surjective.
+$f(x) \in \ker \varPhi \iff$ every coefficient of $f$ is in $I \iff f(x) \in I[x]$, so $\ker \varPhi = I[x]$.
+
+\subsection{}
+Suppose $P \in \spec R$, $f(x)g(x) \in P[x]$, and $f(x) \notin P[x]$.
+Write
+$$f(x) = \sum_{i = 0}^{n} a_i x^i, \quad g(x) = \sum_{i = 0}^{m} b_i x^i, \quad f(x)g(x) = \sum_{i = 0}^{n + m} c_i x^i = \sum_{i = 0}^{n + m}\sum_{j = 0}^{i} a_j b_{i - j} x^i$$
+and let $k$ be the smallest integer such that $a_k \notin P$.
+By assumption, $a_0, \ldots, a_{k - 1} \in P$.
+Now, induct on $0 \leq l \leq m$ to show all $b_l \in P$.
+Since $f(x)g(x) \in P[x]$, $c_k = \sum_{j = 0}^{k} a_j b_{k - j} \in P$. The terms $a_0 b_k, a_1 b_{k - 1}, \ldots, a_{k - 1}b_1$ of the sum are in $P$, so the only remaining term of the sum $a_k b_0 \in P$ as well. $a_k \notin P \implies b_0 \in P$, which verifies the base case.
+
+Suppose $b_0, \ldots, b_{l - 1} \in P$ for $l - 1 < m$. Then $c_{k + l} = \sum_{j = 0}^{k + l} a_j b_{k + l - j} \in P$, and the terms of the sum
+$$a_0 b_{k + l}, a_1 b_{k + l - 1}, \ldots, a_{k - 1} b_{l + 1}, a_{k + 1} b_{l - 1}, a_{k + 2} b_{l - 2}, \ldots, a_{k + l} b_0$$
+are all either 0 (i.e. if $k + 1 > n$) or in $P$, so the only term of the sum not in this list $a_k b_l \in P$ as well. $a_k \neq P \implies b_l \in P$.
+
+This shows every coefficient of $g(x) \in P \ie g(x) \in P[x]$, so $P[x] \in \spec R[x]$
+
+\subsection{}
 
 
 \end{document}
