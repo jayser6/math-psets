@@ -55,13 +55,77 @@
 %------------------------------------------------------------------------------%
 
 \section{Q2}
+Suppose $f$ is not strictly increasing on $(a, b)$, that is, $\exists c, d \in \R \st a < c < d < b$ and $f(c) \geq f(d)$. 
+$f$ is differentiable on $(a, b)$ with $(c, d) \subset (a, b)$, so there is an open neighborhood containing $[c, d] \st f$ is continuous on the neighborhood. 
+Of course, $f$ is differentiable on $(c, d)$, thus satisfying the hypothesis of the Mean Value Theorem. 
+Applying the Mean Value Theorem to $f$ on points $c$ and $d$, $\exists x \in (c, d) \st f(d) - f(c) = (d - c)f'(x)$. 
+Namely, $c < d$ and $f(c) \geq f(d)$, so $f'(x) \leq 0$, which contradicts the fact that $f$ has a positive derivative on $(a, b)$. 
 
+Since $f$ is strictly increasing on $(a, b)$, i.e. $f(x_1) \neq f(x_2) \, \forall x_1 \neq x_2 \in (a, b)$, $f$ is injective on $(a, b)$; 
+$f$ is bijection from $(a, b)$ to the image $f((a, b))$. 
+Denote $f^{-1}$ as $g: f((a, b)) \rightarrow (a, b)$ and let $h(t) \defeq g(f(t)) = t$.  
+
+First, assume $g$ is differentiable. 
+By the chain rule, $h'(x) = g'(f(x)) f'(x)$.
+Simultaneously, $h'(x) = 1$. 
+Combining these equalities, 
+$$g'(f(x)) = \frac{1}{f'(x)}$$
+
+Symmetric reasoning shows that if $g$ is differentiable, then necessarily $g'(y) = \frac{1}{f'g(y)}$ for any $y \in f((a, b)$ 
+Indeed, this calculation can be used to confirm that $g$ is indeed differentiable.
+Notice that because $f$ is differentiable on any $x \in (a, b)$ and $f'(x) \neq 0$, 
+$$\lim_{t \rightarrow x} \frac{1}{\frac{f(x) - f(t)}{x - t}} = \lim_{t \rightarrow x} \frac{x - t}{f(x) - f(t)}$$ 
+exists, and the value of the limit is $1 / f'(x)$. 
+Now, fix $\epsilon > 0$ and pick any $y \in f((a, b))$. 
+Since $f$ is injective, $\exists! x \in (a, b) \st f(x) = y$. 
+$\lim_{t \rightarrow x} \frac{x - t}{f(x) - f(t)} = 1/f'(x)$, so $\exists \eta > 0 \st \forall t \in \ball{\eta}{x}$, $\abs{\frac{x - t}{f(x) - f(t)} - 1/f'(x)} < \epsilon$. 
+
+Now, $g$ is continuous, so $\exists \delta > 0 \st \forall s \in \ball{\delta}{y}$, $\abs{g(y) - g(s)} < \eta$. 
+Denote $t = g(s)$. 
+Since $g(y) = x$, $\abs{x - t} < \eta$ and thus the following holds: 
+\begin{align*}
+  \abs{\frac{g(y) - g(s)}{y - s} - \frac{1}{f'(g(y))}} = \abs{\frac{x - t}{f(x) - f(t)} - \frac{1}{f'(x)}} < \epsilon
+\end{align*}
+This shows that $g$ is differentiable on its entire domain with $g'(y) = 1/f'(g(y))$.  
 
 \section{Q4}
+Define 
+$$g(x) \defeq c_0 x + \frac{1}{2} c_1 x^2 + \ldots + \frac{1}{n}c_{n - 1}x^n + \frac{1}{n + 1}c_n x^{n + 1}$$
+Notice
+\begin{itemize}
+ \item $g(1) = 0$ by the hypothesis, and also $g(0) = 0$. 
+ \item $g'(x) = c_0 + c_1 x + \ldots + c_{n - 1} x^{n - 1} + c_n x^n = 0$, which is the polynomial of interest in this question.  
+\end{itemize}
+
+$g$ is a polynomial, so it is infinitely differentiable everywhere. 
+By the Mean Value Theorem, $\exists x_0 \in (0, 1) \st g'(x_0) (1 - 0) = g(1) - g(0)$, i.e., $g'(x_0) = 0$, as was to be shown.  
 
 \section{Q8} 
+Fix $\epsilon > 0$. 
+By the definition of the derivative and the continuity of $f'$, $\forall x \in [a, b], \exists \delta_x > 0 \st \forall t \in [a, b]$ satisfying $\abs{x - t} < \delta_x$, 
+$$\abs{f'(x) - \frac{f(x) - f(t)}{x - t}} < \epsilon / 2, \quad \abs{f'(x) - f'(t)} < \epsilon / 2$$
+
+$\bigcup_{x \in [a, b]} \ball{\delta_x / 2}{x}$ form an open cover for $[a, b]$ and $[a, b]$ is compact, so $\exists x_1, \ldots, x_n \in [a, b]$ with associated neighborhoods $\ball{\delta_1 / 2}{x_1}, \ldots, \ball{\delta_n / 2}{x_n}$ whose union is an open subcover of $[a, b]$. 
+Let $$\delta \defeq \min\{\delta_1 / 2, \ldots, \delta_n / 2\}$$
+
+Then $\forall x, t \in [a, b]$ with $\abs{x - t} < \delta$,
+$$\abs{x_k - t} \leq \abs{x_k - x} + \abs{x - t} \leq \delta_k$$
+for some $k \in \{1, \ldots, n\}$ satisfying $\abs{x - x_k} < \delta_k / 2$, which is guaranteed to exist since the neighborhoods of the $x_i$'s form an open cover for $[a, b]$. 
+Finally, because both $x, t \in \ball{\gamma_k}{x_k}$,  
+$$\abs{f'(x) - \frac{f(x) - f(t)}{x - t}} \leq \abs{f'(x) - f'(x_k)} + \abs{f'(x_k) - \frac{f(x_k) - f(t)}{x_k - t}} < \epsilon / 2 + \epsilon / 2 = \epsilon$$ 
+as was to be shown. 
+
+Under the same hypothesis but with $f:[a, b] \rightarrow \R^n$, the result holds as previous. 
+The easiest way to convince oneself of this fact is to use the box metric on $\R^n$. 
+Then the previous calculations apply more or less immediately to the current case, with nothing more to be checked. 
 
 \section{Q9}
-
+By the L'Hospital's Rule, 
+$$\lim_{x \rightarrow 0} \frac{f(x) - f(0)}{x - 0}$$
+exists: the continuity of $f$ ensures $f(x) - f(0) \rightarrow 0$ as $x \rightarrow 0$. 
+Of course, the denominator vanishes as $x \rightarrow 0$ as well. 
+The derivative of the numerator with respect to $x$ is just $f'(x)$, while the derivative of the denominator is 1, so 
+the L'Hospital's rule applies, and 
+$$f'(0) \defeq \lim_{x \rightarrow 0} \frac{f(x) - f(0)}{x - 0} = \lim_{x \rightarrow 0} \frac{f'(x)}{1} = 3$$
 
 \end{document}

@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{setspace}
+\usepackage{array}
 \usepackage{fancyhdr}
 \usepackage{titling}
 \usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
@@ -56,8 +57,44 @@
 %------------------------------------------------------------------------------%
 
 \section{} 
+\begin{lemma}
+  If a set of dominos tiles a $2 \times n$ grid, then the size of this set of dominos is exactly $n$. 
+\end{lemma}
+\begin{proof}[Proof of Lemma]
+  The proof follows by strong induction on $n$. 
+  The base cases are trivial since $f_0 = f_1 = 1$; 
+  The only way to fill a $2 \times 0$ grid and a $2 \times 1$ grid is by using no blocks and by using a single vertical domino, respectively. 
+
+  Suppose only a set of $n - 1$ dominos can tile a $2 \times (n - 1)$ grid and only a set of $n - 2$ dominos can tile a $2 \times (n - 2)$ grid.
+  The combinatorial interpretation of the recursion rule $f_n = f_{n - 1} + f_{n - 2}$ implies that the only ways to complete a tiling of a $2 \times n$ grid is to 
+  \begin{enumerate}
+    \item append a single vertical domino to a tiling of the first $n - 1$ columns, which is composed of $n - 1$ dominos.
+    \item append a stack of two horizontal dominos to a tiling of the first $n - 2$ columns, which is composed n - 2 dominos.   
+  \end{enumerate}
+
+  In both cases, the total number of dominos used to tile the complete $2 \times n$ grid is $n$, as was to be shown. 
+\end{proof}
+
+The lemma gives the easy formula $a_n = 3^n f_n$; 
+counting $a_n$ is equivalent to first counting the number of ways to tile the $2 \times n$ grid without distinguishing color, then counting the number of ways to assign each $n$ blocks one of three possible colors. 
+This yields a recursive definition for $a_n$ when $n \geq 2$:
+$$a_n = 3^n f_n = 3^n (f_{n - 1} + f_{n -2}) = 3(a_{n - 1} + 3a_{n - 2})$$
+Manuel computation shows $a_0 = 1$, $a_1 = 3$. 
+
+Finally, one can derive the closed form for the generating function $A(x) \defeq \sum a_n x^n$: 
+\begin{align*}
+  A(x) & = \sum_{n = 0}^{\infty} a_n x^n \\ 
+       & = 1 + 3x + 3\sum_{n = 2}^{\infty}(a_{n - 1} + 3a_{n - 2})x^n \\
+       & = 1 + 3x + 3(x\sum_{n = 1}^{\infty} a_n x^n + 3x^2 \sum_{n = 0}^{\infty} a_n x^n) \\ 
+       & = 1 + 3x + 3(x(A(x) - a_0) + 3x^2 A(x)) \\ 
+       & = 1 + 3xA(x) + 9x^2A(x)
+\end{align*}
+
+Factoring the final equality leads to 
+$$A(x) = \frac{1}{1 - 3x - 9x^2}$$ 
 
 \section{} 
+\subsection{Solution 1 (original, messier solution)}
 \begin{center}
   \begin{tikzpicture}[scale=1.5]
     % 1x2 Vertical Domino
@@ -101,18 +138,176 @@ $$f_n = f_0 + f_1 + f_1 + f_2 + f_3 + \ldots + f_{n - 2}$$
 $f_1 = 1$, so the equality can be rewritten as
 $$f_n = \sum_{i = 0}^{n - 2} f_n + 1$$
 as desired. 
-\section{} 
+
+\subsection{Solution 2} 
+The equality to demonstrate is 
+$$\sum_{i = 0}^{n - 1} = f_{n + 1} - 1$$
+
+The right hand side can be interpreted as the number of ways to tile a $2 \times (n + 1)$ grid, excluding the tiling that only uses the vertical domino, i.e., 
+$$f_{n + 1} - 1 = \# \text{ of ways to tile a } 2 \times (n + 1) \text{ grid by using at least one instance of configuration B}$$
+which can be decomposed into 
+\begin{align*}
+  \sum_{i = 0}^{n - 1} (\# \text{ of ways to tile a } 2 \times (n + 1) \text{ grid such that the rightmost confiugration B covers columns } i + 1, i + 2)
+\end{align*}
+
+For each $i \in \{0, \ldots, n - 1\}$, notice that by the definition of the decomposition, each of the $i + 3, i + 4, \ldots, n$th columns are filled via configuration A.
+Thus, the number of ways to fill the grid such that the rightmost configuration B occurs in columns $i + 1, i + 2$ is the number of ways to fill columns $1, \ldots, i$, which is given by $f_i$.
+Thus, the decomposition is equivalent to 
+$$\sum_{i = 0}^{n - 1} f_i$$
+as was to be shown. 
 
 \section{} 
+\subsection{Solution 1 (original, messier solution)}
+The equality to demonstrate is 
+$$f_{2n + 1} = \sum_{i = 0}^{n} f_{2i}$$
+
+By definition, the left hand side, $f_{2n + 1}$, counts the number of ways to tile a $2 \times (2n + 1)$ grid. 
+
+On the right hand side, consider each summand $f_{2i}$ as the number of ways to tile the first $2i$ columns in a $2 \times (2n + 1)$ grid, where the $(2i + 1)$st column is filled via configuration A and the rest of the columns to the right are all filled via configuration B.  
+Notice the union of configurations associated with each $\left.f_{2i}\right|_{i = 0}^{n}$ lists all possible confiugrations to tile a $2 \times (2n + 1)$ grid:
+by the definition of how each $f_{2i}$ is interpreted, the collection certainly doesn't double count;
+meanwhile, the collection accounts for every possible tiling of a $2 \times (2n + 1)$ grid because it exhausts every way to tile the first $(2n + 1) - k$ columns given every possible way to tile the last $k$ columns for each $k \in \{1, \ldots, 2n + 1\}$. 
+
+\subsection{Solution 2} 
+$f_{2n + 1}$ counts the number of ways to tile a $2 \times (2n + 1)$ grid. 
+Notice that because configuration B always fills an even number of columns and $2n + 1$ is odd, every tiling of the grid must utilize at least one instance of configuration A. 
+
+Suppose the rightmost instance of configuration A occurs at column $i \in \{1, \ldots, 2n + 1\}$. 
+Because all columns to the right of column $i$ are filled by configuration B, it is necessary that $i$ is odd to ensure there is an even number of columns to the right of column $i$. 
+Write $i = 2j + 1$ for some $j \in \{0, \ldots, n\}$. 
+Then the number of tilings of the $2 \times (2n + 1)$ grid such that the rightmost instance of configuration A is at column $i$ is just the number of ways to fill the first $i - 1 = 2j$ columns, which is given by $f_{2j}$.
+
+Finally, notice that $f_{2n + 1}$ can be decomposed into the sum of the number of ways to tile a $2 \times (2n + 1)$ grid such that the rightmost instance of confiugration A is in column $i$, where $i = 2j + 1$ for $j$ varying over $0, \ldots, n$. 
+In all, this combinatorial interpretation yields the desired identity 
+$$f_{2n + 1} = \sum_{j = 0}^{n} f_{2j}$$
 
 \section{} 
+\subsection{Recursion Formula for the Multinomial Coefficient} 
+The analogue of the Pascal recursion for the multinomial coefficient is the following: 
+$$\binom{n}{a_1, a_2, \ldots, a_m} = \binom{n - 1}{(a_1 - 1), a_2, a_3, \ldots, a_m}  \binom{n - 1}{a_1, (a_2 - 1), a_3, \ldots, a_m} \cdots  \binom{n - 1}{a_1, a_2, a_3, \ldots, (a_m - 1)}$$  
+
+I give a combinatorial proof of this identity that relies on part (b). 
+Interpret $\binom{n}{a_1, a_2, \ldots, a_m}$ as the number of length $n$ words of the alphabet $\{1, \ldots, m\}$ with $a_1$ copies of 1's', \ldots, $a_m$ copies of $m$'s.  
+Thus $\binom{n}{a_1, a_2, \ldots, a_m}$ can be decomposed into the sum over each $k \in \{1, \ldots, m\}$ of the number of length $n$ words such that the $n$th letter is fixed as $k$ and the number of copies of the letter $i$ in the word is given by $a_i$.
+Particularly, when the $n$th letter is fixed as $k$ for any $k \in \{1, \ldots, m\}$, the number of words satisfying the conditions above is given by 
+$$\binom{n - 1}{a_1, a_2, \ldots, a_{k - 1}, (a_k - 1), a_{k + 1}, \ldots, a_m}$$ 
+since amongst the unfixed letters $1, \ldots, n - 1$, the number of copies of letter $i$ must be 
+$$\begin{cases} 
+  a_i, & \text{if } i \neq k\\ 
+  a_i - 1, & \text{if } i = k
+\end{cases}$$
+
+This gives the desired identity. 
+
+\subsection{Combinatorial Interpretation of the Multinomial Coefficient}
+Suppose $a_1 + \ldots + a_m = n$ and each $a_i \geq 0$. 
+By the definition of the multinomial coefficient, 
+\begin{align*}
+  \binom{n}{a_1, a_2, \ldots, a_m} & \defeq \frac{n!}{a_1! a_2! \cdots a_m!} \\
+                                   & = \frac{n!}{a_1!(n - a_1)!} \frac{(n - a_1)!}{a_2! (n - a_1 - a_2)!} \frac{(n - a_1 - a_2)!}{a_3! (n - a_1 - a_2 - a_3)!} \cdots \frac{(n - a_1 - a_2 - \ldots - a_{m - 1})!}{a_m! (n - a_1 - a_2 - \ldots - a_m)!} \\ 
+                                   & = \binom{n}{a_1} \binom{n - a_1}{a_2} \binom{n - a_1 - a_2}{a_3} \cdots \binom{n - a_1 - a_2 - \ldots - a_{m - 1}}{a_m} 
+\end{align*}
+
+Combinatorially interpreted, the final equality's product of binomial coefficients counts the number of ways to label exactly $a_1$ of the $n$ items as ``1", label exactly $a_2$ of the remaining unlabeled $n - a_1$ items as ``2", label exactly $a_3$ of the remaining unlabeled $n - a_1 - a_2$ items as ``3", \ldots, and label exactly $a_m$ of the remaining unlabeled $n - a_1 - a_2 - \ldots - a_{m - 1}$ items as $``m"$.
+This is the desired combinatorial interpretation of the multinomial coefficient $\binom{n}{a_1, a_2, \ldots, a_m}$. 
 
 \section{} 
+\subsection{$S(n, 1) = S(n, n) = 1$} 
+A partition of $[n]$ into one part is simply the collection $\{[n]\}$, so $S(n, 1) = 1$. 
+Simimarly, the only way to partition $[n]$ into $n$ parts is to place each $i \in [n]$ into the singleton $\{i\}$, which gives $S(n, n) = 1$. 
+
+\subsection{$S(n, 2) = 2^{n - 1} - 1$}
+There are $2^n$ ways to subdivide $[n]$ into sets $X$ and $Y$ because for each element $i \in [n]$, there are two ways to place $i$ (either $X$ or $Y$, but not both), and the placement of each $i$ is independent of the placement of the other elements. 
+Of this $2^n$ number of ways to allocate $[n]$ into $X$ and $Y$ are the cases 
+\begin{enumerate}
+  \item $X = \emptyset$, $Y = [n]$
+  \item $X = [n]$, $Y = \emptyset$
+\end{enumerate}
+
+These two cases partition $[n]$ into a single part, so the two cases can be discarded. 
+Let $S$ be the set of all remaining $2^n - 2$ reallocations of $[n]$ into $X$ and $Y$. 
+For each $s \in S$, $\exists! s' \in S$ satisfying the following: 
+\begin{enumerate}
+  \item $s \neq s'$ 
+  \item Suppose $s$ subdivides $[n]$ into $X_s = \{i_1, \ldots, i_k\}$ and $Y_s = \{i_{k + 1}, \ldots, i_{n}\}$, where $0 < k < n$ and $i_1, \ldots, i_n$ is a permutation of $1, \ldots, n$.
+    Then $s'$ subdivides $[n]$ into $X_{s'} = \{i_{k + 1}, \ldots, i_n\}$ and $Y_{s'} = \{i_1, \ldots, i_k\}$. 
+\end{enumerate}
+
+Then $s$ and $s'$ are the equivalent two-part partitions of $[n]$.
+This means exactly half of the elements of $S$ are unique partitions of $[n]$ into two parts.
+Conversely, any partition of $[n]$ into two parts, by definition, can be represented as an element of $S$. 
+$\abs{S} = 2^n - 2$, so there are $2^{n - 1} - 1$ unique ways to partition $[n]$ into two parts, i.e., 
+$$S(n, 2) = 2^{n - 1} - 1$$
+
+\subsection{$S(n, n - 1) = \binom{n}{2}$} 
+It is clear that any partition of $[n]$ into $n - 1$ parts consists of $n - 2$ singletons and a subset of size 2. 
+Thus, the number of unique two-part partitions of $[n]$ is equal to the number of ways to form pairs in $[n]$, which is $\binom{n}{2}$. 
 
 \section{} 
+Denote the square occupying the $i$th column and $j$th row $ij$. 
+For example, the rooks in the following figure occupy positions 15, 23, 37, and 56 on the $6 \times 6$ diagonal chessboard:
+\begin{center}
+  \includegraphics[width=0.25\linewidth]{tableux.png}
+\end{center}
+Note that for any position $ij$ on the triangular chessboard, $i < j$. 
+
+The following bijection shows $r_{n, k} = S(n, n - k)$. 
+First, take any position on the diagonal $(n - 1) \times (n - 1)$ chess board with $k$ non-attacking rooks. 
+Let $i_1 j_1, i_2 j_2, \ldots i_k j_k$ be the positions of the rooks.
+Because no two rooks occupy the same row or column, $i_r \neq i_s$ and $j_r \neq j_s$ for any $r \neq s \in \{1, \ldots, k\}$. 
+Thus, without loss of generality, let $i_r < i_s$ given $r < s$. 
+Given two rooks in positions $i_r j_r$ and $i_s j_s$ with $r < s$, it is possible that $j_r = i_s$.
+Say rooks $r < s$ are \textbf{connected} if there exist indices $l_1 < \ldots < l_t \in \{1, \ldots, k\}$ for some $t$ such that 
+$$j_r = i_{l_1}, j_{l_1} = i_{l_2}, \ldots, j_{l_{t - 1}} = i_{l_t}, j_{l_t} = i_s$$ 
+It is easy to see that the \textbf{connectiveness} of rooks is an equivalence relation for the set of rooks. 
+
+For each equivalence class of connected rooks, let $S \subset [n]$ where $a \in S \iff $ there is a rook $r$ in the equivalence class such that $i_r = a$ or $j_r = a$.
+Let $P$ be the collection of $S$'s for each equivalence class of rooks and singletons $\{a\}$ for each $a \in [n]$ such that $a$ is not in any $S$.
+By the definition of connectiveness, $P$ is clearly a partition of $[n]$. 
+Particularly, it is a partition of $[n]$ into $n - k$ parts:
+Given an equivalence class of rooks $K$ with $\abs{K} = m$, one derives from the definition of connectiveness that a total of $m + 1$ unique indices in $\{1, \ldots, n\}$ are represented amongst the column or row coordinates of the rooks in the equivalence class. 
+Let $K_1, \ldots, K_t$ be all the distinct equivalences classes of rooks with each $K_\alpha$ of size $m_\alpha$ and representing $m_\alpha + 1$ unique indices in $\{1, \ldots, n\}$. 
+Because $K_\alpha$ and $K_\beta$ are disjoint for each $\alpha \neq \beta \in \{1, \ldots, t\}$, no common index is represented by both $K_\alpha$ and $K_\beta$. 
+Thus the total number of unique indices represented by the equivalence classes of rooks is given by 
+\begin{equation}
+  (m_1 + 1) + (m_2 + 2) + \ldots + (m_t + 1)
+\end{equation}
+Of course, because $K_1, \ldots, K_t$ partition the set of all rooks, $m_1 + \ldots + m_t = k$. 
+Thus equation (1) is equal 
+$$m_1 + \ldots + m_t + t = k + t$$
+
+Let $u$ be the number of indices in $\{1, \ldots, n\}$ that are not represented by any of the equivalence classes. 
+That is, $u \defeq n - (k + t)$. 
+By definition of $P$, $P$ is a partition of $[n]$ into $t + u$ parts.
+But $t + u = n - k$, so $P$ is a partition of $[n]$ into $n - k$ parts, as was to be shown. 
+
+Conversely, let $P$ be a partition of $[n]$ into $n - k$ parts. 
+
+Then there are $n - k - u$ non-singleton elements in $P$;
+$n - u$ indices of $[n]$ are not cintained in singletons in the partition $P$. 
+Let $t \defeq n - k - u$ and $K_1, \ldots, K_t$ be the non-singleton elements of $P$.
+Denoting $\abs{K_\alpha} = m_\alpha$, $\sum_{\alpha=1}^{t} m_\alpha = n - u$.
+
+
+Now, given each $K_\alpha$, place $m_\alpha - 1$ rooks onto the diagonal $(n - 1) \times (n - 1)$ chessboard in the following way: 
+if $K_\alpha = \{a_1, a_2, \ldots, a_{m_\alpha}\}$, place the $s$th rook on position $a_s a_{s + 1}$ for each $s \in \{1, \ldots, m_\alpha - 1\}$.
+This construction ensures that no two rooks share the same column coordinate or the row coordinate, so none of the $m_\alpha - 1$ rooks attack the other. 
+
+Because $K_1, \ldots, K_t$ are pairwise disjoint, it is clear that the rooks placed over all $\alpha \in \{1, \ldots, t\}$ are placed on distinct positions and none of the rooks attack another rook. 
+
+Using the identites derived two paragraphs prior, one sees that the total number of rooks placed is given by 
+$$  \sum_{\alpha = 1}^{t} (m_\alpha - 1) = \sum_{\alpha = 1}^{t} m_\alpha - t = n - u - t = k$$
+Thus the partition of $[n]$ into $n - k$ parts yields a position with $k$ non-attacking rooks on the diagonal $(n - 1) \times (n - 1)$ board. 
+
+\section{} 
+The $k$ mutually non-attacking rooks occupy $k$ distinct rows and $k$ distinct columns, of which there are $\binom{n}{k}^2$ ways to do so. 
+There are exactly $k!$ ways to place $k$ non-attacking rooks in the $k \times k$ board formed by the selected $k$ columns and $k$ rows. 
+This yields 
+$$r_{n, k} = k! \binom{n}{k}^2$$
 
 \newpage
 \section*{Collaboration Acknowledgement}
 I used claude.ai for help with typesetting, particularly for the figures. 
+Several solutions throughout the homework were inspired by the contents discucsed in Brendon's office hours. 
 
 \end{document}
