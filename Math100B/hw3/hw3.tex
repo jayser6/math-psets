@@ -1,0 +1,247 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math100B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#3}
+\author{\myname}
+\date{2026.01.23}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+Even though they are more or less the same things, I prefer thinking about ideals rather than quotient rings, so here are some propositions. 
+\begin{claim}
+  $R / I$ is an integral domain $\iff$ $I$ is a prime ideal 
+\end{claim}
+\begin{proof}[Proof of Claim 1] 
+  \begin{align*}
+    I \text{ is a prime ideal } & \iff \forall ab \in I, a \in I \text{ or } b \in I \\ 
+                                & \iff \forall \bar{a} \bar{b} \in R / I, \, \bar{a} \bar{b} = 0 \implies \bar{a} = 0 \text{ or } \bar{b} = 0 \\ 
+                                & \iff R / I \text{ is an integral domain}
+  \end{align*}
+\end{proof}
+
+\begin{claim}
+  $R / I$ is a field $\iff$ $I$ is a maximal ideal 
+\end{claim}
+\begin{proof}[Proof of Claim 2]
+  By the definition of a field, namely, that every nonzero element has a multiplicative inverse, it is clear that a ring has only two ideals -- the zero ring and the entire ring -- if and only if the ring is a field. 
+  Now, via the Correspondence Theorem, 
+  \begin{align*}
+    R / I \text{ is a field} & \iff 0 \text{ and } R / I \text{ are the only ideals in } R / I \\ 
+                             & \iff \text{in } R, \text{ the only ideal properly containing } I \text{ is } R \\ 
+                             & \iff I \text{ is a max ideal in } R
+  \end{align*}
+\end{proof}
+
+\section{} 
+Consider the substitution homomorphism 
+$$\varphi: R[x] \rightarrow R; \: x \mapsto a, \, \left.\varphi\right|_{R} = \id$$
+Clearly, $x - a \in \ker \varphi$, so $\<x - a\> \subset \ker \varphi$.
+Take any $f(x) \in \ker \varphi$. 
+Because $x - a$ is monic, it is possible to divide $f(x)$ with remainder by $x - a$ to get 
+$$f(x) = q(x)(x - a) + r, \text{ where } r = c \text{ for some constant } c \in R$$
+Because $f(x), x - a \in \ker \varphi$, $r \in \ker \varphi$. 
+So $\varphi(f(x)) = \varphi(r) = r = c = 0$, which means $r = 0$. 
+In other words, $x - a \mid f(x)$, which shows $\ker \varphi = \<x - a\>$.
+Finally, $\varphi$ is clearly surjective since it is the identity function on constant polynomials.
+Thus, by the First Isomorphism Theorem, $R[x] / \<x - a\> \equiv R$.
+
+\section{} 
+Suppose $n$ is a perfect square, say $n = a^2$ for some $a \in \Z$. 
+Then $\sqrt{n} = a$, so $\Q[\sqrt{n}]$ is just $\Q[a] = \Q$. 
+Meanwhile, $\Q[x] / \<x^2 - n\>$ is not even an integral domain: 
+$x^2 - n = (x + a)(x - a)$;
+namely, $x^2 - n$ divides the product $(x + a)(x - a)$. 
+However, $x^2 - n$ clearly does not divide $x + a$ nor $x - a$ because $\Q[x]$ is an integral domain (see Q3) and $x^2 - n$ has a greater degree than both $x + a$ and $x - a$. 
+This shows that the principal ideal $\<x^2 - n\>$ is not a prime ideal, and hence $\Q[x] / \<x^2 - n\>$ is not an integral domain. 
+$\Q[\sqrt{n}] = \Q$, on the other hand, is an integral domain, so $\Q[a] \neq \Q[x] / \<x^2 - n\>$.
+
+To show the reverse direction, suppose $n$ is not a perfect square. 
+Then $x^2 - n$ is the least degree polynomial in $\Q[x]$ that has $\sqrt{n}$ as a root (clearly no linear polynomial in $\Q[x]$ has $\sqrt{n}$ as a root, since $\sqrt{n} \notin \Q$). 
+Now consider the substitution homomorphism 
+$$\varphi: \Q[x] \rightarrow \Q[\sqrt{n}]; \: x \mapsto \sqrt{n}, \, \left.\varphi\right|_{\Q} = \id$$
+Clearly $x^2 - n \in \ker \varphi$, so $\<x^2 - n\> \subset \ker \varphi$. 
+Next, take any $f(x) \in \ker \varphi$. 
+Since $\Q$ is a field and therefore $\Q[x]$ is a Euclidean Domain, divide $f(x)$ with remainder by $x^2 - n$ to obtain 
+$$f(x) = q(x)(x^2 - n) + r(x), \text{ where } r(x) = 0 \text{ or } \deg(r) < 2$$
+Suppose $r(x) \neq 0$. 
+$f(x), x^2 - n \in \ker \varphi$, so $r(x) \in \ker \varphi$ as well. 
+So $\varphi(f(x)) = \varphi(r(x)) = 0$. 
+But the image of $r(x)$ under the substitution map cannot be zero because $r(x)$ has degree less than $x^2 - n$, the latter being the least-degree polynomial that has $\sqrt{n}$ as a root, thus yielding a contradiction. 
+As such, $r(x) = 0$; 
+$x^2 - n \mid f(x)$. 
+This shows $\<x^2 - n\> = \ker \varphi$. 
+Finally, it is clear that the map is surjective because 1, $\sqrt{n}$ form a basis for the image of $\varphi(\Q[x])$, which generate the entirity of $\Q[\sqrt{n}]$. 
+Thus, by the First Isomorphism Theorem, $\Q[x] / \<x^2 - n\> \equiv \Q[\sqrt{n}]$. 
+
+\section{}
+Take any $f(x), g(x) \in R[x] \setminus 0$ and let $f(x) = a_n x^n + \ldots + a_0$, $g(x) = b_m x^m + \ldots + b_0$, where $a_n \neq 0$ and $b_m \neq 0$.
+Then $f(x) g(x) = a_n b_m x^{n + m} + $ lower degree terms. 
+Because $R$ is an integral domain, $a_n b_m \neq 0$, so $f(x) g(x) \neq 0$ as well. 
+This shows that $R[x]$ is an integral domain. 
+
+Particularly, the proof above shows that $\deg(fg) = \deg(f) + \deg(g)$. 
+Because every nonzero element of $\<f(x)\>$ is of the form $f(x) g(x)$ for $g(x) \neq 0$, every element in the ideal generated by the polynomial $f$ has a degree greater or equal to the degree of $f$.  
+
+\section{}
+\subsection{} 
+Let $I \defeq \<2x - 6, x - 10\>$. 
+Let's directly identify $\Z[x] / I$. 
+First, following my solution to Q1, the substitution map 
+$$\varphi: \Z[x] \rightarrow \Z; \: x \mapsto 10, \, \left.\varphi\right|_\Z = id$$ 
+gives the isomorphism $\Z[x] / \<x - 10\> \equiv \Z$.
+$\ker \varphi = \<x - 10\> \subset I$, so by the Correspondence Theorem, $I \mapsto \<2\overline{x} - 6\> = \<20 - 6\> = \<14\>$ in $\Z$.
+14 is not a prime number, so $\Z / 14\Z$ is not an integral domain by HW\#2. 
+The Correspondence Theorem says 
+$\Z[x] / I \equiv \Z / \<14\>$, so $\Z[x] / I$ is not an integral domain.  
+
+\subsection{} 
+$\Z[x] / \<x^2 + x\>$ is not an integral domain because $\<x^2 + x\>$ is not a prime ideal in $\Z[x]$:
+$x^2 + x = x(x + 1) \in \<x^2 + x\>$, but $x$ and $x + 1$ are both not in $\<x^2 + x\>$ because $x$ and $x + 1$ are both of lower degree than $x^2 + x$ and $\Z[x]$ is an integral domain; 
+hence, $x^2 + x$ cannot divide $x$ or $x + 1$. 
+
+\section{}
+\subsection{} 
+1 is not a zerodivisor: 
+$\forall a \neq 0 \in R$, $1a = a \neq 0$. 
+Now, the result follows by (b)
+
+\subsection{} 
+Suppose $\varphi$ is not injective:
+$\exists a \neq b \in R \st a + \<f\> = b + \<f\>$ in $R[x] / (f)$.
+The latter condition is equivalent to $a - b \in (f)$ in $R[x]$.
+Now, since $a \neq b$ in $R$, $a - b \neq 0$ in $R[x]$.
+Furthermore, $\forall g \in R[x]$, $\deg(fg) \geq \deg(f)$ since the leading coefficient of $f$ is not a zerodivisor.
+So no nonzero constant is in $\<f\>$, which contradicts $a - b \in \<f\>$. 
+This shows that $\varphi$ is injective.
+
+\subsection{}
+Consider
+$$\varphi: \Z / 12 \Z \rightarrow (\Z / 12\Z)[x] / \<3x - 1\>$$
+$4(3x - 1) = 12x - 4 \cong 8 \pmod{12}$, so $8 \in \<3x - 1\>$ in $(\Z / 12\Z)[x]$.
+Denote $I = \<3x - 1\>$. 
+Then $9 + I = 1 + I$ since $(9 - 1) + I = 8 + I = 0 + I$.
+In other words, $9 \neq 1$ in $\Z / 12 \Z$, but they map to the same value in $(\Z / 12\Z)[x] / \<3x - 1\>$, so $\varphi$ is not injective. 
+
+\section{} 
+Suppose $x^2 - a$   has no root. 
+This is equivalent to saying that $x^2 - a$ has no linear factor. 
+But because $x^2 - a$ is a polynomial of degree 2 in the integral domain $F[x]$, $x^2 - a$ having no linear factor means $x^2 - a$ is irreducible in $F[x]$.
+$F[x]$ is a Euclidean Domain. 
+Namely, it is a Principal Ideal Domain, so $x^2 - a$ generates a maximal ideal in $F[x]$. 
+This shows that $F[x] / (x^2 - a)$ is a field.
+
+Conversely, if $x^2 - a$ does have a root, say $f(\alpha) = 0$, then 
+$$x^2 - a = (x - \alpha)(x - \beta)$$ 
+for some $\beta \in F$.
+Because $F[x]$ is an integral domain, neither $x - \alpha$ nor $x - \beta$ are in $\<x^2 - a\>$ even though $(x - \alpha)(x - \beta) \in \<x^2 - a\>$. 
+So $\<x^2 - a\>$ is not a prime ideal, which means $F[x] / \<x^2 - a\>$ is not even an integral domain;
+then certainly, $F[x] / \<x^2 - a\>$ is not a field.  
+
+\section{}
+\subsection{} 
+Consider the canonical homomorphism 
+$$\pi: R[x] \rightarrow R[x] / \<ax - 1\>$$
+By definition, $\ker \pi = \<ax - 1\>$, so $ax - 1 \mapsto 0$. 
+Using bar notation to denote the image, 
+$$\overline{a} \overline{x} - 1 = 0$$
+So $\overline{a}$ indeed does have an inverse in the quotient; 
+namely $\overline{a}^{-1} = \overline{x}$. 
+
+\subsection{} 
+Consider the map 
+Take any $f(x) = b_n x^n + + b_{n - 1} x^{n-1} \ldots + b_1 x + b_0 \in R[x]$. 
+Under the projection map to $R[x] / \<ax - 1\>$, 
+\begin{align*}
+  f(x) & \mapsto b_n a^{-n} + b_{n - 1}a^{-n + 1} + \ldots + b_1 a^{-1} + b_0 \\ 
+       & = a^{-n} (b_n + b_{n - 1} a + \ldots + b_1 a^{n - 1} + b_0 a^n) \\ 
+       & = a^{-n} b 
+\end{align*}
+where bars have been dropped for convenience and where $b = b_n + b_{n - 1} a + \ldots + b_1 a^{n - 1} + b_0 a^n \in R$.  
+
+\subsection{} 
+Suppose $a^n b = 0$. 
+Then $\bar{a}^n \bar{b} = \bar{0}$. 
+Multiplying both sides by $\bar{x}^n$, $\bar{b} = \bar{0}$. 
+So $b \in \ker \varphi$.
+
+Conversely, suppose $b \in \ker \varphi$. 
+Now, by definition of $\phi$, $\ker \varphi = \ker \pi \cap R$, where $\pi$ is the canonical proejction map. 
+So $b \in \ker \pi = \<2x = 1\>$, i.e., 
+$$b = (ax - 1)(c_n x^n + c_{n - 1} x^{n - 1} + \ldots + c_0)$$ 
+Then 
+\begin{align*}
+  c_0 & = -b \\ 
+  a c_0 - c_1 & = 0 \\ 
+  a c_1 - c_2 & = 0 \\ 
+           & \vdots \\ 
+  a c_{n - 1} - c_n & = 0 \\ 
+  ac_n & = 0
+\end{align*}
+Inducting down the system of equations, $a^{n + 1} b = 0$
+
+\subsection{}
+The result follows from (c). 
+By the First Isomorphism Theorem, $\varphi(S) \equiv R / \ker \varphi$. 
+If $S = 0$, then $\varphi(S) = 0$, which forces $\ker \varphi = R$. 
+Thus $\forall b \in R$, $a^n b = 0$ for some $n \in \Znn$.
+Namely, $\exists m \in \Znn \st a^m a = 0$, or in other words, $a^{m + 1} = 0$. 
+So $a$ is nilpotent. 
+
+Conversely, if $a$ is nilpotent, say $a^k = 0$, then $\forall b \in R$, $ba^k = 0$. 
+Hence $\ker \varphi = R$.
+Extending the result to the substition map, which by definition of $\varphi$ is equivalent to the canonical projection map, there is a homomorphism
+$$\varPhi: R[x] \rightarrow S; \: x \mapsto \bar{a}^{-1}, \, \left.\varPhi\right|_{R} = \varphi$$
+But because $\varphi$ is just the zero map, $\varPhi$ is also just the zero map, i.e., $\ker \varPhi = \varPhi$.
+Furthermore, $\varPhi$ is the canonical projection map, so it is surjection. 
+Thus, by the First Isomorphism Theorem, 
+$$R[x] / \ker \varPhi \equiv 0 \equiv S$$
+and hence $S = 0$.
+\\*** note that because $0 = 1$ in the zero ring, the homomorphisms $\varphi$ and $\varPhi$ still observe the $1 \mapsto 1$ rule for ring homomorphisms
+
+\end{document}

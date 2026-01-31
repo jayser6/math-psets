@@ -1,0 +1,405 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#2}
+\author{\myname}
+\date{2026.01.18}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section{Q6}
+Suppose $g$ is not monotonic increasing on $(0, +\infty)$. 
+Then $\exists t > 0 \st g'(t) < 0$. 
+By the quotient rule for derivaties, 
+$$g'(x) = \frac{xf'(x) - f(x)}{x^2}$$ 
+Thus 
+$$g'(t) < 0 \iff tf'(t) - f(t) < 0 \iff f'(t) < f(t) / t \iff f'(t) < \frac{f(t) - f(0)}{t - 0}$$
+
+By the Mean Value Theorem, $\exists c \in (0, t) \st f'(c) = \frac{f(t) - f(0)}{t - 0}$. 
+But this equality is equivalent to saying $f'(c) > f'(t)$ for $c < t$.
+This contradicts the assumption that $f'$ is monotonic increasing. 
+Thus $g$ is monotonic increasing. 
+
+\section{Q11} 
+I first show that 
+$$f'(x) = \lim_{h \rightarrow 0} \frac{f(x + h) - f(x)}{h}$$ 
+is an alternative definition for $f'(x)$, should it exist. 
+More specifically, $f'(x)$ exists $\iff \lim_{h \rightarrow 0}\frac{f(x  + h) - f(x)}{h}$ exists. 
+If so, $f'(x) = \lim_{h \rightarrow 0}\frac{f(x + h) - f(x)}{h}$. 
+
+First, suppose $f'(x)$ exists and fix $\epsilon > 0$. 
+$\exists \delta > 0 \st \forall x' \in \ball{\delta}{x}$, $\abs{\frac{f(x') - f(x)}{x' - x} - f'(x)} < \epsilon$.
+Now, if $\abs{h} < 0$, then $x + h \in \ball{\delta}{x}$, so $\abs{\frac{f(x + h) - f(x)}{h} - f'(x)} < \epsilon$. 
+This shows $f'(x) = \lim_{h \rightarrow 0}\frac{f(x + h) - f(x)}{h}$. 
+
+Conversely, suppose $\lim_{h \rightarrow 0}\frac{f(x + h) - f(x)}{h}$ exists; 
+say the value of the limit is $m$. 
+Fix $\epsilon > 0$. 
+$\exists \delta > 0$ such that $\forall |h| < \delta$, $\abs{\frac{f(x + h) - f(x)}{h} - m} < \epsilon$. 
+Then $\forall x'$ satisfying $\abs{x' - x} < \delta$, $\abs{\frac{f(x') - f(x)}{x' - x} - m} < \epsilon$. 
+This shows $f'(x)$ exists, and $f'(x) = \lim_{h \rightarrow 0}\frac{f(x + h) - f(x)}{h}$
+
+An essentially identical proof shows that 
+$$f'(x) = \lim_{h \rightarrow 0} \frac{f(x - h) - f(x)}{-h}$$
+is yet another alternative definition. 
+
+With these alternative definitions, solving the question is trivial.
+Because $f''(x)$ exists, the limits 
+$$\lim_{h \rightarrow 0}\frac{f'(x + h) - f'(x)}{h} \, \text{ and } \, \lim_{h \rightarrow 0} \frac{f'(x - h ) - f(x)}{-h}$$
+exist. 
+Thus 
+$$\lim_{h \rightarrow 0} \frac{f'(x + h) - f'(x - h)}{2h} = \frac{1}{2} \lim_{h \rightarrow 0} \frac{f'(x + h) - f'(x)}{h} + \frac{1}{2} \lim_{h \rightarrow 0} \frac{f'(x - h) - f'(x)}{-h} = f''(x)$$
+
+Finally, L'Hospital's rule applies to the the initial limit of interest: 
+$h^2 \rightarrow 0$ and $f(x + h) + f(x - h) - 2f(x) \rightarrow 0$ as $h \rightarrow 0$, and the associated limit of the ratio of the derivatives (with respect to $h$) of the denominator and the numerator exists, yielding 
+$$\lim_{h \rightarrow 0}\frac{f(x + h ) + f(x - h) - 2f(x)}{h^2} = \lim_{h \rightarrow 0} \frac{f'(x + h) - f'(x - h)}{2h} = f''(x)$$
+as desired. 
+%TODO show by an example that the limit may exist even if f'' does not. 
+
+\section{Q15}
+For any $x > a$ and $h > 0$, applying Taylor's Theorem with $n = 2$, $\alpha = x$ and $\beta = x + 2h$ yields a $\gamma \in (x, x + 2h) \st$
+$$f(x + 2h) = f(x) + f'(x) (x + 2h - x) + \frac{f''(\gamma)}{2}(x + 2h - x)^2$$
+which can be reorganized as 
+$$ f'(x) = \frac{1}{2h} (f(x + 2h) - f(x)) - hf''(\gamma)$$
+Euclidean norming both sides of the equation, then applying the triangle inequality to the right hand side,
+$$\abs{f'(x)} \leq \abs{\frac{1}{2h} f(x + 2h)} + \abs{\frac{1}{2h} f(x)} + \abs{hf''(\gamma)} \leq \underbrace{M_0 / h + hM_2}_{(*)}$$
+Because this inequality holds for all $x > a$, $(*)$ is an upper bound for $\abs{f'}$ on $(a, \infty)$, which means
+\begin{equation}
+  M_1 \leq M_0 / h + hM_2
+\end{equation}
+But because $h$ was chosen to be an arbitrary positive value, the bound on $M_1$ can further be minimized by finding $h > 0$ that minimizes $(*)$. 
+To find such an $h$, define $\Delta(h) \defeq M_0 / h + hM_2$. 
+Then 
+$$\Delta'(h) = M_2 - M_0 / h^2, \quad \Delta''(h) = 2M_0 / h^3$$
+Because $h > 0$, $\Delta''(h) > 0$, which means any $h_0 > 0 \st \Delta'(h_0) = 0$ is a relative minima of $\Delta$. 
+Namely, the only $h_0$ with $\Delta'(h_0) = 0$ satisfies 
+$$M_2 - M_0 / h_{0}^{2} = 0 \iff M_2 h_{0}^{2} = M_0 \iff h^2 = M_0 / M_2$$
+Substituting $M_0 = M_2 h_{0}^{2}$ in equality (1) yields 
+$$M_1 \leq hM_2 + hM_2 = 2hM_2$$
+Squaring both sides, then substituting $h^2 = M_0 / M_2$,  
+$$M_{1}^{2} \leq 4h^2 M_{2}^{2} = 4M_0 M_2$$ 
+which is the desired inequality. 
+
+To demonstrate the equality $M_{1}^{2} = 4M_0 M_2$ can occur, consider $f: (-1, \infty) \rightarrow \R$,  
+$$f(x) = \begin{cases} 
+          2x^2 - 1 & (-1 < x < 0) \\ 
+          \frac{x^2 - 1}{x^2 + 1} & (0 \leq x < \infty) 
+        \end{cases} $$
+On $(-1, 0)$, $0 < x^2 < 1 \implies -1 < 2x^2 - 1 < 1$. 
+On $[0, \infty)$, $\abs{\frac{x^2 - 1}{x^2 + 1}} \leq \frac{\abs{x^2} + \abs{1}}{x^2 + 1} = 1$.
+This shows $M_0 = 1$. 
+Next, using the quotient rule and chain rule for derivatives, obtain 
+$$  f'(x) = \begin{cases} 
+                4x & (-1 < x < 0) \\ 
+                \frac{4x}{(x^2 + 1)^2} & (0 \leq x < \infty) 
+
+            \end{cases}, \quad
+            f''(x) = \begin{cases} 
+                      4 & (-1 < x < 0) \\ 
+                      4(\frac{-3x^2 + 1}{(x^2 + 1)^2}) & (0 \leq x < \infty) 
+                    \end{cases} $$ 
+It is clear that $\sup \abs{f'(x)} = 4$ and $\sup \abs{f''(x)} = 4$ on $(-1, 0)$. 
+On $[0, \infty)$, notice
+\begin{enumerate}
+  \item $f'(x) < \frac{4x}{x^4} = \frac{4}{x^3}$ 
+  \item $f'(x) < \frac{4x}{1}$
+  \item $\abs{f''(x)} \leq 4 \abs{\frac{-3x^2 - 3}{x^2 + 1} + \frac{4}{x^2 + 1}} \leq 4 \abs{-3 + \frac{4}{1}} = 4$ 
+\end{enumerate}
+On $(1, \infty)$, inequality (1) shows $f'(x) \leq 4$. 
+On $[0, 1]$, inequality (2) shows $f'(x) \leq 4$.
+Clearly $f'(x)$ is always positive on $[0, \infty)$, so $M_1 = 4$.
+Inequality (3) shows $M_2 = 4$. 
+So $M_1^2 = 4M_0 M_2$ is indeed possible.
+
+%TODO: Second, you need to show that this property holds for vector-valued functions. 
+
+\section{Q16} %TODO: can I assume that $M_1$ exists from the fact that $M_0$ and $M_2$ exist? No. 
+Showing $\lim_{x \rightarrow \infty} f'(x) = 0$ is equivalent to showing
+$$\forall \epsilon > 0, \exists x_0 \in \R \st \forall x > x_0, \abs{f'(x)} < \epsilon$$
+
+Since $f''$ is bounded on $(0, \infty)$, let $M_2$ be the supremum of $\abs{f''}$ on $(0, \infty)$. 
+Now, fix $\epsilon > 0$. 
+Since $\lim_{x \rightarrow \infty} f(x) = 0$, $\exists x_0 \in \R \st \forall x > x_0$, $\abs{f(x)} < \frac{\epsilon^2}{4M_{2}^{2}}$;
+without loss of generality, assume $x_0 > 0$. 
+This shows that $\abs{f}$ is bounded above on $(x_0, \infty)$, so there is a least upper bound $M_{0}'$ of $\abs{f}$ on $(x_0, \infty)$. 
+Of course, by the initial assumption on $f''$, $\abs{f''}$ is bounded above on $(x_0, \infty)$;
+let $M_{2}'$ be the supremum of $\abs{f''}$ on $(x_0, \infty)$. 
+Now, the result from Q15 applies, giving 
+$$(M_{1}')^2 \leq 4M_{0}' M_{2}'$$
+where $M_{1}'$ is the least upper bound of $\abs{f'}$ on $(x_0, \infty)$. 
+Since 
+$$M_{2}' \leq M_2\, \text{ and } \,  M_{1}' \leq \frac{\epsilon^2}{4M_{2}^{2}}$$
+obtain 
+$$(M_{1}')^2 \leq 4M_2 \frac{\epsilon^2}{4M_2} = \epsilon^2 \implies M_{1}' \leq \epsilon$$
+Finally, because $M_1'$ is the supremum of $\abs{f'}$ on $(x_0, \infty)$, the inequality above shows $\abs{f'(x)} < \epsilon$ on $(x_0, \infty)$. 
+This proves that $\lim_{x \rightarrow \infty} f'(x) = 0$. 
+
+\section{Q17}
+Let $\alpha \defeq 0$ and $n = 3$. 
+Per notation in Theorem 5.15 and substituting the given values,  
+$$P(t) \defeq \sum_{k = 0}^{2} \frac{f^{(k)} (s)}{k!} (t - \alpha)^k = \frac{1}{2} f''(0) t^2$$
+
+Taylor's Theorem applies both when $\beta = +1$ and when $\beta = -1$. 
+When $\beta = +1$, $\exists t \in (-1, 0) \st$
+$$f(-1) = \frac{1}{2} f''(0) (-1)^2 + \frac{1}{6} f^{(3)}(t) (-1)^{3} \iff 0 = \frac{1}{2} f''(0) - \frac{1}{6} f^{(3)} (t)$$
+When $\beta = -1$, $\exists s \in (0, 1) \st$
+$$f(1) = \frac{1}{2} f''(0) (1)^2 + \frac{1}{6} f^{(3)}(s) (1)^3 \iff 1 = \frac{1}{2} f''(0) + \frac{1}{6} f^{(3)}(s)$$
+Combining these two equations, multiplying both sides of the equation by 6, and rearranging yields 
+$$6 = f^{(3)}(s) + f^{(3)}(t)$$ 
+If $f^{(3)} (s) \geq 3$, there is nothing more to be shown. 
+Otherwise, $f^{(3)}(s) < 3$, which implies $6 - f^{(3)} (t) < 3 \iff f^{(3)} (t) \geq 3$, as was to be shown. 
+
+\section{Q19}
+\subsection{} 
+Fix $\epsilon > 0$. 
+Since $f'(0)$ exists, $\exists \delta > 0 \st$
+$$\forall t \in \ball{\delta}{0}, \: \abs{\frac{f(t) - f(0)}{t} - f'(0)} < \epsilon / 2$$ 
+Also, because $\alpha_n, \beta_n \rightarrow 0$ as $n \rightarrow \infty$, $\exists N \in \Zpl \st$ 
+$$\forall n \geq N, \: \abs{\alpha_n} < \delta, \, \abs{\beta_n} < \delta$$
+Thus for any $n \geq N$, 
+$$\abs{\frac{f(\alpha_n) - f(0)}{\alpha_n} - f'(0)} < \epsilon / 2, \quad \abs{\frac{f(\beta_n) - f(0)}{\beta_n} - f'(0)} < \epsilon / 2$$
+Then the following inequalities show that $\lim_{n \rightarrow \infty} D_n = f'(0)$: 
+\begin{align*}
+  \abs{D_n - f'(0)} & = \frac{1}{\abs{\beta_n - \alpha_n}}\abs{f(\beta_n) - f(\alpha_n) - (\beta_n - \alpha_n) f'(0)} \\
+                    & = \frac{1}{\abs{\beta_n - \alpha_n}}\abs{f(\beta_n) - f(0) - \beta_n f'(0) - (f(\alpha_n) - f(0) - \alpha_n f'(0))} \\
+                    & \leq \frac{\abs{\beta_n}}{\abs{\beta_n - \alpha_n}}\abs{\frac{f(\beta_n) - f(0)}{\beta_n} - f'(0)} + \frac{\abs{\alpha_n}}{\abs{\beta_n - \alpha_n}} \abs{\frac{f(\alpha_n) - f(0)}{\alpha_n} - f'(0)} \\
+                    & < \epsilon / 2 + \epsilon / 2 \\ 
+                    & = \epsilon
+\end{align*}
+where the final inequality holds because $\alpha_n < 0 < \beta_n \implies \abs{\beta_n - \alpha_n} > \abs{\beta_n}$ and $\abs{\beta_n - \alpha_n} > \abs{\alpha_n}$.
+
+\subsection{} 
+By assumption on $\alpha_n$ and $\beta_n$, $\exists M \in \R \st $ 
+$$\abs{\frac{\alpha_n}{\beta_n - \alpha_n}} < \abs{\frac{\beta_n}{\beta_n - \alpha_n}} \leq M$$
+for all $n \in \Znn$. 
+
+Now, the proof follows identically to (a), except that, given $\epsilon > 0$, one needs to set $\delta > 0$ to be the value such that 
+$$\forall t \in \ball{\delta}{0}, \: \abs{\frac{f(t) - f(0)}{t} - f'(0)} < \frac{\epsilon}{2M}$$ 
+
+\subsection{} % TODO: example
+Define the sequence $\{\gamma_n\}_{n \in \Zpl}$ as such: 
+Given $n \in \Zpl$, $-1 < \alpha_n < \beta_n < 1$, so $f'$ is continuous on $[\alpha_n, \beta_n]$. 
+The Mean Value Theorem applies, giving $\gamma_n \in (\alpha_n, \beta_n) \st $
+$$f'(\gamma_n) = \frac{f(\beta_n) - f(\alpha_n)}{\beta_n - \alpha_n} = D_n$$
+Since $\alpha_n \rightarrow 0$, $\beta_n \rightarrow 0$, and $\alpha_n < \gamma_n < \beta_n$,
+$$\gamma_n \rightarrow 0$$
+as well.
+Now, fix $\epsilon > 0$. 
+Because $f'$ is continuous on $x = 0$, $\exists \delta > 0 \st$ 
+$$\forall t \in \ball{\delta}{0}, \: \abs{f'(t) - f'(0)} < \epsilon$$
+Furthermore, $\exists N \in \Zpl \st \forall n \geq N$, $\abs{\gamma_n} < \delta$. 
+Thus, for $n \geq N$, 
+$$\abs{f'(\gamma_n) - f'(0)} = \abs{D_n - f'(0)} < \epsilon$$
+which shows $D_n \rightarrow f'(0)$.
+
+
+\section{Q22}
+\subsection{} 
+Suppose $\exists x_1 < x_2 \st f(x_1) = x_1$ and $f(x_2) = x_2$. 
+By assumption on $f$, the Mean Value Theorem applies: 
+$\exists c \in (x_1, x_2) \st (x_1 - x_2) f'(c) = f(x_1) - f(x_2)$. 
+Since $x_2 - x_1 > 0$,  
+\begin{align*}
+  f'(c) & = \frac{f(x_1) - f(x_2)}{x_1 - x_2} \\ 
+        & = \frac{x_1 - x_2}{x_1 - x_2} \\ 
+        & = 1
+\end{align*} 
+which contradicts the assumption on $f'$. 
+So $f$ has at most one fixed point.
+
+\subsection{} 
+Suppose
+$$f(t) = t + (1 + e^t)^{-1}$$
+has a fixed point, say $f(x) = x = x + (1 + e^x)^{-1}$, which is equivalent to 
+$$0 = (1 + e^x)^{-1}$$ 
+Of course, $(1 + e^x)^{-1}$ is never equal to zero. 
+So $f$ has no fixed point. 
+
+Next, recall from calculus that 
+$$\frac{d}{dt} (e^t) = e^t, \quad \frac{d}{dt} (\frac{1}{t}) = - \frac{1}{t^2}$$
+Using the chain rule, calculate 
+$$f'(t) = 1 - \frac{e^t}{(1 + e^t)^2}$$
+$e^t > 0$ implies both 
+$$\frac{e^t}{(1 + e^t)^2} > 0, \quad e^t < 1 + e^t < (1 + e^t)^2$$ 
+So $0 < \frac{e^t}{(1 + e^t)^2} < 1$, which means 
+$$0 < f'(t) < 1$$
+
+\subsection{}
+Suppose $f(t) \neq t$ for all $t \in \R$. 
+Then, because $f$ is differentiable and thus continuous everywhere, $\forall t \in \R$, $f(t) > t$ or $\forall t \in \R$, $f(t) < t$: 
+supposing not, and $\exists x_1, x_2 \in \R \st f(x_1) > x_1$ and $f(x_2) < x_2$, then the Intermediate Value Theorem (applied to $f(t) - t$) says $\exists c$ between $x_1$ and $x_2 \st f(c) = c$.  
+
+First, assume $f(0) = b > 0$. 
+Let 
+$$x_0 \defeq \frac{b}{1 - A}$$
+where $x_0 > 0$. 
+By the previous paragraph, $f(x_0) > x_0$. 
+Now, by the Mean Value Theorem, $\exists c \in (0, x_0)$ satisfying 
+\begin{align*} 
+  f'(c) & = \frac{f(x_0) - f(0)}{x_0 - 0} \\ 
+        & > \frac{x_0 - b}{x_0} \\ 
+        & = A
+\end{align*} 
+which contradicts the assumption on $f'$. 
+
+Symmetrically, suppose $f(0) = b < 0$. 
+Let 
+$$x_0 \defeq \frac{b}{1 - A}$$ 
+where $x_0 < 0$. 
+This time, $f(x_0) < x_0$ by the argument in the first paragraph. 
+Applying the Mean Value Theorem, $\exists c \in (x_0, 0) \st$ 
+\begin{align*}
+  f'(c) & = \frac{f(x_0) - f(0)}{x_0 - 0} \\ 
+        & > \frac{x_0 - b}{x_0} \\ 
+        & = A
+\end{align*}
+where the inequality ``flips" because $x_0$ in the numerator is negative. 
+Once again, this violates the initial assumption on $f'$. 
+Of course, $f(0) = 0$ contradicts the assumption that $f(x) \neq x$ on all of $\R$. 
+This shows that $\exists x \in \R \st f(x) = x$.  
+
+To show that $\lim_{n \rightarrow \infty}x_n = x$ for an arbitrary $x_1 \in \R$, notice the following: 
+\begin{enumerate}
+  \item By part (a), $t = x$ is the unique value in $\R$ satisfying $f(t) = t$.
+    As such, if $x_1 \neq x$, then $f(x_n) \neq x_n$ for all $n \in \Zpl$. 
+  \item If $x_1 = x$, then $x_n = x$ for all $n \in \Zpl$.  
+\end{enumerate}
+
+Now, assuming $x_1 \neq x$, let $\Delta \defeq \abs{x_1 - x}$. 
+Then the following induction shows that $\abs{x_n - x} < A^{n - 1} \Delta$ for $n \geq 2$. 
+For $n = 2$, suppose $\abs{x_n - x} \geq A\Delta$, which is equivalent to saying $\abs{f(x_1) - f(x)} \geq A \Delta$.
+By the Mean Value Theorem, $\exists c$ between $x_1$ and $x$ such that 
+\begin{align*}
+  f'(c) & = \frac{f(x_1) - f(x)}{x_1 - x} \\ 
+  \implies \abs{f'(c)} & = \frac{\abs{f(x_1) - f(x)}}{\abs{x_1 - x}} \\ 
+                       & \geq \frac{A \Delta}{\Delta} = A 
+\end{align*} 
+This contradicts the assumption that $\abs{f'(t)} \leq A < 1$ for all $t \in \R$. 
+
+For $n > 2$, assume $\abs{x_n - x} < A^{n - 1} \Delta$.
+If $\abs{x_{n + 1} - x} \geq A^n \Delta$, then $\abs{f(x_n) - f(x)} \geq A^n \Delta$. 
+By the Mean Value Theorem, $\exists c$ in between $x_n$ and $x$ such that 
+\begin{align*}
+  f'(c) & = \frac{f(x_n) - f(x)}{x_n - x} \\ 
+  \implies \abs{f'(c)} & = \frac{\abs{f(x_n) - f(x)}}{\abs{x_n - x}} \\ 
+                       & \geq \frac{A^n \Delta}{A^{n - 1} \Delta} = A 
+\end{align*} 
+Once again, this contradicts the assumption on $f'$. 
+This proves my claim. 
+
+Finally, fix $\delta > 0$. 
+Then find $N \in \Zpl \st A^{N - 1}\Delta < \delta$.
+Then for all $n \geq N$, 
+$$\abs{x_n - x} < \abs{x_N - x} < \delta$$ 
+since $\abs{A} < 1$. 
+This shows that $\lim_{n \rightarrow \infty} x_n = x$.
+
+\subsection{} 
+The path 
+$$(x_1, x_2) \rightarrow (x_2, x_2) \rightarrow (x_2, x_3) \rightarrow (x_3, x_3) \rightarrow (x_3, x_4) \rightarrow \ldots$$ 
+is indeed a zig zag tending to $(x, x)$ because as implied by the induction proof, $\{\abs{x - x_n}\}$ is a strictly decreasing sequence that tends to 0. 
+
+\section{Q26}
+I first follow the derivation outlined in the book. 
+Given a fixed $x_0 \in (a, b]$, let 
+$$M_0 \defeq \sup_{x \in [a, x_0]}\abs{f(x)}, \quad M_1 \defeq \sup_{x \in [a, x_0]}\abs{f'(x)}$$
+Now, pick any $x \in (a, x_0]$. 
+By the Mean Value Theorem, $\exists c \in (a, x) \st$ 
+$$f'(c) = \frac{f(x) - f(a)}{x - a} = \frac{f(x)}{x - a}$$ 
+Applying absolute value and rearranging, 
+\begin{align*} 
+  \abs{f(x)} & = \abs{f'(c)}\abs{x - a} \\ 
+             & \leq \abs{f'(c)} (x_0 - a) \\ 
+             & \leq M_1 (x_0 - a)
+\end{align*} 
+where the first inequality holds because $a < x \leq x_0$.
+Combining the above inequality with the assumption on $\abs{f}$ and $\abs{f'}$, 
+\begin{equation} 
+  \abs{f(x)} \leq M_1 (x_0 - a) \leq A(x_0 - a)M_0
+\end{equation}
+where the second inequality, equivalent to $M_1 \leq A M_0$, holds because $A M_0$ is an upper bound for $\abs{f'(t)}$ on $[a, x_0]$.  
+
+Now, notice that if $A(x_0 - a) < 1$, then $M_0 = 0$ necessarily; 
+otherwise, $A(x_0 - a)M_0 < M_0$, and because the latter is the least upper bound for $\abs{f(t)}$ on $[a, x_0]$, $\exists t \in [a, x_0] \st \abs{f(t)} > A(x_0 - a)M_0$, which contradicts the fact that inequality (2) holds for all $x \in [a, x_0]$. 
+
+Any $x_0 \in (a, a + 1/A)$ satisfies $A(x_0 - a) < 1$ as desired, forcing $M_0 = 0$, where $M_0 = \sup_{x \in [a, x_0]} \abs{f(x)}$. 
+If $a + 1/A > b$, then $f(x) = 0$ on $[a, b]$ automatically. 
+Denote $a' \defeq a + \frac{1}{a}$ and consider the case $b \geq a'$.
+By the argument above, $f'(x) = 0$ for $x \in (a, a')$. 
+Let $S = \{x \in [a', b] \mid f(x) \neq 0\}$.
+To solve the problem, $S = \emptyset$ must be proven.  
+Suppose $S \neq \emptyset$. 
+$S$ is bounded below by $a$, so there is some 
+$$\alpha \defeq \inf S$$ 
+The following shows that $f(\alpha) = 0$.
+If $f(\alpha) \neq 0$, then $\exists \gamma \in (a, \alpha) \st $
+$$f'(\gamma) (\alpha - a) = f(\alpha) - f(a) = f(\alpha)$$ 
+i.e., $f'(\gamma) \neq 0$.
+But because $\gamma < \alpha = \inf S$, $f(\gamma) = 0$.
+By the initial assumption, $\abs{f'(\gamma)} \leq \abs{f(\gamma)} = 0$, which is a contradiction.
+
+Now, since $f$ is continuous on the compact set $[a, b]$, $\exists K > 0 \st \abs{f(x)} \leq K$ on $[a, b]$.  
+Next, once again by the definition of $\alpha$, 
+$$\forall \delta > 0, \: \exists c \in (\alpha, \alpha + \delta \frac{b - a}{K}) \st f(c) \neq 0$$
+By the Mean Value Theorem, $\exists \gamma \in (\alpha, c) \st f'(\gamma) (c - \alpha) = f(c) - f(\alpha) = f(c)$. 
+Applying absolute value on both sides, 
+\begin{align} 
+  \abs{f(c)} & = \abs{f'(\gamma)}\abs{c - \alpha} \nonumber \\ 
+             & \leq A \abs{f'(\gamma)} (c - \alpha) \nonumber \\ 
+             & < K \frac{1}{b - a} (c - \alpha) \\ 
+             & < \frac{K}{b - a} \delta \frac{b - a}{K} = \delta
+\end{align} 
+where inequality (3) is due to the assumption that $b > a + 1 / A$, which is equivalent to $A > \frac{1}{b - a}$; 
+and inequality (4) holds because $c \in (\alpha, \alpha + \delta \frac{b - a}{K})$.
+Since $\abs{f(c)} < \delta$ for arbitrary $\delta > 0$, $\abs{f(c)} = 0$. 
+This contradicts the assumption that $f(c) \neq 0$. 
+Hence, $S = \emptyset$, and I am free!!!
+
+\end{document}

@@ -1,0 +1,255 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#3}
+\author{\myname}
+\date{2026.01.25}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+\section{Q1} 
+$f$ is continuous on $[a, b]$ except at $x_0$, and is bounded by definition.
+$\alpha$ is continuous at $x_0$, so $R \in \mathcal{R}_{a}^{b}(\alpha)$ by Theorem 6.10.  
+Let $P$ be any partition of $P$.
+There is an interval in the partition such that $x_{i - 1} \leq x_0 \leq x_i$ 
+By definition of a partition, $x_{i - 1} < x_i$, so another point besides $x_0$ exists in this interval; 
+thus $m_i = 0$. 
+Obviously, $m_j = 0$ for all $j \neq i$.
+This shows 
+$$L(P, f, \alpha) = 0$$
+Because this holds for all $P$, 
+$$\int_{a}^{b} f d \alpha = \lowint{a}{b} f d\alpha = 0$$ 
+
+\section{Q2} 
+Suppose $\exists x \in [a, b] \st f(x) > 0$. 
+Let $\epsilon = f(x)$. 
+Because $f$ is continuous, 
+$$\exists \delta > 0 \st \forall x' \in \ball{\delta}{x}, \, \abs{\epsilon - f(x')} < \epsilon / 2$$
+Namely, one can shrink $\delta$ such that $a < x - \delta < x + \delta < b$. 
+Choose a partition $P$ of $[a, b]$ such that 
+$$x - \delta < x_{i - 1} < x_i < x + \delta$$
+for some $i$.
+Then $\forall x' \in [x_{i - 1}, x_i]$, $\abs{\epsilon - f(x')} < \epsilon / 2$.
+Particularly, $f(x') > \epsilon / 2$.
+Because this holds for all $x' \in [x_{i - 1}, x_i]$, $\epsilon / 2$ is a lower bound for $f(t)$ on $[x_{i - 1}, x_i]$, which shows $m_i \geq \epsilon / 2 > 0$. 
+Now, 
+$$L(P, f) \geq m_i \Delta x_i \geq \epsilon \Delta x_i / 2 > 0$$
+So $\lowint{a}{b} f dx \geq \epsilon \Delta x_i / 2 > 0$.
+Since $\int_{a}^{b} f dx$ exists, $\lowint{a}{b} f dx = \int_{a}^{b} f dx$. 
+This contradicts the assumption that $\int_{a}^{b} f dx = 0$.
+This shows that $f(t) = 0$ on all of $[a, b]$. 
+
+\section{Q3} 
+\subsection{} 
+Given any partition $P$ of $[-1, 1]$, notice that $\Delta \beta_{1, i} \neq 0 \iff x_{i - 1} \leq 0 < x_i$.  
+Particularly, if $k$ is the interval satisfying this condition, $\Delta \beta_{1, k} = 1$, and 
+$$U(P, f, \beta_1) - L(P, f, \beta_1) = M_k - m_k$$ 
+
+Now, suppose $f(0+) \neq f(0)$. 
+Then $\exists \epsilon > 0 \st \forall \delta > 0$, $\exists t \in (0, \delta)$ with $\abs{f(t) - f(0)} \geq \epsilon$.
+Then for any partition $P$ of $[-1, 1]$, the partition $k$ such that $x_{k - 1} \leq 0 < x_k$ always contains a point with $\abs{f(t) - f(0)} \geq \epsilon$. 
+Suppose $f(t) > f(0)$. 
+$M_k \geq f(t)$ and $-m_k > -f(0)$, so 
+$$M_k - m_k \geq f(t) - f(0) \geq \epsilon$$ 
+Symmetric argument shows $f(0) < f(t) \implies M_k - m_k \geq \epsilon$. 
+Consequently, $f \notin \mathcal{R}_{-1}^{1} (\beta_1)$. 
+
+Conversely, suppose $f(0+) = f(0)$ and fix $\epsilon > 0$.
+$\exists \delta > 0 \st \forall t \in (0, \delta)$, $\abs{f(t) - f(0)} < \epsilon / 2$. 
+Create a partition $P$ of $[-1, 1]$ such that one of the partitions is of the form $[x_{k - 1}, x_k] = [0, \delta / 2]$. 
+Then $M_k - f(0) < \epsilon / 2$; 
+supposing not, then $M_k \geq f(0) + \epsilon / 2$, so $\exists t \in [0, \delta / 2] \st f(t) \geq f(0) + \epsilon / 2$, i.e., $\abs{f(t) - f(0)} \geq \epsilon$, contradicting the assumption on $\delta$.  
+Similar argument shows $f(0) - m_k < \epsilon / 2$. 
+This derives 
+$$M_k - m_k = M_k - f(0) + f(0) - m_k < \epsilon / 2 + \epsilon / 2 = \epsilon$$
+This holds for arbitrary $\epsilon$, so $f \in \mathcal{R}_{-1}^{1} (\beta_1)$. 
+
+Assume that $f \in \mathcal{R}_{-1}^{1} (\beta_1)$.
+Given any partition $P$ of $[-1, 1]$, let $k$ be the index such that $x_{k - 1} \leq 0 < x_{k}$. 
+Then $L(P, f, \beta_1) = m_k \leq f(0)$ and $U(P, f, \beta_1) = M_K \geq f(0)$.
+Hence $\lowint{-1}{1} f d\beta_1 \leq f(0)$ and $\upint{-1}{1} f d\beta_1 \geq f(0)$, but $\int_{-1}^{1} f d\beta_1 = \lowint{-1}{1} f d\beta_1 = \upint{-1}{1} f d\beta_1$ by assumption. 
+So $\int_{-1}^{1} f d\beta_1 = f(0)$. 
+
+\subsection{} 
+The similar result for $\beta_2$ is that 
+$$f \in \mathcal{R}_{-1}^{1} (\beta_2) \iff f(0-) = f(0); \text{ if so, } \int_{-1}^{1} f d \beta_2 = f(0)$$ 
+The assumptions are exactly symmetric to that of (a), so the result follows by symmetry. 
+Note that $\beta_2(0) = 1$ vs $\beta_1(0) = 0$ is not a significant distinction since they have no effect on the function $f$ itself.  
+
+\subsection{} 
+Given a partition $P$ of $[-1, 1]$, two cases need be distinguished: 
+\begin{enumerate}
+  \item there is an index $k$ such that $x_{k - 1} < 0 < x_k$ 
+  \item there is an index $k$ such that $x_{k - 1} < x_k = 0 < x_{k + 1}$ 
+\end{enumerate}
+In case 1, $U(P, f, \beta_3) - L(P, f, \beta_3) = M_k - m_k$ as previous. 
+In case 2, $\Delta \beta_{3, k} = \Delta \beta_{3, k + 1} = 1/2$, so 
+$$U(P, f \beta_3) - L(P, f, \beta_3) = 1/2(M_k + M_{k + 1} - m_{k} - m_{k + 1})$$ 
+
+Only this distinction need be adapted to the proof for part (a). 
+Suppose $f$ is not continuous at 0.
+Then $\exists \epsilon > 0 \st \forall \delta > 0$, $\exists t \in (-\delta, \delta) \st \abs{f(t) - f(0)} \geq \epsilon$. 
+Given any partition $P$ of $[-1, 1]$, if $P$ satisfies case 1, then $U(P, f, \beta_3) - L(P, f, \beta_3) \geq \epsilon$ following the exact same logic as (a). 
+Suppose $P$ satisfies case 2.
+Then $\exists t_1, t_2$ such that $t_1 \in [x_{k - 1}, x_k]$, $t_2 \in [x_k, x_{k + 1}]$, and $\abs{f(t_1) - f(0)} \geq \epsilon$, $\abs{f(t_2) - f(0)} \geq \epsilon$.
+Then $M_k - m_k \geq \epsilon$ and $M_{k + 1} - m_{k + 1} \geq \epsilon$, so 
+$$U(P, f, \beta_3) - L(P, f, \beta_3) \geq 1/2(\epsilon + \epsilon) = \epsilon$$
+Thus $f \notin \mathcal{R}_{-1}^{1} (\beta_3)$. 
+
+The converse is even more straightforward to show. 
+The only difference is that now, once one fixes $\epsilon > 0$ and obtains the $\delta > 0$ satisfying continuity, one creates a partition $P$ that contains an interval of the form $(-\delta / 2, \delta / 2)$. 
+The rest of the proof follows directly as was shown in (a). 
+
+\subsection{} 
+Suppose $f$ is continuous at 0. 
+Then $f(0-)$ and $f(0+)$ both exist and are equal to $f(0)$. 
+$\int_{-1}^{1} f d\beta_1 = \int_{-1}^{1} f d\beta_2 = f(0)$ have both been shown, so only $\int_{-1}^{1} f d\beta_3 = 0$ need be shown. 
+Well, once again, take any partition $P$ of $[-1, 1]$. 
+If $P$ satisfies case 1, then $L(P, f, \beta_3) = m_k \leq f(0)$ and $U(P, f \beta_3) = M_k \geq f(0)$ as (a). 
+If $P$ satisfies case 2, then $f(0)$ occurs in both intervals $k$ and $k + 1$, so 
+$$L(P, f, \beta_3) = 1/2(m_{k} + m_{k + 1}) \leq 1/2(f(0) + f(0)) = f(0)$$
+and $U(P, f, \beta_3) \geq f(0)$ similarly.
+Hence $\lowint{-1}{1} f d\beta_3 \leq f(0)$ and $\upint{-1}{1} f d\beta_3 \geq f(0)$, but $\int_{-1}^{1} f d\beta_3 = \lowint{-1}{1} f d\beta_3 = \upint{-1}{1} f d\beta_3$ by assumption. 
+So $\int_{-1}^{1} f d\beta_3 = f(0)$. 
+
+\section{Q4}
+See Q5(a); 
+the exact same analysis applies, except now every $m_i = 0$ and hence $L(P, f) = 0$. 
+But $U(P, f) = b - a$ still;
+this holds for every partition $P$ of $[a, b]$, so the lower and upper limits are not equal. 
+
+\section{Q5} 
+\subsection{$f^2 \in \mathcal{R}$ does not imply $f \in \mathcal{R}$}
+For example, take 
+$$f:[a, b] \rightarrow \R; \: f(x) = \begin{cases} 1 & (x \in \Q_{[a, b]}) \\ 
+            -1 & (x \notin \Q_{[a, b]}) 
+        \end{cases}$$
+Then $f^2(x) = 1$ for all $x \in \R$, so $f^2 \in \mathcal{R}_{a}^{b}$.
+However, $f \notin \mathcal{R}_{a}^{b}$: 
+for any partition $P$ of $[a, b]$, every interval $[x_{i - 1}, x_i]$ of $P$ contains an irrational point and a rational point, hence every $m_i = -1$ and every $M_i = 1$.   
+Then $L(P, f) = -(b - a)$, $U(P, f) = b - a$. 
+Because this holds for every $P$, the lower and upper limits of $f$ are not equal.
+
+\subsection{$f^3 \in \mathcal{R} \implies f \in \mathcal{R}$}
+Unlike $\sqrt{x}$, $\sqrt[3]{x}$ is a continuous function that is defined on all of $\R$.
+So $\sqrt[3]{f^3} = f$ is defined on the entire image of $f^3$ (which is bounded because $f^3 \in \mathcal{R}$), so $f \in \mathcal{R}$ by Theorem 6.11. 
+
+\section{Q6}
+Let $E$ be the Cantor set with $E_k$ a union of $2^k$ intervals of length $3^{-k}$ as defined in pg. 41 of Rudin. 
+Fix $\epsilon > 0$ and pick $N \in \Zpl \st (2/3)^N < \epsilon$. 
+Now, create $2^N$ intervals $(u_j, v_j)$ in the following way: 
+if $a$ and $b$ are the left and right endpoints of the $j$th segment in $E_N$, pick $\eta > 0 \st (\frac{2}{3 + 2\eta})^N < \epsilon$ 
+(such an $\eta$ exists due to choice of $N$). 
+Then define 
+$$u_j = a - \eta, \, v_j = b + \eta$$
+Namely, one can shrink $\eta$ such that the intervals $(u_j, v_j)$ are mutually disjoint. 
+Then $K \defeq \bigcup (u_j, v_j) \supset E_N \supset E$ and the lengths of the intervals, given by $\sum_{i = 1}^{2^N} 3^{-N} = (\frac{2}{3})^N$, is less than $\epsilon$.
+
+$[0, 1] \setminus K$ is closed and bounded, so it is compact. 
+$f$ is continuous on $[0, 1] \setminus K$, so $\exists \delta > 0 \st$
+$$\forall s, t \in [0, 1] \setminus K, \: \abs{s - t} \implies \abs{f(s) - f(t)}$$ 
+Now, form a partition $P = \{x_0, \ldots, x_n\}$ of $[0, 1]$ such that: 
+\begin{enumerate}
+  \item every $u_j$ and $v_j$ is in $P$. 
+  \item no point of $(u_j, v_j)$ is in $P$.
+  \item for every partition index $i$ such that $x_{i - 1} \neq u_j$ for some $j$, $\Delta x_i < \delta$. 
+\end{enumerate}
+Then for every $i$ such that $x_{i - 1} \neq u_j$ for some $j$, $M_i - m_i < \epsilon$ by choice of $P$ and $\delta$. 
+Also, denoting $M \defeq \sup_{x \in [0, 1]}\abs{f(x)}$, $M_i - m_i < 2M$ for all $i$. 
+Then 
+\begin{align*}
+  U(P, f) - L(P, f) & = \sum_{i = 1}^{n} (M_i - m_i) \Delta x_i \\ 
+                    & \leq \underbrace{\epsilon(1 - 0)}_{(*)} + \underbrace{2M(\frac{2}{3 + 2 \eta})^N}_{(**)} \\ 
+                    & < \epsilon + 2M\epsilon 
+\end{align*}
+where $(*)$ accounts for $i \st x_{i - 1} \neq u_j$ and $(**)$ accounts for $i \st x_{i - 1} = u_j$ for some $j$. 
+Namely, in $(**)$, there are $2^N$ such intervals in $P$, which are just some $(u_j, v_j)$, each of length $\frac{1}{3 + 2\eta}$. 
+Because this holds for arbitrary $\epsilon$, $f \in \mathcal{R}_{0}^{1}$. 
+
+\section{Q8}
+Suppose $\int_{1}^{\infty} f dx$ converges to $L$.  
+For each $k \in \Zpl$, define 
+$$a_k = \int_{1}^{k} f dx$$ 
+Then $\lim_{k \rightarrow \infty} a_k = L$: 
+fix $\epsilon > 0$. 
+Since $\int_{1}^{\infty} f dx$ converges, $\exists B \geq 1 \st \forall b \geq B$, $\abs{\int_{1}^{b} f dx - L} < \epsilon$. 
+Setting $N = \ceil{B}$, it is clear that for every integer $n \geq N$, $\abs{a_k - L} < \epsilon$.
+
+With this setup, one can prove that the Cauchy Criterion for series applies to $\sum_{n = 1}^{\infty} f(n)$.
+Fix $\epsilon > 0$. 
+Because $\{a_k\}$ converges, it is Cauchy. 
+So $\exists N \in \Zpl \st \forall n \geq m \geq N$, 
+$$\abs{a_n - a_m} = \abs{\int_{m}^{n} f dx} = \int_{m}^{n} f dx < \epsilon$$
+where the second inequality is due to $f$ being nonnegative.
+Let $P$ be a partition of $[m, n]$ whose points are exactly the integers between $m$ and $n$, inclusive: 
+$$P = \{m, m + 1, \ldots, n - 1, n\}$$
+For notational simplicity, I will start indexing the $x_k$'s of $P$ from $m$ and end at $n$,
+i.e., $x_{m} = m, \ldots, x_n = n$,
+and denote interval $k$ as the one ranging $[x_{k - 1}, x_k] = [k - 1, k]$. 
+Because $f$ is monotonic decreasing,
+$$m_k = f(k)$$
+Of course, $\Delta x_k = 1$ for every $k$. 
+Thus, 
+$$L(P, f) = \sum_{k = m + 1}^{n} f(k)$$ 
+Finally, $\abs{L(P, f)} = L(P, f) \leq \lowint{m}{n} f dx < \epsilon$, thus satisfying the Cauchy Criterion for convergent series. 
+This holds for arbitrary $\epsilon > 0$, so $\sum_{n = 1}^{\infty} f(n)$ converges. 
+
+Conversely, suppose $\int_{1}^{\infty} f dx$ diverges.
+Looking at the proof of the convergence of $\{a_k\}_k$ in the previous paragraph, it is easy to see that, in fact, $\{a_k\}_k$ converges $\iff \int_{1}^{\infty} f dx$ converges. 
+So $\{a_k\}$ diverges under this assumption, and because it is a sequence in $\R$, $\{a_k\}$ is not a Cauchy Sequence. 
+Thus, $\exists \epsilon > 0$, $\exists n \geq m \geq N \st$ 
+$$\abs{a_n - a_m} = \abs{\int_{m}^{n} f dx} = \int_{m}^{n} f dx \geq \epsilon$$ 
+where $N$ is any positive integer. 
+Define the same partition $P = \{m, m + 1, \ldots, n - 1, n\}$ as before. 
+Because $f$ is monotonic decreasing, $M_k = f(k - 1)$, so 
+$$U(P, f) = \sum_{k = m + 1}^{n} f(k - 1) = \sum_{k = m}^{n - 1} f(k)$$
+But $U(P, f) \geq \int_{m}^{n} f dx \geq \epsilon$.
+In other words, the Cauchy Criterion for the series $\sum_{n = 1}^{\infty} f(n)$ fails, so the series diverges. 
+
+\end{document}
