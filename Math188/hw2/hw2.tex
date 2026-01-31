@@ -1,0 +1,307 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math188}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#2}
+\author{\myname}
+\date{2026.01.20}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+\section{} %TODO: is 1/k! \binom{n - 1}{k - 1} even an integer?  
+By definition, a partition of $n$ is a strong composition of $n$. 
+Namely, a partition of $n$ into $k$ parts is a strong composition of $n$ into $k$ parts. 
+Thus, the number of partitions of $n$ into $k$ parts is at most the number of compositions of $n$ into $k$ parts, which is given by $\binom{n - 1}{k - 1}$, i.e., 
+$$p(n, k) \leq \binom{n - 1}{k - 1}$$
+Note that equality is indeed possible:
+$p(n, n) = 1 = \binom{n - 1}{n - 1}$, for example. 
+
+The lower bound for $p(n, k)$ is given by noting that at most $k!$ distinct $k$-part compositions of $n$ correspond to a single $k$-part partition of $n$;
+namely, the $k$-part compositions of $n$ that are rearrangements of each other correspond to a single $k$-part partition of $n$ whose elements are the elements of the compositions in a weakly decreasing order.
+There are \textit{at most} $k!$ distinct compositions corresponding to a single partition because if each element in the composition was unique, then $k!$ rearragments would be possible. 
+However, the compositions may have repeating elements.
+Thus dividing the the total number of compositions of $n$ into $k$ parts by $k!$ potentially undercounts the number of distinct partitions of $n$ into $k$, i.e., 
+$$\frac{1}{k!}\binom{n - 1}{k - 1} \leq p(n, k)$$ 
+Once again, equality is possible. 
+For example, $p(n, 1) = 1 = \frac{1}{1!} \binom{n - 1}{1 - 1}$
+
+\section{} 
+I couldn't reach a solution, but the work below may perhaps be relevant to a working solution. 
+
+Given a polynomial $f(x)$, let its degree be $m - 1$ and its leading coefficient $A$. 
+If $A < 0$, then $f(x) \rightarrow -\infty$ as $x \rightarrow \infty$, so $f(n) < p(n)$ is satisfied automatically for arbitrarily big $n$'s.
+
+Suppose $A > 0$. 
+One knows from calculus that $g(x) = Bx^{m} + \text{ lower degree terms}$, where $B > 0$, grows faster than $f$ as $x \rightarrow \infty$ and thus $g(n) > f(n)$ for arbitrarily big integers. 
+Particularly, choose $g(x) = (x + 1)^m$ % and let $N$ be some integer such that $\forall n \geq N$, $g(n) > f(n)$.
+Using the binomial theorem and the inequality from Q1, 
+\begin{align*}
+  (n + 1)^m & = \sum_{t = 0}^m \binom{m}{t} n^t \\ 
+            & \leq \sum_{t = 0}^{m} n^t (t + 1)! p(m + 1, t + 1) \\ 
+            & \leq M_n \sum_{t = 0}^{m} p(m + 1, t + 1) \\ 
+            & = M_n p(2m + 2, m + 1) \\ 
+            & < M_n p(2m + 2)
+\end{align*} 
+where $M_n = n^m (m + 1)!$.
+
+Unfortunately, this is a poor bound. 
+Here, the size of the partition, pertaining to the term $p(2m + 2)$, is independent of $n$, and as far as I know, there is no way to relate the term $M_n$ to the number of partitions of $n$. 
+By definition, the growth of $M_n$ as $n$ increases scales with $n^m$, where $m$ is fixed as initlaly defined. 
+If I could count some partition of a quantity related to $n$, perhaps I could control $M_n$ to make further progress. 
+
+\section{} 
+The equality to demonstrate is 
+$$c(n, k) = c(n - 1, k - 1) + c(n - 1, k)$$ 
+Starting from the definition of the left hand side, 
+\begin{align} 
+  c(n, k) & = \underbrace{\text{\# of permutations in } S_n \text{ with } k \text{ cycles}}_{\ditto} \nonumber \\
+          & = (\ditto \st n \mapsto n) + (\ditto \st n \mapsto m, \, n \neq m) \nonumber \\ 
+          & = (\text{\# of permutations in } S_{n - 1} \text{ with } k - 1 \text{ cycles}) \\ 
+          & \quad + (n - 1) (\text{\# of permutations in } S_{n - 1} \text{ with } k \text{ cycles}) \\ 
+          & = c(n - 1, k - 1) + c(n - 1, k) \nonumber
+\end{align}
+where the equality between (1) and (2) is interpreted as the following: 
+the first term in (1) can be thought of as counting permutations in $S_{n - 1}$ with $k - 1$ cycle since $n$ forms a single cycle mapping to itself;
+for the second term in (1), consider $\sigma \in S_{n - 1}$ with $k$ cycles. 
+Since $n \mapsto m$, $m \neq n$, ``concatenating" $n$ into any of the $k$ cycles of $\sigma$ yields a permutation in $S_{n}$ with $k$ cycles. 
+namely, there are $n - 1$ ways to create distinct permutations of $S_n$ from $\sigma$ since there are $n - 1$ choices for $m$. 
+
+\section{}
+I unfortunately couldn't find the combinatorial proof for the equality of the two polynomials, so I use induction instead. 
+The equality to demonstrate is 
+$$\sum_{k = 0}^{n} c(n, k) x^k = x(x + 1) \cdots (x + n - 1)$$
+
+$n = 1$ is trivial because the left hand side is equal to $c(1, 0) + c(1, 1)x = x$, where $c(n, 0) = 0$ for any $n$. 
+Next, suppose $\sum_{k = 0}^n c(n, k) x^k = x(x + 1) \cdots (x + n - 1)$;
+the identity must be demonstrated for $n + 1$. 
+By Q3), 
+\begin{align*}
+  \sum_{k = 0}^{n + 1} c(n + 1, k) x^k & = \sum_{k = 0}^{n + 1} [c(n, k - 1) + nc(n, k)]x^k \\ 
+                                       & = \sum_{k = -1}^{n} c(n, k) x^{k + 1} + n \sum_{k = 0}^{n + 1} c(n, k) x^k \\ 
+                                       & = x \cdot x(x + 1) \cdots (x + n - 1) + nx(x + 1) \cdots (x + n - 1) \\ 
+                                       & = x(x + 1) \cdots (x + n - 1) (x + n) 
+\end{align*} 
+where the third equality follows from $c(n, k) = 0$ if $k \leq 0$ or $k > n$. 
+This proves the inductive step, so the identity follows.
+
+\section{}
+The equality to demonstrate is 
+$$C_{n + 1} = \sum_{k = 0}^{n} C_k \cdot C_{n - k}$$
+
+Any Dyck path of size $n + 1$ visits a coordinate $(k, k)$ at least once, where $0 \leq k \leq n$.
+Thus, denoting $C_{n + 1, k}$ to be the number of Dyck paths of size $n + 1$ where $k$ denotes the most Northeast $(k, k)$ coordinate ($0 \leq k \leq n$), visited by the path, 
+$$C_{n + 1} = \sum_{k = 0}^{n} C_{n + 1, k}$$
+
+Let $p$ be one of the Dyck paths belonging to $C_{n + 1, k}$. 
+Then $p$'s path from $(0, 0)$ to $(k, k)$, then from $(k, k)$ to $(n + 1, n + 1)$ uniquely describes $p$ amongst all Dyck paths of size $n + 1$. 
+Namely, there are $C_k$ paths from $(0, 0)$ to $(k, k)$;
+after reaching the $(k, k)$ coordinate, the path never goes strictly below the line $y = x + 1$ unless $p$ reaches $y = n + 1$.
+The number of such paths from $(k, k)$ to $(n, n)$ is equivalent to the number of modified Dyck paths from $(k, k + 1)$ to $(n, n + 1)$ that never goes strictly below the shifted diagonal $y = x + 1$;
+this is equivalent to the number of regular Dyck paths from $(0, 0)$ to $(n - k, n - k)$.
+So, $C_{n + 1, k} = C_{k} \cdot C_{n - k}$, giving the desired identity  
+$$C_{n + 1} = \sum_{k = 0}^{n} C_k \cdot C_{n - k}$$ 
+
+\section{} 
+\begin{center}
+\begin{tikzpicture}
+  % First octagon
+  \begin{scope}
+    % Draw a regular octagon
+    \draw[thick, blue, fill=blue!10] 
+      (0:2) -- (45:2) -- (90:2) -- (135:2) -- 
+      (180:2) -- (225:2) -- (270:2) -- (315:2) -- cycle;
+    
+    % Draw edge between vertex 1 and vertex 5
+    \draw[thick, red] (45:2) -- (135:2);
+    
+    % Add dots at vertices
+    \foreach \angle in {0,45,90,135,180,225,270,315}
+      \fill (\angle:2) circle (2pt);
+    
+    % Label vertices (1-8, starting from top at 90 degrees, going clockwise)
+    \node at (90:2.4) {1};
+    \node at (45:2.4) {2};
+    \node at (0:2.4) {3};
+    \node at (315:2.4) {4};
+    \node at (270:2.4) {5};
+    \node at (225:2.4) {6};
+    \node at (180:2.4) {7};
+    \node at (135:2.4) {8};
+  \end{scope}
+  
+  % Second octagon (shifted to the right)
+  \begin{scope}[xshift=6cm]
+    % Draw a regular octagon
+    \draw[thick, blue, fill=blue!10] 
+      (0:2) -- (45:2) -- (90:2) -- (135:2) -- 
+      (180:2) -- (225:2) -- (270:2) -- (315:2) -- cycle;
+    
+    % Draw edge between vertex 1 and vertex 5
+    \draw[thick, red] (90:2) -- (225:2);
+    \draw[thick, red] (45:2) -- (225:2); 
+    
+    % Add dots at vertices
+    \foreach \angle in {0,45,90,135,180,225,270,315}
+      \fill (\angle:2) circle (2pt);
+    
+    % Label vertices (1-8, starting from top at 90 degrees, going clockwise)
+    \node at (90:2.4) {1};
+    \node at (45:2.4) {2};
+    \node at (0:2.4) {3};
+    \node at (315:2.4) {4};
+    \node at (270:2.4) {5};
+    \node at (225:2.4) {6};
+    \node at (180:2.4) {7};
+    \node at (135:2.4) {8};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\newcommand{\ngon}[1]{#1\text{-gon}}
+
+Let $t_n$ be the number of triangulations of an $n$-gon, where $n \geq 2$. 
+Trivially, $t_2 = t_3 = 1$. 
+Next, consider an arbitrary $n \geq 2$.
+Fix any vertex as vertex 1, then label the vertices clockwise. 
+First, note that in any triangulation of the $\ngon{n}$, vertex 1 can either have indegree 0 or indegree $\geq 1$. 
+If the indegree of vertex 1 is 0, then edges (12) and (1$n$) are necessarily part of a single triangle (else, the triangulation of the $\ngon{n}$ fails).
+This further implies that the triangulation includes an edge (2$n$) such that $\Delta(12n)$ exists.
+This construction is demonstrated in the top left figure for $n = 8$.  
+Now, the remaining $n - 1$ vertices, vertices $2, \ldots, n$, must be triangulated;
+the number of ways to do so is exactly $t_{n - 1}$ because vertex 1 is completely irrelevant now, while the remaining $n - 1$ vertices remain unconstrained.
+
+Next, let's count the number of ways to triangluate the $\ngon{n}$ given that vertex 1 is connectd to at least one other vertex (other than the adjacent vertices 2 and $n$). 
+This is given by 
+$$\sum_{k = 3}^{n - 1} (\# \text{ of ways to triangulate the } \ngon{n} \text{ where } k \text{ is the lowest-valued vertex connected to vertex } 1)$$
+Suppose $k \in \{3, \ldots, n - 1\}$ is the lowest-valued vertex connected to vertex 1. 
+Because vertex 1 is not connected to any of the vertices $3, \ldots, k - 1$, the triangulation includes a triangle $\Delta(12k)$.
+This construction is demonstrated in the top right figure for $n = 8$, $k = 6$. 
+This leaves the sub-polygons $(23\cdots k)$ and $(k(k + 1)\cdots n 1)$ to be freely triangulated;
+furthermore, the triangulation of the sub-polygons are independent of each other. 
+Thus, for a fixed $k$, the number of ways to triangulate the $\ngon{n}$ is given by $t_{k - 1} \cdot t_{n - k + 2}$.
+
+Putting this all together, 
+\begin{align*}
+  t_n & = t_{n - 1} + \sum_{k = 3}^{n - 1} t_{k - 1} \cdot t_{n - k + 2} \\ 
+      & = \sum_{k = 3}^{n} t_{k - 1} \cdot t_{n - k + 2} \\
+      & = \sum_{k = 2}^{n - 1} t_k \cdot t_{n - k + 1}
+\end{align*}
+where the second equality is obtained by using the fact that $t_2 = 1$ and absorbing the initial term $t_{n - 1} = t_{n - 1} \cdot t_2$ into the sum.
+
+This is exactly the same recursion rule for the catalan numbers. 
+$$c_{n} = t_{n + 2}$$
+Verifying this identity, first note that the $n = 0, 1$ cases are trivial since $c_0 = c_1 = t_2 = t_3 = 0$ by definition. 
+Next, using strong induction for $n$ where $c_k = t_{k + 2}$ for $k \leq n$,
+\begin{align*}
+  t_{n + 3} & = \sum_{k = 2}^{n + 2} t_k \cdot (t_{n - k + 4}) \\ 
+            & = \sum_{k = 0}^{n} t_{k + 2} \cdot t_{n - k + 2} \\ 
+            & = \sum_{k = 0}^{n} c_n \cdot c_{n - k} \\ 
+            & = c_{n + 1}
+\end{align*} 
+where the final equality is the result shown in Q5. 
+This shows that the Catalan number $C_n$ counts the number of triangulations of a $\ngon{n + 2}$.
+
+\section{}
+First, I define a parallel definition of \textbf{ascents}: 
+given a fixed $w in S_n$, an index $1 \leq i \leq n - 1$ is an ascent if $w(i) < w(i + 1)$.
+
+\subsection{} 
+Suppose $w \in S_n$ has $k$ descents;
+let $\{i_1, \ldots, i_k\} \subset [n - 1]$ be the indices satisfying the descent condition. 
+Then for any index $j$ in the complement $[n - 1] \setminus \{i_1, \ldots, i_k\}$, 
+$$w(j) < w(j + 1)$$
+because $w(j) > w(j + 1)$ is ruled out by definition of $j$ and $w(j) = w(j + 1)$ is ruled out by the fact that $w$ is a permutation (bijection) of $[n]$.
+Hence there are $n - k - 1$ ascents in $w$, and it is clear that
+$$w = [w(1), w(2), \ldots, w(n)] \mapsto [w(n), w(n - 1), \ldots, w(2), w(1)]$$ 
+sends a permutation of $[n]$ with $k$ descents to a permutation of $[n]$ with $n - k - 1$ descents since the map essentially flips descents into ascents and vice versa.
+
+The reverse map follows the exact same logic. 
+If $w \in S_n$ has $n - k - 1$ descents, send 
+$$w = [w(1), w(2), \ldots, w(n)] \mapsto [w(n), w(n - 1), \ldots, w(2), w(1)]$$ 
+to obtain a permutation of $[n]$ with $k$ descents. 
+This establishes the bijection that proves $A(n, k) = A(n, n - k - 1)$.
+
+\subsection{} 
+It is not difficult to see that one can obtain all elements of $S_n$ in the following way: 
+if $w = [w(1), \ldots, w(n - 1)] \in S_{n - 1}$, then then pick any $i \in [n]$. 
+Then define 
+\begin{equation} \label{eq:newperm}
+  w' = \begin{cases}
+    [w(1), \ldots, w(i - 1), n, w(i), \ldots, w(n - 1)] & (1 < i < n) \\
+    [n, w(1), \ldots, w(n - 1)] & (i = 1) \\ 
+    [w(1), \ldots, w(n - 1), n] & (i = n)
+  \end{cases}
+\end{equation}
+Spanning $i$ over all of $[n]$ and $w$ over all of $S_{n - 1}$ produces all the elements of $S_n$.
+
+Now, I demonstrate the identity 
+$$A(n, k) = (n - k)A(n - 1, k - 1) + (k + 1) A(n - 1, k)$$
+The left hand side, by definition, counts the number of $w' \in S_n$ with exactly $k$ descents.
+Consider all possible $w \in S_{n - 1}$ that produces a $w \in S_n$ with $k$ descents via the method described above.  
+Well, if $w'$ is defined as (\ref{eq:newperm}), with $1 < i < n$, then index $i$ is a descent since $i \mapsto n$ and $n$ is guaranteed to be the unique maximum value of $w'$ due to $w' \in S_n$. 
+By similar reasoning, index $i - 1$ is guaranteed to be an ascent of $w'$.
+Of course, if $i = 1$, then index $i$ is again a descent, while if $i = n$, then $i - 1$ is an ascent while $i$ itself is neither an ascent nor descent by definition. 
+Thus, ``inserting" $n$ to $w$ at position $i$ to form $w'$ either adds one additional descending point if $i = 1$ or $i - 1$ is an ascent of $w$, or it preserves the number of descents if $i = n$ or $i - 1$ is already a descent of $w$. 
+
+By the analysis above, the only way to get $w' \in S_n$ with $k$ descents is to form $w'$ from $w \in S_{n - 1}$, where either
+\begin{enumerate}
+  \item $w$ has $k - 1$ descents and $n$ is inserted at some position $i$ such that $i = 1$ or if $i - 1$ is an ascent 
+  \item $w$ has $k$ descents and $n$ is inserted at some position $i$ such that $i = n$ or $i - 1$ is a descent. 
+\end{enumerate}
+For case 1, there are $A(n - 1, k - 1)$ ways to choose $w$ and $(n - 1) - (k - 1) - 1 + 1 = n - k$ ways to choose $i$ since $w$ having $k - 1$ descents means it has $(n - 1) - (k - 1) - 1 = n - k - 1$ ascents; 
+one of the ascents can be chosen, or position can be chosen. 
+For case 2, there are $A(n - 1, k)$ was to choose $w$ and $k + 1$ ways to choose $i$ since either one of the $k$ ascents or position 1 can be chosen. 
+Cases 1 and 2 are mutually exclusive, so we get the desired identity 
+$$A(n, k) = (n - k)A(n - 1, k - 1) + (k + 1)A(n - 1, k)$$
+
+\section*{Collaboration Disclosure} 
+I used Claude.ai to help with the figures in Q6. 
+
+\end{document}
