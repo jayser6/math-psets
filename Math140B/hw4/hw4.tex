@@ -1,0 +1,212 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#4}
+\author{\myname}
+\date{2026.02.01}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+\section*{Question 7} 
+\subsection{} 
+Let $S \defeq \int_{0}^{1} f(x) dx$ as in the canonical definition of the integral. 
+Showing $S = \lim_{t \rightarrow 0} \int_{t}^{1} f(x) dx$ is equivalent to showing 
+$$S - \int_{t}^{1} f(x) dx \rightarrow 0$$ 
+as $t \rightarrow 0$.
+
+Fix some $t \in [0, 1]$.  
+Since $f \in \mathcal{R}_{0}^{1}$, $\int_{0}^{t} f(x) dx$ exists, and   
+$$S - \int_{t}^{1} f(x) dx = \int_{0}^{t} f(x) dx$$ 
+Let $M \defeq \sup_{x \in [0, 1]} \abs{f(x)}$. 
+Then $M \geq \sup_{x \in [0, t]} \abs{f(x)}$ and thus 
+$$\abs{\int_{0}^{t} f(x) dx} \leq M(t - 0) = Mt$$
+$Mt \rightarrow 0$ as $t \rightarrow 0$ (from the positive, since the space of consideration is $[0, 1]$), and $\abs{\int_{0}^{t} f(x) dx} \geq 0$, so 
+$$\abs{\int_{0}^{t} f(x) dx} \rightarrow 0$$ 
+as $t \rightarrow 0$. 
+This implies $\int_{0}^{t} f(x) dx = 0$, hence $\lim_{t \rightarrow 0} \int_{t}^{1} f(x) dx = S$. 
+
+\subsection{} 
+Consider the two limits 
+$$\int_{1}^{\infty} \frac{\sin{x}}{x} dx \hspace{5mm} \text{ and } \hspace{5mm} \int_{1}^{\infty} \abs{\frac{\sin{x}}{x}} dx$$
+The former converges while the latter diverges. 
+Integrating the first limit by parts with $F(x) = \frac{1}{x}$ and $G(x) = -\cos{x}$, 
+$$\int_{1}^{b} \frac{\sin{x}}{x} dx = \left.-\frac{\cos{x}}{x}\right|_{1}^{b} - \int_{1}^{b} \frac{\cos{x}}{x^2} dx$$
+Both terms in the sum converge as $b \rightarrow \infty$. 
+The first term converges because $-\frac{1}{b} \leq \frac{\cos{b}}{b} \leq \frac{1}{b}$ and the lower and upper bounds both tend to 0 as $b \rightarrow \infty$.  
+The second term converges by the Integral Test described in Q8 of Rudin: $\int_{1}^{\infty} f(x) dx$ converges if and only if $\sum_{n = 1}^{\infty} f(n)$ converges.
+Here, $\abs{\frac{\cos{n}}{n^2}} \leq \frac{1}{n^2}$ and $\sum \frac{1}{n^2}$ converges, so $\sum_{n = 1}^{\infty} \frac{\cos{n}}{n^2}$ converges by the Comparison Test. 
+This demonstrates that $\int_{1}^{\infty} \frac{\sin{x}}{x} dx$ converges. 
+
+To see that $\int_{1}^{\infty} \abs{\frac{\sin{x}}{x}} dx$ does not converge, observe the following inequalities arising from basic trigonometry: 
+\begin{align*}
+  \abs{\frac{\sin{x}}{x}} = \frac{\abs{\sin{x}}}{x} & \geq \frac{\sin^{2}{x}}{x} \\
+                                                    & = \frac{\cos{2x} - 1}{2x}  
+\end{align*}
+assuming $x \geq 1$.
+Now, the Integral Test shows that $\sum_{n = 1}^{\infty} \frac{\cos{2n}}{2n}$ converges (e.g., $\int_{1}^{\infty} \frac{\cos{x}}{x} dx$ converges for the same reason that $\int_{1}^{\infty} \frac{\sin{x}}{x}$ converges), and it is already known that $\sum_{n = 1}^{\infty} \frac{1}{2n}$ does not converge.  
+Hence $\sum_{n = 1}^{\infty} \frac{\cos{2n} - 1}{2n}$ diverges.  
+By the Comparison Test, $\sum_{n = 1}^{\infty} \abs{\frac{\sin{x}}{x}}$ diverges as well, and it follows that that $\int_{1}^{\infty} \abs{\frac{\sin{x}}{x}} dx$ diverges as well. 
+
+By the previous analysis, it is immediate that for $c \in (0, 1]$, $\int_{1}^{1 / c} \frac{\sin{x}}{x} dx$ converges while $\int_{1}^{1 / c} \abs{\frac{\sin{x}}{x}} dx$ diverges as $c \rightarrow 0$
+(for any $c \in (0, 1]$, both integrals exist because $\frac{\sin{x}}{x}$ and $\abs{\frac{\sin{x}}{x}}$ are continuous on $[c, 1]$).
+Since $\phi(x) \defeq \frac{1}{x}$ is a strictly decreasing function that maps $[c, 1]$ to $[1, 1/c]$, it is possible to perform change of variables, yielding 
+$$\int_{c}^{1} x \sin{\frac{1}{x}} dx = \int_{1}^{1/c} \frac{\sin{x}}{x} dx \hspace{5mm} \text{ and } \hspace{5mm} \int_{c}^{1} x \abs{\sin{\frac{1}{x}}} dx = \int_{1}^{1/c} \abs{\frac{\sin{x}}{x}} dx $$
+Letting $f(x) = x \sin{\frac{1}{x}}$, one sees $\int_{c}^{1} f(x) dx$ converges while $\int_{c}^{1} \abs{f(x)} dx$ diverges as $c \rightarrow 0$, as was to be demonstrated.  
+
+\section*{Question 10}
+\setcounter{subsection}{0}
+\subsection{} 
+Here, I use some facts from previous calculus classes without proof;
+I hope they will be excused...
+
+First, notice that since $1/p + 1/q = 1$ and $p, q \geq 0$, 
+$$p = \frac{q}{q - 1}, \: q = \frac{p}{p - 1}, \text{ which implies } p, q > 1$$
+Now, take any $v \geq 0$ and define 
+$$f(u) = \frac{u^p}{p} - \frac{v^q}{q} - uv$$
+Regardless of the specific value of $p$, $u^p$ is continuous on $[0, \infty)$, hence $f(u)$ is continuous on $[0, \infty)$. 
+Also, because $p > 1$, $u^p$ grows faster than $-uv$, hence $f(u) \rightarrow \infty$ as $u \rightarrow \infty$. 
+Next, 
+$$f'(u) = u^{p - 1} - v$$ 
+Note $f'(0) = -v < 0$. 
+Because $f(u) \rightarrow \infty$ and $f'$ is continuous on $[0, \infty)$, there must be a point $u_0 \in [0, \infty)$ such that $f'(u_0) = 0$. 
+But because $p > 1$, $f'$ is monotonic increasing, hence $u_0$ is a relative minimum of $f'$. 
+Furthermore, $u_0$ is the unique value satisfying $f'(u_0) = 0$: 
+\begin{equation} \label{eq:eq1}
+  f'(u) = 0 \iff u^{p - 1} - v = 0 \iff u^{p - 1} = v
+\end{equation}
+Since $u > 0$, only a single value for $u$ satisfies $u^{p - 1} - v = 0$, namely $u = u_0$.
+The final equation of (\ref{eq:eq1}), gives two identities satisfied by $u_0$:  
+$$u_{0}^{(p - 1)q} = v^q \iff u_{0}^{p} = v^q$$
+$$u_{0}^{p - 1} u_0 = u_0 v \iff u_{0}^p = u_0 v$$
+Namely, the if and only if signifies that $u_0$ is the unique value that satisfies these identities.  
+
+Recapitulating, the above shows that $u_0$ is the only relative extreme of $f$. 
+Particularly, $f$ obtains a relative minimum on $u_0$. 
+Using the relations satisfied by $u_0$, 
+\begin{align*}
+  f(u_0) & = \frac{u_{0}^{p}}{p} + \frac{v^q}{q} - u_{0} v \\  
+         & = u_{0}^{p} (\frac{1}{p} + \frac{1}{q} - 1) \\ 
+         & = 0
+\end{align*}
+which means $f(u) \geq 0$. 
+This yields the following conclusions, as desired:
+\begin{enumerate}
+  \item $uv \leq \frac{u^{p}}{p} + \frac{v^q}{q}$ for any $u, v \geq 0$.
+  \item Equality holds if and only if $u^p = v^q$.  
+\end{enumerate}
+
+\subsection{} 
+By the inequality derived in (a), so $fg \leq \frac{f^p}{p} + \frac{g^q}{q}$. 
+By Theorem 6.12(b), 
+\begin{align*}
+  \int_{a}^{b} fg d \alpha & = \int_{a}^{b} (\frac{f^p}{p} + \frac{g^p}{p}) d \alpha \\ 
+                           & = \frac{1}{p} \int_{a}^{b} f^p d \alpha + \frac{1}{q} \int_{a}^{b} g^q d \alpha \\ 
+                           & = 1/p + 1/q = 1
+\end{align*}
+where all the integrals are guaranteed to exist due to Theorems 6.12 and 6.13. 
+
+\subsection{} 
+Let 
+$$F \defeq \left[\int_{a}^{b} \abs{f}^p d \alpha\right]^{1/p}, \: G \defeq \left[\int_{a}^{b} \abs{g}^q d \alpha\right]^{1 / q}$$ 
+The desired inequality is equivalent to 
+$$\frac{\abs{\int_{a}^{b} fg d \alpha}}{FG} \leq 1$$  
+Let $h(x) \defeq \frac{\abs{f(x)}}{F}$ and $q(x) \defeq \frac{\abs{g(x)}}{G}$.
+Notice 
+\begin{align*} 
+  \int_{a}^{b} h^p d \alpha & = \int_{a}^{b} \frac{\abs{f}^p}{F^p} d \alpha \\ 
+                            & = \frac{1}{F^p} \int_{a}^{b} \abs{f}^p d \alpha \\ 
+                            & = \frac{1}{F^p} \cdot F^p \\ 
+                            & = 1
+\end{align*}
+Similarly, $\int_{a}^{b} q^p d \alpha = 1$. 
+By definition, $h, q \geq 0$; 
+$\abs{h} = h$ and $\abs{q} = q$. 
+Then, by Theorem 6.25 and the result from part (b), 
+\begin{align*} 
+  \frac{\abs{\int_{a}^{b} fg d\alpha}}{FG} & \leq \int_{a}^{b} \frac{\abs{f}}{F} \frac{\abs{g}}{G} d\alpha \\  
+                              &  = \int_{a}^{b} hq d\alpha \\ 
+                              & \leq 1
+\end{align*} 
+as was to be shown.
+
+\section*{Question 15}
+\setcounter{subsection}{0}
+\subsection{}
+First, I show the equality 
+$$\int_{a}^{b} x f(x) f'(x) dx = -1/2$$
+Define $H(x) \defeq xf(x)$ and $G(x) = f(x)$. 
+Then $h(x) = f(x) + xf'(x)$ and $g(x) = f'(x)$. 
+Integrating by parts, 
+\begin{align*} 
+  \int_{a}^{b} x f(x) f'(x) dx & = \int_{a}^{b} H(x)g(x) dx \\ 
+                               & = \left.H(x)G(x)\right|_{a}^{b} - \int_{a}^{b} h(x)G(x) dx \\ 
+                               & = \left.xf^{2}(x)\right|_{a}^{b} - \int_{a}^{b} f^{2}(x) dx - \int_{a}^{b} x f(x) f'(x) dx
+\end{align*}
+Algebraically manipulating the first expression and last expression of the equalities above and substituting known values,  
+$$2\int_{a}^{b} x f(x) f'(x) dx = -1$$
+which gives the desired equality. 
+
+\subsection{}
+\setcounter{equation}{0}
+Next, I show the inequality 
+$$\int_{a}^{b} \left[f'(x)\right]^2 dx \cdot \int_{a}^{b} x^2 f^{2}(x) dx \geq 1/4$$
+Let $p = q = 2$. 
+Then $1/p + 1/q = 1$. 
+Define the functions $r(x) \defeq xf(x)$ and $t(x) = f'(x)$. 
+By Q10(c), 
+\begin{equation} \label{eq:eq2}
+  \abs{\int_{a}^{b} r(x)t(x) dx} \leq \left[\int_{a}^{b} \abs{r(x)}^{2} dx\right]^{1/2} \left[\int_{a}^{b} \abs{t(x)}^{2} dx\right]^{1/2}
+\end{equation}
+Because $r(x)$ and $t(x)$ are real-valued functions, (\ref{eq:eq2}) substitutes to  
+$$\abs{\int_{a}^{b} xf(x) f'(x)dx} = 1/2 \leq \left[ \int_{a}^{b} \left[f'(x)\right]^2 dx \right]^{1/2} \cdot \left[\int_{a}^{b} x^2 f^{2}(x) dx \right]^{1/2}$$
+and squaring both sides gives the desired inequality.
+
+*** one should be able to show the strict equality by checking the criterion for equality outlined in Q10, but that is very tedious. 
+
+\end{document}

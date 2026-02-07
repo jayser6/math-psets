@@ -1,0 +1,228 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math100B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#4}
+\author{\myname}
+\date{2026.02.08}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+%TODO: I can assume polynomials in R[x] can be factored into at worst irreducible quadratic polynomials? 
+\section{} 
+One can assume $f(x)$ is monic;
+if $f(x)$ has leading coefficient $a_n \neq 1$, then $\<f(x)\> = \<\frac{1}{a_n} f(x)\>$ as ideals in $\R$ since $a_n$ is a unit in $\R$.  
+Since $f(x)$ has no repeated roots, either 
+\begin{enumerate} 
+  \item $f(x) = (x - a_1)(x - a_2)(x - a_3)$ with $a_1, a_2, a_3 \in \R$ distinct. 
+  \item $f(x) = (x - a)(x^2 + c)$ with $c \in \Rpl$.  
+\end{enumerate}
+
+First, consider case 1. 
+Then the assumption for Question 3 holds, so its result applies: 
+$$\R[x] / \<f(x)\> \equiv \R^3$$
+
+Next, assume case 2. 
+$\<x^2 + c\>$ and $\<x - a\>$ are comaximal: 
+$(x - a)(x + a) = x^2 - a^2 \in \<x - a\>$, and $x^2 + c - (x^2 - a^2) = c + a^2 \neq 0$, so the ideal $\<x^2 + c\> + \<x - a\>$ contains a unit,
+i.e., $\<x^2 + c\> + \<x - a\> = \R[x]$. 
+By the Chinese Remainder Theorem, 
+$$\R[x] / \<x^2 + c\> \<x - a\> \equiv \R[x] / \<x^2 + c\> \times \R[x] / \<x - a\>$$ 
+By definition, the product of ideals $\<x^2 + c\>\<x - a\>$ is equal to $\<(x^2 + c)(x - a)\> = \<f(x)\>$.
+Also, it was shown in midterm 1 that $\R[x] / \<x^2 + c\> \equiv \C$ and by homework something, $\R[x] / \<x - a\> \equiv \R$.  
+Putting all these isomorphisms together,  
+$$\R[x] / \<f(x)\> \equiv \C \times \R$$ 
+
+\section{}
+\subsection{} 
+Suppose $(x, y) \in F \times F$ is nilpotent, say $(x, y)^n = 0$ with $n \in \Zpl$.  
+By the definition of the product ring, 
+$$(x, y)^n = (x^n, y^n) = (0, 0)$$
+Through the projection homomorphisms, one sees $x^n = y^n = 0$ in $F$. 
+But nonzero nilpotent elements are zerodivisors, of which there are none in fields. 
+So $x = y = 0$ in $F$. 
+This shows that $F \times F$ has no nonzero nilpotent elements. 
+
+\subsection{} 
+$x \notin \<x^2\>$ because $\Q[x]$ is a Euclidean domain and $x$ is of lower degree than $x^2$. 
+So $\bar {x} \neq 0$ in $\Q[x] / \<x^2\>$ and of course $\bar{x}^2 = 0$. 
+So $\bar{x}$ is nilpotent in $\Q[x] / \<x^2\>$, which means $\Q[x] / \<x^2\>$ cannot be isomorphic to $\Q \times \Q$. 
+
+\section{}
+By the Chinese Remainder Theorem, 
+$$\varphi: F[x] \rightarrow \prod_{i = 1}^{n} (F[x] / \<x - a_i\>) \: f(x) \mapsto (f(x) + \<x - a_1\>, \ldots, f(x) + \<x - a_n\>) $$
+is an isomorphism with kernal $\<x - a_1\> \cap \ldots \cap \<x - a_n\>$. 
+But since the $x - a_i$'s are distinct linear polynomials, the ideals $\<x - a_i\>$ and $\<x - a_j\>$, $i \neq j$, are pairwise comaximal: $x - a_i - (x - a_j) = a_j - a_i \neq 0$, which is a unit because it is a nonzero coefficient over a field, so the ideal $\<x - a_i\> + \<x - a_j\> = F[x]$. 
+So 
+$$F[x] / (\prod_{i = 1}^{n} \<x - a_i\>) \equiv \prod_{i = 1}^{n} (F[x] / \<x - a_i\>)$$
+Additionally, it follows immediately from definition that the product ideal $\<x - a_i\> \<x - a_j\>$ is equivalent to $\<(x - a_i) (x - a_j)\>$.  
+Hence $\prod_{i = 1}^{n} \<x - a_i\> = \<\prod_{i = 1}^{k} (x - a_i)\> = \<p(x)\>$.  
+Also, it was shown whenever ago that $F[x] / \<x - c\> \equiv F$ for any $c \in F \setminus 0$.  
+So 
+$$F[x] / \<p(x)\> \equiv F^n$$ 
+
+\section{}
+Denote $F$ as the field of fractions of $R$.
+For any integer $a \in \Znn$, let $a = \sum_{i = 1}^{a} 1$ in $R$ and $F$.
+
+Recall that, by the construction of the field of fractions, $R$ embeds itself into $F$ as a subring. 
+Let $n \defeq \text{char} R$. 
+If $n = 0$ as an integer, then $\forall m \in \Znn$, $m \neq 0$ in $R$. 
+Thus $m \neq 0$ in $F$, which means $\text{char} F = 0$ as well. 
+If $n > 0$ as an integer, then $n = 0$ in $R$, and thus in $F$. 
+Furthermore, $\forall m \in \Znn$ where $m < n$, $m \neq 0$ in $R$. 
+It follows that $m \neq 0$ in $F$ as well, hence $\text{char} F = n$. 
+This shows $\text{char} F = \text{char} R$. 
+
+Let $n = \text{char} R = \text{char} F$, and suppose $n$ is not zero and not prime;
+say $n = ab$, $a, b > 1$. 
+Then $ab \neq 0$ in $F$.
+Furthermore, $a, b \neq 0$ in $F$ because $a, b < n$ and $n$ is the characteristic of $F$. 
+This shows that $a$ is a zerodivisor in $F$, which contradicts the fact that fields don't have zerodivisors.
+It follows that the characteristic of an integral domain is 0 or a prime number. 
+
+\section{}
+For any $a \in R \setminus 0$, define 
+$$\varphi: R \rightarrow R; \: r \mapsto ar$$ 
+Because $R$ is an integral domain $\varphi$ is injective: 
+$$ar = as \iff r = s$$
+Because $R$ is finite, injection implies surjection. 
+Finally, by definition of $\varphi$, it is clear that $\varphi(R) = \<a\>$. 
+So $\<a\> = R$, which means $a$ is a unit.
+This shows that every nonzero element of $R$ is a unit; 
+$R$ is a field. 
+
+\section{}
+Since $F$ is finite, $\text{char} F \neq 0$. 
+Namely, then, $\text{char} F = p$ for some prime $p$. 
+Note that $\text{char} F$ is just the order of $1$ in the abelian group $F^{+}$.
+So $p \mid \abs{F}$. 
+Take any $x \in R \setminus 0$. 
+Since 
+$$px = 0x = 0$$
+in $F$, where the integer $p$ is viewed as $\sum_{i = 1}^{p} 1$ in $F$, it follows $\order{x} \mid p$.
+$x \neq 0$, the identity in the abelian group $F^{+}$, so $\order{x} \neq 1$, and $p$ is a prime integer, so $\order{x} = p$. 
+Thus, it is impossible for any prime $q$ other than $p$ to divide the order of $F$. 
+If $q$ did divide $F$, then by the Cauchy theorem, $\exists y \in F^{+} \st \order{y} = q$, which is a contradiction. 
+
+\section{}
+Here's a helpful lemma:
+\begin{lemma}
+  Suppose $R$ is a principal ideal domain. 
+  Then $p \in R$ is irreducible $\iff p$ is prime.  
+\end{lemma} 
+\begin{proof}[Proof of Lemma]
+  In any integral domain, prime $\implies$ irreducible:
+  if $p = ab$ and $p$ is prime, $p \mid a$ or $p \mid b$. 
+  But $a \mid p$ and $b \mid p$, so $p$ is associate with $a$ or $b$.
+  In other words, the only elements that divide $p$ are its associates and units, which means $p$ is irreducible. 
+
+  Next, suppose $p \in R$ is irreducible and $p = ab$. 
+  It must be shown that if $p \nmid a$, then $p \mid b$. 
+  Consider the ideal $\<p, a\>$. 
+  Because $R$ is a PID, $\exists d \in R \st \<d\> = \<p, a\>$. 
+  But by assumption on $p$ and $a$, the only elements that divides both $p$ and $a$ are units.
+  Hence we can take $d = 1$, then $\exists r, s \in R \st rp + sa = 1$. 
+  Multiplying both sides by $b$, 
+  $$rbp + sab = b$$
+  $p$ divides the left side of this equation, so $p \mid b$ as well. 
+  This shows $p$ is prime. 
+\end{proof} 
+
+It was already shown in class that $F[x]$ is a Euclidean Domain (we showed that a Euclidean algorithm exists for $F[x]$). 
+We then proved in the midterm that $F[x]$ is in fact a principal ideal domain (namely, we showed that a greatest common denominator exists for any two elements $f(x), g(x) \in F[x]$). 
+Thus the lemma above applies and can be used to solve the problem. 
+
+Given any $\varphi: F[x] \rightarrow R$, where $R$ is an integral domain, 
+$$F[x] / \ker \varphi \equiv \varphi(R)$$ 
+by the first isomorphism theorem.
+But because $R$ is an integral domain, its subrings, and thus ideals, are integral domains as well. 
+So $F[x] / \ker \varphi$ is an integral domain, which means $\ker \varphi$ is a prime ideal. 
+0 is a prime ideal, so $\ker \varphi$ could be the zero ideal or a nonzero prime ideal. 
+Suppose $\ker \varphi$ is not the zero ideal. 
+Since $F[x]$ is a PID, let $\ker \varphi = \<p(x)\>$. 
+A principal ideal is prime $\iff$ its generator is a prime element. 
+But by the lemma above, prime elements are irreducible elements. 
+Irreducible elements generate maximal ideals in PIDs (namely, we showed that irreducible elements of $F[x]$, i.e., the irreducible polynomials, generate max ideals in $F[x]$), so $\ker \varphi$ must be a maximal ideal in $F[x]$.  
+
+\section{} % TODO: was the binomial theorem proven in class?
+\subsection{} 
+Recall that the binomial theorem holds in any commutative ring: 
+$$(a + b)^n = \sum_{k = 0}^{n} \binom{n}{k} a^k b^{n - k}$$
+where $\binom{n}{k}$ as an element of $R$ is the sum of the identity $\binom{n}{k}$ times. 
+
+Take $a, b \in \rad I$.
+Suppose $a^n \in I$ and $b^m \in I$ for $n, m \in \Zpl$. 
+For any $r \in R$, $(ra)^n = r^n a^n \in I$, so $\rad I$ is closed under scalar multiplication. 
+To see it is closed under addition as well, consider 
+$$(a + b)^{m + n} = \sum_{k = 0}^{m + n} a^k b^{m + n - k}$$
+In each of the summand, either $k > n$ or $m + n - k > m$, so at least one of $a^k$ and $b^{m + n - k}$ is in $I$ and thus the entire term. 
+Since each summand is in $I$, the sum is in $I$ as well. 
+$(a + b)^{m + n} \in I$, so $a + b \in \rad I$. 
+This shows that $\rad I$ is an ideal. 
+
+\subsection{}
+Let $I$ be a prime ideal. 
+By definition, $I \subset \rad I$. 
+Next, take any $a \in \rad I$ with $a^n \in I$. 
+$a^n = a^{n - 1}a \in I$ and $I$ is prime, so either $a \in I$ or $a^{n - 1}$. 
+If the former, there is nothing more to be shown. 
+If the latter, $a^{n - 1} = a^{n - 2} a \in I$, so $a^{n - 2} \in I$ or $a \in I$.
+If the latter, there is nothing more to be shown. 
+If the former, then one can continue reducing the exponent of $a$ until either $a \in I$ or $a^2 \in I$. 
+If $a^2 \in I$, then clearly $a \in I$. 
+
+\subsection{}
+The statement is equivalent to showing 
+$$\forall P \in \spec{R}, \: \rad 0 \subset P$$
+Take arbitrary $P \in \spec R$ and $a \in \rad 0$ with $a^n = 0$. 
+$a^n = 0 \in P$, so by similar reasoning as (b), $a \in P$. 
+This shows $\rad 0 \subset P$. 
+
+\end{document}
