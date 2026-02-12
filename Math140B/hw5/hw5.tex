@@ -1,0 +1,225 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#5}
+\author{\myname}
+\date{2026.02.08}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section*{Ch. 6, Q11} 
+\newcommand{\intnorm}[1]{\abs{\abs{#1}}_2}
+I show the equivalent inequality 
+$$\intnorm{f - h}^2 \leq (\intnorm{f - g} + \intnorm{g - h})^2$$
+Starting from the left hand side, 
+\begin{align}
+  \intnorm{f - h}^2 & = \int_{a}^{b} \abs{f - g + g - h}^2 d\alpha \nonumber \\ 
+                    & = \int_{a}^{b}(f - g)^2 d\alpha + \int_{a}^{b}(g - h)^2 d\alpha + 2\int_{a}^{b} (f - g)(g - h) d\alpha \nonumber \\ 
+                    & \leq \int_{a}^{b}(f - g)^2 d\alpha + \int_{a}^{b}(g - h)^2 d\alpha + 2\left[ \int_{a}^{b} \abs{f - g}^{2} d\alpha \right]^{1/2} \left[ \int_{a}^{b} \abs{g - h}^{2} d\alpha \right]^{1/2} \label{eq:holder} \\ 
+                    & = \intnorm{f - g}^2 + \intnorm{g - h}^2 + 2\intnorm{f -g}\intnorm{g - h} \label{eq:result} 
+\end{align} 
+where \eqref{eq:holder} is due to the Holder's inequality as described in Ch. 6, Q10 of Rudin.  
+\eqref{eq:result} is equal to $(\intnorm{f - g} + \intnorm{g - h})^2$, the right hand side of the desired result. 
+This proves the inequality. 
+
+\section*{Ch. 6, Q12}
+\setcounter{equation}{0}
+Defining $g(x)$ as given in the book, on $t \in [x_{i - 1}, x_i]$, $g(t)$ is just a straight line from $f(x_{i - 1})$ to $f(x_i)$
+(e.g., put $g(t)$ in slope whatever form). 
+So given any partition $P$ of $[a, b]$, 
+$$\sup_{t \in [x_{i - 1}, x_i]} g(t) \leq \sup_{t \in [x_{i - 1}, x_i]} f(t) = M_i$$
+$$\inf_{t \in [x_{i - 1}, x_i]} g(t) \geq \inf_{t \in [x_{i - 1}, x_i]} f(t) = m_i$$
+In turn, 
+\begin{align*}
+  \sup_{t \in [x_{i - 1}, x_i]} \abs{f(t) - g(t)} & \leq \max\{\sup_{t \in [x_{i - 1}, x_i]} f(t) - \inf_{t \in [x_{i - 1}, x_i]} g(t), \sup_{t \in [x_{i - 1}, x_i]} g(t) - \inf_{t \in [x_{i - 1}, x_i]} f(t)\} \\ 
+                                                  & \leq \max\{M_i - m_i, M_i - m_i\} \\ 
+                                                  & = M_i - m_i
+\end{align*}
+
+Fix $\epsilon > 0$ and define $M \defeq \sup_{t \in [a, b]} f(t)$ and $m \defeq \inf_{t \in [a, b]} f(t)$, which are guaranteed to exist since $f \in \mathcal{R}_{a}^{b} (\alpha)$ and therefore $f$ is bounded.  
+To define a continuous function $g(x)$ such that $\intnorm{f - g} < \epsilon$, take a partition $P$ of $[a, b]$ such that 
+$$U(P, f, \alpha) - L(P, f, \alpha) = \sum_{i = 1}^{n} (M_i - m_i) \Delta \alpha_i < \frac{\epsilon^2}{M - m}$$ 
+where $M_i = \sup_{t \in [x_{i - 1}, x_i]} f(t)$ and $m_i = \inf_{t \in [x_{i - 1}, x_i]} f(t)$ as usual. 
+Then 
+\begin{align}
+  \int_{a}^{b} \abs{f - g}^2 d\alpha & \leq U(P, \abs{f - g}^2, \alpha) \nonumber \\ 
+                                     & = \sum_{i = 1}^{n} \sup_{t \in [x_{i - 1}, x_i]} \abs{f(t) - g(t)}^2 \Delta \alpha_i \nonumber \\ 
+                                     & \leq \sum_{i = 1}^{n} (M_i - m_i)^2 \Delta \alpha_i \label{eq:initanal}\\  
+                                     & \leq (M - m) \sum_{i = 1}^{n} (M_i - m_i) \Delta \alpha_i \nonumber \\ 
+                                     & < (M - m) \frac{\epsilon^2}{M - m} \label{eq:assum} \\ 
+                                     & = \epsilon^2  \nonumber
+\end{align} 
+where \eqref{eq:initanal} by the analysis in the first paragraph, and \eqref{eq:assum} by assumption on $P$.  
+This shows that $\intnorm{f - g} < \epsilon$. 
+
+\section*{Ch. 6, Q13}
+\subsection{} 
+Performing $u$-sub with $\sqrt{u} = t$, 
+$$f(x) = \int_{x}^{x + 1} \sin t^2 dt = \int_{x^2}^{(x + 1)^2} \frac{\sin u}{2\sqrt{u}} du $$ 
+Letting $F(u) = 1/\sqrt{u}$ and $G(u) = -\cos u$, 
+\begin{align*} 
+  f(x) & = \left.-\frac{\cos u}{2\sqrt{u}}\right|_{x^2}^{(x + 1)^2} - \int_{x^2}^{(x + 1)^2} \frac{\cos u}{4u^{3 / 2}} du \\ 
+       & = \frac{\cos x^2}{2x} - \frac{\cos (x + 1)^2}{2(x + 1)} - \int_{x^2}^{(x + 1)^2} \frac{\cos u}{4u^{3/2}} du  
+\end{align*} 
+Then, assuming $x > 0$,  
+\begin{align*} 
+  \abs{f(x)} & \leq \abs{\frac{\cos x^2}{2x}} + \abs{\frac{\cos (x + 1)^2}{2(x + 1)}} + \abs{\int_{x^2}^{(x + 1)^2}\frac{\cos u}{4u^{3/2}}du} \\ 
+             & \leq \frac{1}{2x} + \frac{1}{2(x + 1)} + \int_{x^2}^{(x + 1)^2} \frac{1}{4u^{3/2}}du \\ 
+             & = \frac{1}{2x} + \frac{1}{2(x + 1)} - \frac{1}{2} (\frac{1}{x + 1} - \frac{1}{x}) \\ 
+             & = \frac{1}{x}
+\end{align*}
+as was to be shown. 
+
+\subsection{} 
+By the calculation in part (a), 
+\begin{align*}
+  2xf(x) & = \cos x^2 - \frac{x \cos{(x + 1)^2}}{x + 1} - x \int_{x^2}^{(x + 1)^2} \frac{\cos u}{2u^{3/2}}du \\ 
+         & = \cos x^2 - \cos(x+1)^2 + r(x)
+\end{align*} 
+where 
+$$r(x) = \frac{\cos{(x + 1)^2}}{x + 1} - x \int_{x^2}^{(x + 1)^2} \frac{\cos u}{2u^{3/2}}du$$ 
+Let $F(u) = u^{-3/2}$ and $G(u) = \sin u$ and integrate the last term of $r(x)$ by parts: 
+\begin{align*} 
+  x \int_{x^2}^{(x + 1)^2} \frac{\cos u}{2u^{3/2}}du & = \frac{x}{2} \left[\left.\frac{\sin u}{u^{3/2}}\right|_{x^2}^{(x + 1)^2} + \frac{3}{2} \int_{x^2}^{(x + 1)^2} \frac{\sin u}{u^{5/2}}\right] \\ 
+                                                     & = \frac{x}{2} \left[\frac{\sin(x+1)^2}{(x+1)^3} - \frac{\sin x^2}{x^3} +  \frac{3}{2} \int_{x^2}^{(x + 1)^2} \frac{\sin u}{u^{5/2}}\right]
+\end{align*}
+Thus, assuming $x > 0$, 
+\begin{align*}
+  \abs{r(x)} & \leq \frac{x}{2} \left[ \frac{1}{(x + 1)^3} + \frac{1}{x^3} + \left.u^{-3/2}\right|_{x^2}^{(x + 1)^2} \right] + \frac{1}{x + 1} \\ 
+             & = \frac{x}{(x + 1)^3} + \frac{1}{x+ 1}
+\end{align*}
+For some really big $c \in \R$, this final expression is indeed less than $c / x$
+
+\setcounter{subsection}{3}
+\subsection{} 
+I couldn't tell you.
+
+\section*{Ch. 6, Q19}
+I presume ``a continuous 1-1 mapping of $[c, d]$ \textbf{onto} $[a, b]$" just means $\varphi:[c, d] \rightarrow [a, b]$ is bijective and continuous.  
+Since $\varphi(c) = a$, it necessarily follows that $\varphi(d) = b$. 
+If not, surjection of $\varphi$ guarantees $\exists x \in (a, b)$ such that $\varphi(x) = b$, and because $\varphi$ is continuous, $\varphi([c, x]) = [a, b]$. 
+This contradicts the assumption that $\varphi$ is injective. 
+
+It is trivial to see that $\gamma_1$ is an arc $\iff \gamma_2$ is an arc since
+$$\gamma_2 = \gamma_1 \circ \varphi, \: \gamma_2 \circ \varphi^{-1} = \gamma_1$$
+and composition of injective maps are injective. 
+
+Similarly, $\gamma_1$ is a closed curve $\iff \gamma_2$ is a closed curve since 
+$$\gamma_1(a) = \gamma_1(\varphi(c)) = \gamma_2(c), \: \gamma_1(b) = \gamma_1(\varphi(d)) = \gamma_2(d)$$ 
+and thus $\gamma_1(a) = \gamma_1(b) \iff \gamma_2(c) = \gamma_2(d)$. 
+
+Finally, to see that $\Lambda(\gamma_1) = \Lambda(\gamma_2)$ and $\gamma_1$ is rectifiable $\iff \gamma_2$ is rectifiable, notice that the bijection and continuity of $\varphi$ gives the one-to-one correspondence 
+$$\text{partition } P = \{x_0, \ldots, x_n\} \text{ of } [a, b] \longleftrightarrow \text{partition } Q = \{y_0, \ldots, y_n\} \text{ of } [c, d]$$
+where 
+$x_i = \varphi(y_i)$ and $y_i = \varphi^{-1} (x_i)$.
+Thus for corresponding partitions $P$ of $[a, b]$ and $Q$ of $[c, d]$, 
+$$\sum_{i = 1}^{n} \abs{\gamma_1(x_i) - \gamma_1(x_{i - 1})} = \sum_{i = 1}^{n} \abs{\gamma_2(y_i) - \gamma_2(y_{i - 1})}$$
+The desired results follow immediately. 
+
+\section*{Ch. 7, Q2}
+Suppose $f_n \rightarrow f$ uniformly on $E$ and $g_n \rightarrow g$ uniformly on $E$. 
+Fix $\epsilon > 0$. 
+$\exists N \in \Zpl \st \forall n \geq N$, $\abs{f_n (x) - f(x)} < \epsilon$ and $\abs{g_n (x) - g(x)} < \epsilon$. 
+By triangle inequality, 
+$$\abs{(f_n + g_n)(x) - (f + g)(x)} \leq \abs{f_n(x) - f(x)} + \abs{g_n(x) - g(x)} = 2\epsilon$$
+This shows that $f_n + g_n \rightarrow f + g$ uniformly on $E$. 
+
+If $\{f_n\}$ and $\{g_n\}$ are sequences of bounded and uniformly converging sequences, then Ch. 7, Q1 says $\{f_n\}$ and $\{g_n\}$ are both uniformly bounded; 
+say $\abs{f_n(x)} \leq C_1$ and $\abs{g_n(x)} \leq C_2$ for all $x \in E$ and $n \in \Zpl$.  
+Fix $\epsilon > 0$. 
+$\exists N \in \Zpl \st \forall m \geq n \geq N$, $\abs{f_n(x) - f_m(x)} < \epsilon$ and $\abs{g_n(x) - g_m(x)} < \epsilon$.
+Then, for all $m \geq n \geq N$,  
+\begin{align*}
+  \abs{f_n(x) g_n(x) - f_m(x) g_m(x)} & = \abs{f_n(x) g_n(x) - f_n(x)g_m(x) + f_n(x)g_m(x) - f_m(x)g_m(x)} \\ 
+                                      & \leq \abs{f_n(x) (g_n(x) - g_m(x))} + \abs{g_m(x) (f_n(x) - f_m(x))} \\ 
+                                      & < \epsilon \abs{f_n(x)} + \epsilon \abs{g_m(x)} \\ 
+                                      & \leq \epsilon(C_1 + C_2) 
+\end{align*} 
+Since $C_1$ and $C_2$ are fixed, the inequality above shows that $\{f_n g_n\}$ converges uniformly by the Cauchy criterion. 
+
+\section*{Ch. 7, Q3} 
+Let $E = (0, \infty)$ and consider $f_n(x) = x + 1/n$ and $g_n = 1/x$. 
+$\{g_n\}$ is a constant sequence; namely, $g_n \rightarrow 1/x$ uniformly. 
+To see that $f_n \rightarrow x$ uniformly, fix $\epsilon > 0$ and pick $N \in \Zpl \st 1/N < \epsilon$. 
+Then $\forall n \geq N$, $\abs{f_n(x) - x} = \abs{1/n} < \epsilon$.
+
+Now, let 
+$$h_n(x) \defeq (f_n g_n)(x) = 1 + \frac{1}{nx}$$
+It is clear that $h_n \rightarrow 1$ pointwise. 
+However, it does not uniformly converge: 
+$$\lim_{n \rightarrow \infty} \lim_{x \rightarrow 0} h_n(x) = \infty \neq 0 = \lim_{x \rightarrow 0} \lim_{n \rightarrow \infty} h_n(x)$$
+Theorem 7.11 says that the above cannot happen if $\{h_n\}$ uniformly converges.
+
+\section*{Ch. 7, Q7}
+Let's first analyze $f_n(x) = \frac{x}{1 + nx^2}$ for an arbitrary $n \in \Zpl$. 
+Using the quotient rule for derivatives, one calculates 
+$$f_n'(x) = \frac{1 - nx^2}{(1 + nx^2)^2}, \: f_n''(x) = \frac{2nx(nx^2 - 3)}{(nx^2 + 1)^3}$$
+Note that both these $f'$ and $f''$ are defined everywhere since the denominator of $f$ and $f'$ is never zero.  
+
+$f'(x) = 0 \iff 1 - nx^2 = 0 \iff x = \pm 1/\sqrt{n}$ gives the critical points of $f$.  
+$f''(1/\sqrt{n}) = -\sqrt{n} / 2 < 0$ and $f''(-1/\sqrt{n}) = \sqrt{n} / 2 > 0$. 
+This shows that $f$ attains a relative maximum at $1/\sqrt{n}$ and relative minimum at $-1/\sqrt{n}$. 
+Notice that because $f$ is continuous on all of $\R$ (its numerator and denominator are continuous everywhere, and the denominator is always positive), these the relative mimimum and maximum are in fact global minimum and maximum.
+Finally, it's clear that $f_n (x) = -f_n(-x)$ for all $x \in \R$, which means 
+$$\abs{f_n(x)} \leq f_n(1/\sqrt{n}) = \frac{1}{2\sqrt{n}}$$ 
+
+Now, let $M_n = \frac{1}{2\sqrt{n}}$ for all $n \in \Zpl$. 
+By the paragraph above, $M_n = \sup_{x \in R}{\abs{f_n - 0}}$. 
+Clearly $M_n \rightarrow 0$, so $f_n \rightarrow 0$ uniformly. 
+
+Next, fix any $t \in \R \setminus 0$. 
+Since $\abs{1 - nt^2} \leq \abs{1} + \abs{nt^2} = 1 + nt^2$ for any $n \in \Zpl$, 
+$$\abs{f_n'(t)} = \abs{\frac{1 - nt^2}{(1 + nt^2)^2}} \leq \frac{\abs{1 + nt^2}}{\abs{1 + nt^2}^2} = \frac{1}{1 + nt^2}$$
+The final term goes 0 as $n \rightarrow \infty$, so $f_n'(t) \rightarrow 0$ as well. 
+
+But if $t = 0$, then $f_n'(t) = 1$ for any $n$.
+This shows that $\lim_{n \rightarrow \infty} f_n'(x) = f'(x) = 0 \iff x \neq 0$. 
+
+\end{document}

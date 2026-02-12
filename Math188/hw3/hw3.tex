@@ -1,0 +1,110 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math188}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#3}
+\author{\myname}
+\date{2026.01.26}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+\section{} 
+The equality to demonstrate is 
+$$A_n = \sum_{k = 0}^{n - 1} (-1)^k \binom{n - 1}{k} B(n - k)$$
+Let $C_{n} (k) \defeq \{\text{set partition of } [n] \mid k, k + 1 \text{ are in the same block}\}$ for $k \in [n - 1]$.
+Then given any $I \subset [n - 1]$, 
+\begin{align*} %TODO: explain combinatorially why the second equality holds
+  \#\bigcap_{k \in I} C_{n} (k) & = \# \{\text{set partition of } [n] \mid k, k + 1 \text{ in the same block for all } k \in I\} \\  
+                                & = B(n - \#I)
+\end{align*}
+where the final equality is interpreted as follows: 
+each $k \in I$ ``removes" a single distinct equivalence class of $[n]$; 
+if $k$ is already blocked with $k - 1$ because $k - 1 \in I$, then $k + 1$ blocks with $k$ and $k - 1$; 
+if $k \in I$ is not blocked with $k - 1$, then the distinct equivalence class of $k + 1$ is absorbed into equivalence class of $k$.
+So after blocking each $k \in I$, then there are $n - \#I$ equivalence classes that can be freely partitioned;
+there are $B(n - \#I)$ ways to partition these equivalence classes.  
+
+Then, using the principle of inclusion-exclusion, 
+\begin{align*}
+  \# A_n & = B(n) - \# \bigcup_{k = 1}^{n - 1} C_{n} (k) \\ 
+         & = B(n) - \sum_{I \neq \emptyset \subset [n - 1]} (-1)^{\#I + 1} \# \bigcap_{k \in I}C_{n} (k) \\ 
+         & = B(n) + \sum_{k = 1}^{n - 1} (-1)^k \binom{n - 1}{k} B(n - k) \\ 
+         & = \sum_{k = 0}^{n - 1} (-1)^k \binom{n - 1}{k} B(n - k)
+\end{align*} 
+where the final equality follows by considering the lone $B(n)$ term as the $k = 0$ summand. 
+
+\section{} 
+
+\section{} 
+
+\section{} 
+Consider $n \times m$ matrices. 
+Without loss of generality, assume $n \geq m$, i.e., more rows than cols 
+(if $m > n$, then consider  the transpose of the matrix). 
+$$A_k \defeq \{\text{matrices with no column of 0's and row } k \text{ is 0}\}$$
+Then by the principle of inclusion and exclusion,  
+\begin{align*}
+  M(n, m) & = (2^n - 1)^m - \# \bigcup_{k = 1}^{n} A_k \\ 
+          & = (2^n - 1)^m - \sum_{I \neq \emptyset \subset [n]} (-1)^{\#I + 1} \# (\bigcap_{k \in I} A_k)
+\end{align*}
+where the first term is the number of matrices without any column of 0's:
+in each column, there are $2^n$ different configurations and only a single configuration, the row of column of 0's, must be avoided. 
+By a similar counting argument, 
+$$\#(\bigcap_{k \in I} A_k) = \#\{\text{matrices with no column of 0's, } k\text{th row is 0 for each } k \in I\} = (2^{n - \#I} - 1)^m$$
+where the $2^{n - \#I}$ accounts for  the fact that $\#I$ rows are fixed. 
+Thus 
+\begin{align*}
+  M(n, m) & = (2^n - 1)^m + \sum_{k = 1}^{n} (-1)^k \binom{n}{k} (2^{n - k} - 1)^m \\ 
+          & = \sum_{k = 0}^{n} (-1)^k \binom{n}{k} (2^{n - k} - 1)^m  
+\end{align*}
+
+\section{} 
+
+\end{document}

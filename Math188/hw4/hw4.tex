@@ -1,0 +1,285 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{blkarray}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{cancel}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math188}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#4}
+\author{\myname}
+\date{2026.02.09}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section{} 
+Let's count the number of sequences 
+$$0 = V_0 \subset V_1 \subset V_2 \subset \ldots \subset V_k = V$$
+where $\dim{V_i} = \alpha_1 + \alpha_2 + \ldots + \alpha_i$.
+
+To build such a sequence, let's start with $V_{k - 1}$, which is a subspace of the $n$-dimensional space $V_k$.
+$$\dim{V_{k - 1}} = \alpha_1 + \ldots + \alpha_{k - 1} = n - \alpha_k$$
+so there are $\qbinom{n}{n - \alpha_k} = \qbinom{n}{\alpha_k}$ ways to choose $V_{k - 1}$.  
+
+Next, given a fixed $V_{k - 1}$, count the number of ways to pick $V_{k - 2}$. 
+$\dim_{V_{k - 2}} = n - \alpha_k - \alpha_{k - 1}$ and $V_{k - 2}$ is a subspace of a $(n - \alpha_k)$-dimensional space, so there are $\qbinom{n - \alpha_k}{n - \alpha_k - \alpha_{k - 1}} = \qbinom{n - \alpha_k}{\alpha_{k - 1}}$ ways to choose $V_{k - 2}$.
+
+Similarly, one can inductively count the number of ways to pick $V_{k - j} \subset V_{k - j + 1}$ given a fixed $V_{k - j + 1}$, where $2 \leq j \leq k$.
+Namely, there are $\qbinom{n - \alpha_k - \ldots - \alpha_{k - j + 2}}{a_{k - j + 1}}$ ways to pick a subspace $V_{k - j}$ from the $(n - \alpha_k - \ldots - \alpha_{k - j + 2})$-dimensional space $V_{k - j + 1}$. 
+Thus, altogether, there are 
+\begin{align*}
+  & \qbinom{n}{\alpha_k} \qbinom{n - \alpha_k}{\alpha{k - 1}} \cdots \qbinom{n - \alpha_1 - \ldots - \alpha_2}{\alpha_1} \\ 
+= &  \frac{\qfact{n}}{\cancel{\qfact{n - \alpha_k}} \qfact{\alpha_k}} \frac{\cancel{\qfact{n - \alpha_k}}}{\cancel{\qfact{n - \alpha_k - \alpha_{k - 1}}} {\qfact{\alpha_{k - 2}}}} \cdots \frac{\cancel{\qfact{n - \alpha_k - \ldots - \alpha_2}}}{\qfact{n - \alpha_k - \ldots - \alpha_1}\qfact{\alpha_1}} \\ 
+  = & \binom{n}{\alpha}_q
+\end{align*}
+since the final factor's $\qfact{n - a_k - \ldots - a_1} = \qfact{n - n} = 1$. 
+This finishes the combinatorial proof. 
+
+\section{} 
+\newcommand{\inv}[1]{\text{inv}(#1)}
+Denote
+$$X_{n; \alpha_1, \ldots, \alpha_k}(q) \defeq \sum_{w} q^{\inv{w}}$$
+where $w$ is a length-$n$ word with $\alpha_1$ copies of 1, \ldots, $\alpha_k$ copies of $k$. 
+
+To show that 
+$$\qbinom{n}{\alpha} = X_{n, \alpha} (q)$$
+induct on $n$. 
+$n = 1$ is trivial;
+the only possible composition of $n$ is $\alpha = (1)$. 
+Then $X_{1; 1}(q) = q^{\inv{1}} = 1$. 
+Meanwhile, by definition, $\qbinom{1}{1} = 1$, which proves the base case.
+
+Suppose that the identity holds up to $n - 1$ and take any composition $\alpha$ of $n$. 
+Then 
+\begin{align}
+  X_{n; \alpha_1, \ldots, \alpha_k} (q) & = \sum_{w_1 = 1} q^{\inv{w}} + \sum_{w_1 = 2} q^{\inv{w}} + \ldots + \sum_{w_1 = k} q^{\inv{w}} \nonumber \\ 
+                                        & = X_{n - 1; \alpha_1 - 1, \alpha_2, \ldots, \alpha_k}(q) + q^{\alpha_1} X_{n - 1; \alpha_1, \alpha_2 - 1, \alpha_3, \ldots, \alpha_k} (q) + \ldots + q^{\alpha_1 + \ldots + \alpha_{k - 1}} X_{n - 1; \alpha_1, \ldots, \alpha_{k - 1}, \alpha_k - 1} (q) \label{eq:manyX}\\ 
+                                        & = \qbinom{n - 1}{\alpha_1 - 1, \alpha_2, \ldots, \alpha_k} + q^{\alpha_1}\qbinom{n - 1}{\alpha_1, \alpha_2 - 1, \alpha_3, \ldots, \alpha_k} + \ldots \nonumber \label{eq:indhyp}\\ 
+                                        & \hspace{5mm} + q^{\alpha_1 +\ldots + \alpha_{k - 1}}\qbinom{n - 1}{\alpha_1, \ldots, \alpha_{k - 1}, \alpha_k - 1}
+\end{align} 
+where \eqref{eq:indhyp} follows from the induction hypothesis and \eqref{eq:manyX} follows from the following observation: 
+if length-$n$ word $w$ has $j$ as its initial letter and has $\alpha_1$ 1's, \ldots, $\alpha_k$ $k$'s, then removing the word-initial $j$ forms a length-$(n - 1)$ word with $\alpha_1 + \ldots + \alpha_{j - 1}$ less inversions than $w$ since that is exactly the number of letters in $w$ that has value less than $j$, and all of them occur after position 1. 
+Continuing on from \eqref{eq:indhyp}, 
+\begin{align*} 
+  X_{n; \alpha_1, \ldots, \alpha_k} (q) & = \frac{\qfact{n - 1}}{\qfact{\alpha_1}, \ldots, \qfact{\alpha_k}}(\qnum{\alpha_1} + + q^{\alpha_1} \qnum{\alpha_2} \ldots + q^{\alpha_1 + \ldots + \alpha_{k - 1}}\qnum{\alpha_k}) \\ 
+                                        & = \frac{\qfact{n - 1}}{\qfact{\alpha_1}, \ldots, \qfact{\alpha_k}} [(1 + \ldots + q^{\alpha_1 - 1}) + (q^{\alpha_1} + \ldots + q^{\alpha_1 + \alpha_2 - 1}) + \ldots \\ 
+                                        & \hspace{5mm} + (q^{\alpha_1 + \ldots + \alpha_{k - 1}} + q^{\alpha_1 + \ldots + \alpha_k - 1}) ] \\ 
+                                        & = \frac{\qfact{n - 1}}{\qfact{\alpha_1}, \ldots, \qfact{\alpha_k}} \qnum{n} \\ 
+                                        & = \qbinom{n}{\alpha}
+\end{align*}
+as was to be shown. 
+
+\section{} 
+Take $w \in S_n$ and let $d = \text{des}(w)$.
+Map $w$ to $2^d$ distinct ordered set partitions of $[n]$: 
+Represent $w$ in one-line notation, then view $w$ as an ordered partition of $[n]$ into $n$ blocks by forming a singleton from each entry in the one-line notation. 
+Now, to create the $2^d$ distinct ordered partitions of $[n]$, choose at each of the $d$ descending positions, say position $i_k$ for $1 \leq k \leq d$, whether to ``merge" the singleton at position $i_k$ (or the subset containing the element that used to be in the $i_k$th singleton) with the singleton at position $i_k + 1$ or not.  
+
+For example, in $S_3$, $w = [\underline{3}, \underline{2}, 1]$ has descending positions as underlined, and yields $2^2 = 4$ ordered partitions
+$$\{3, 2, 1\}, \: \{32, 1\}, \: \{3, 21\}, \: \{321\}$$
+of $[n]$. 
+It is clear (e.g., via the example) that the $2^d$ ordered partitions of $[n]$ induced by $w$ are all distinct. 
+It is also clear that the ordered partitions induced by different $w' \in S_n$ are distinct since each $w' \in S_n$ uniquely orders its elements in one-line notation.
+Hence 
+$$A_n(2) \leq \# \text{ of ordered set partitions of } [n]$$
+To see $\geq$, the example below clearly indicates that each ordered set partition of $[n]$ maps to a unique $w \in S_n$: 
+$$\{71, 642, 53, 8, 9\} \mapsto [7, 1, 6, 4, 2, 5, 3, 8, 9] \in S_n$$
+The only worthwhile commentary is that in every block of the partition, one may assume that the elements in the block are ordered from greatest to least since the order of the elements \textit{within} a block does not matter in ordered set partitions. 
+This proves the desired result. 
+
+\section{} 
+\subsection{} 
+Let $G$ be an order $n$ planar graph with sources $s_1, \ldots, s_n$ and sinks $t_1, \ldots, t_n$. 
+Let $H$ be an order $n$ planar graph with sources $t_1, \ldots, t_n$, that is, the sinks of $G$, and sinks $t_1', \ldots, t_n'$. 
+Then $GH$ is naturally the order $n$ planar graph with sources $s_1, \ldots, s_n$ and sinks $t_1', \ldots, t_n'$.
+Let $[a_{ij}]$ be the path matrix of $G$ and $[b_{ij}]$ the path matrix of $H$: 
+
+\[
+\begin{blockarray}{cccc}
+ & t_1 & \cdots & t_n \\
+ \begin{block}{c[ccc]}
+   s_1 & a_{11} & \cdots & a_{1n} \\
+   \vdots & \vdots & \ddots & \vdots \\
+   s_n & a_{n1} & \cdots & a_{nn} \\
+\end{block}
+\end{blockarray}
+\hspace{5mm}
+\begin{blockarray}{cccc}
+ & t_1' & \cdots & t_n' \\
+ \begin{block}{c[ccc]}
+   t_1 & b_{11} & \cdots & b_{1n} \\
+   \vdots & \vdots & \ddots & \vdots \\
+   t_n & b_{n1} & \cdots & b_{nn} \\
+\end{block}
+\end{blockarray}
+\]
+\newcommand{\weight}[1]{\text{wt}(#1)}
+If $c_{ij}$ gives the sum of the weights of all paths from $s_i$ to $t_j'$ in $GH$, it is clear 
+\begin{align*}
+  c_{ij} & = \sum_{k = 1}^{n} \sum_{\pi_1: s_i \rightsquigarrow t_k} \sum_{\pi_2: t_k \rightsquigarrow t_j'} (\weight(\pi_1)\weight(\pi_2)) \\ 
+         & = \sum_{k = 1}^{n} \sum_{\pi_1: s_i \rightsquigarrow t_k} \weight(\pi_1) b_{kj} \\ 
+         & = \sum_{k = 1}^{n} a_{ik} b_{kj}
+\end{align*}
+which is exactly the $i, j$th coordinate of the matrix product $[a][b]$. 
+
+\subsection{} 
+All the elementary matrices for row and column operations can be represented by a planar graph. 
+\begin{itemize}
+  \item Swap row $i$ and $i + 1$: 
+\begin{center}
+
+\begin{tikzpicture}[
+    vertex/.style={circle, fill=blue!50!black, inner sep=2pt},
+]
+    % Top vertices
+    \node[vertex, label=left:$s_i$] (si) at (0,3) {};
+    \node[vertex, label=right:$t_i$] (ti) at (4,3) {};
+    
+    % Upper middle layer
+    \node[vertex] (ul) at (1,2) {};
+    \node[vertex] (ur) at (3,2) {};
+    
+    % Center vertex
+    \node[vertex] (c) at (2,1) {};
+    
+    % Lower middle layer
+    \node[vertex] (ll) at (1,0) {};
+    \node[vertex] (lr) at (3,0) {};
+    
+    % Bottom vertices
+    \node[vertex, label=left:$s_{i+1}$] (si1) at (0,-1) {};
+    \node[vertex, label=right:$t_{i+1}$] (ti1) at (4,-1) {};
+    
+    % Draw edges (all straight)
+    \draw (si) -- (ul);
+    \draw (ti) -- (ur);
+    
+    \draw (ul) -- (ur) node[midway, above] {$-1$};
+    \draw (ul) -- (c);
+    \draw (ur) -- (c);
+    
+    \draw (c) -- (ll);
+    \draw (c) -- (lr);
+    
+    \draw (ll) -- (lr) node[midway, below] {$-1$};
+    \draw (ll) -- (si1);
+    \draw (lr) -- (ti1); 
+\end{tikzpicture}
+\end{center}
+
+  \item Multiply row $i$ by $c$: the only edges are $s_j \rightsquigarrow t_j$ of weight 1 for all $j \neq i$ and $s_i \rightsquigarrow t_i$ of weight $c$.  
+  \item Add a multiple of row $i + 1$ by $c$ to row $i$: the only edges are $s_j \rightsquigarrow t_j$ of weight 1 for all $j$ and $s_i \rightsquigarrow t_{i  + 1}$ of weight $c$  
+\end{itemize}
+The elementary matrices for column operations can be defined similarly. 
+
+Then given any complex $n \times n$ matrix $M$, one can use the elementary row operations to reduce to RREF, then use column operations such that $\widetilde{M}$ only has pivotal 1's.  
+$\widetilde{M}$ is easily represented by the planar graph whose only edges are $s_i \rightsquigarrow t_j$ for positions $ij$ of all the pivotal 1's (the graph has no crossings by definition of RREF: the pivotal 1's go top left to bottom right).
+This means $M$ can be represented by glueing the planar graphs for row operations to the left of the planar graph representing $\widetilde{M}$ and glueing the planar graphs for the column operations to the right of the planar graph representing $\widetilde{M}$.
+
+\section{} 
+Since 4(b) says that any $n \times n$ complex matrix can be represented by a planar graph of order $n$, I will use the symbols $A, B, C$ interchangeably as both matrices and their corresponding planar graphs. 
+Since $AB = C$, by 4(a), the planar graph $C$ is simply the planar graphs $A$ and $B$ glued together.
+In the following, \textbf{source} refers to the source of $C$, i,e., source of $A$, \textbf{sink} refers to the sink of $C$, i.e., sink of $B$, and \textbf{intermediary} refers to the ``middle layer" of $C$ formed by the sink of $A$ / source of $B$.
+
+Recall that the Lindstrom-Gessel-Viennot Theorem says that 
+$$\Delta_{I, J} (C) = \sum_{\Pi} \weight{\Pi}; \: \Pi = \text{ family of noncrossing paths from sources } I \text{ to sinks } J$$
+Let $k \defeq \#I = \#J$.
+Notice that in any family $\Pi$ of noncrossing paths from sources $I$ to sinks $J$, $\Pi$ travels through exactly $k$ intermediaries: 
+traveling through less than $k$ intermediaries would mean at least two paths of $\Pi$ cross at an intermediary;
+traveling through more than $k$ intermediaries would mean at least one of the paths of $\Pi$ crosses through at least two intermediary points, and that path would have to cross in order to reach a single sink.  
+Since there are $k$ paths in $\Pi$, this also means a single path $\pi$ in $\Pi$ goes through exactly one intermediary, which gives a unique decomposition of $\pi$ into a path in $A$ and a path in $B$.  
+
+Given $K \subset [n]$ with $\#K = k$, let $\Pi_K$ be a family of noncrossing paths in $C$ such that the paths of $\Pi$ travel through each and only the intermediaries $K$.
+By the paragraph above, $\Pi_K$ corresponds uniquely to a pair of families of noncrossing paths $\Pi_{I, K}^{A}$ in graph $A$ from source $I$ to sink $K$ and $\Pi_{K, J}^{B}$ in graph $B$ from source $K$ to sink $J$.  
+Thus
+\begin{align*}
+  \Delta_{I, J}(C) & = \sum_{\Pi} \weight{\Pi} \\ 
+                   & = \sum_{\substack{K \subset [n], \#K = k \\ \Pi_K}} \weight{\Pi_K} \\ 
+                   & = \sum_{\substack{K \subset [n], \#K = k \\ \Pi_{I, K}^{A}, \Pi_{K, J}^{B}}} \weight{\Pi_{I, K}^{A}} \weight{\Pi_{K, J}^{B}} \\ 
+                   & = \sum_{K \subset [n], \#K = k} \Delta_{I, K}(A) \Delta_{K, J}(B)
+\end{align*}
+where the final equality follows by LVM Theorem. 
+This demonstrates the desired equality. 
+
+\section{}
+\setcounter{equation}{0}
+Take any $\sum_{n = -\infty}^{\infty} a_n x^n \in \C((t)) \setminus 0$. 
+Let $N \in \Z_{-}$ be the least negative (i.e., greatest) integer such that for all negative integers $n < N$, $a_n = 0$. 
+Then $a_{-N} \neq 0$, thus
+$$x^N \sum_{n = -\infty}^{\infty} a_n x^n = \sum_{n = 0}^{\infty} a_{n + N}x^n$$
+where the latter can be viewed as an element in the ring of formal power series $\C[[x]]]$ with nonzero constant.
+Thus $\sum_{n = 0}^{\infty} a_{n + N}x^n$ has some inverse, say $\sum_{n = 0}^{\infty} b_n x^n$, which gives 
+\begin{equation} \label{eq:inv}
+  (\sum_{n = -\infty}^{\infty} a_n x^n) \cdot x^N \sum_{n = 0}^{\infty}b_n x^n = 1 
+\end{equation} 
+in $\C[[x]]$. 
+Since $\C[[x]] \hookrightarrow \C((x))$, \eqref{eq:inv} holds in $C((x))$ as well, giving  
+$$(\sum_{n = -\infty}^{\infty} a_n x^n)^{-1} = x^N \sum_{n = 0}^{\infty} b_n x^n$$
+This shows that $\C((t))$ is a field. 
+
+\section{} 
+\newcommand{\exc}[1]{\text{exc}(#1)}
+\newcommand{\des}[1]{\text{des}(#1)}
+I give a Foata-like transform such that 
+$$\exc{w} = \des{\varphi(w)}$$
+To observe this, take $w \in S_n$. 
+In cycle notation, the exceding indices of $w$ are exactly those where the next index is greater than the current index. 
+So putting $w^{-1}$ in canonical cycle form, erasing the parenthesis, and putting the numbers in the one-line notation, what were previously exceding indices of $w$ now correspond to descending positions in this transformed version of $w^{-1}$. 
+Furthermore, adjacent elements that used to be in disjoint cycles don't contribute additional descents by the ordering of the disjoint cycles in CCF. 
+In other words, $\exc{w} = \des{\varphi(w)}$. 
+To give an example, 
+$$\cyc{3} \cyc{5 4 {\underline{1}}} \cyc{8 {\underline{6}} {\underline{7}}} \cyc{9 {\underline{2}}} \rightsquigarrow \cyc{3} \cyc{{\underline{5}} 1 4} \cyc{{\underline{8}} {\underline{7}} 6} \cyc{{\underline{9}} 2} \mapsto [3, \underline{5}, 1, 4, \underline{8}, \underline{7}, 6, \underline{9}, 2]$$
+where $\varphi$ is the composition of $\mapsto$ with $\rightsquigarrow$.
+
+To define the reverse map $\psi$, given $w \in S_n$ in one-line notation, place ')' before each descending position, place '(' appropriately to close the parenthesis, then, viewing the permutation in cycle notation, take its inverse. 
+By the reverse of the analysis in the previous paragraph, $\psi$ is the inverse of $\varphi$ and $\des{w} = \exc{\psi(w)}$. 
+
+This illustrates that exc and des are equidistributed on $S_n$. 
+
+\end{document}
