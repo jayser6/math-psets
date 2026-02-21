@@ -1,0 +1,125 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math100B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#6}
+\author{\myname}
+\date{2026.02.19}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+Here's something useful: 
+\begin{claim} \label{claim:monic_irred}
+  Let $D$ be a unique factorization domain and $F$ its field of fractions.  
+  Suppose $f(x) \in D[x]$ is primitive. 
+  Then $f$ is irreducible in $D[x] \iff f$ is irreducible in $F[x]$. 
+\end{claim} 
+\begin{proof}[Proof of Claim \ref{claim:monic_irred}] 
+  If $f$ factors in $F[x]$, then it factors in $D[x]$ by Gauss's Lemma. 
+  Conversely, suppose $f$ factors in $D[x]$. 
+  Since $f$ is primitive, its factor is not a constant in $D$, so $f(x) = g(x) h(x)$ for nonconstant $g, h \in D[x]$. 
+  Thus $f$ factors in $F[x]$ as well. 
+\end{proof}
+
+\section{}
+\subsection{} 
+$x^2 + 27x + 213 \cong x^2 + x + 1 \pmod{2}$, the latter being irreducible in $\Z / 2\Z$ since it is degree 2 and clearly has no roots. 
+So $x^2 + 27x + 213$ is irreducible in $\Q[x]$. 
+
+\subsection{}
+$x^3 + 2x + 1$ is a degree 3 polynomial, so if it factors in $\Q[x]$, then it has a root in $\Q$. 
+By the rational root theorem, if $r / s \in \Q$ with $\gcd(r, s) = 1$ is a root, then $r \mid 1$ and $s \mid 1$, i.e., $r = \pm 1$ and $s = \pm 1$, i.e., 
+$$\text{The only possible roots of } x^3 + 2x + 1 \text{ are } \pm 1$$
+But clearly, neither are. 
+Hence $x^3 + 2x + 1$ is irreducible in $\Q[x]$. 
+
+\subsection{} 
+$x^5 - 3x^4 + 3$ is irreducible by the Eisenstein criterion with $p = 3$. 
+
+\section{} 
+$x^5 + 5x + 5$ is irreducible in $\Q[x]$ by the Eisenstein criterion with $p = 5$. 
+Next, reducing modulo 2, $x^5 + 5x + 5 \cong x^5 + x + 1 \pmod{2}$.
+$x^5 + x + 1$ clearly has no roots in $\Z / 2\Z$, so if it factors, then 
+$$x^5 + x + 1 = (x^3 + ax^2 + bx + c)(x^2 + \alpha x + \gamma)$$ 
+with $x^3 + ax^2 + bc + c$ and $x^2 + \alpha x + \gamma$ both irreducible. 
+\begin{itemize}
+  \item By Sieve of Eratosthenes or pure brute force, one can check that the only irreducible degree 2 polynomial in $\Z / 2\Z$ is $x^2 + x + 1$ (all others have roots). 
+  \item Similarly, one can check that the only irreducible degree 3 polynomials in $\Z / 2\Z$ are $x^3 + x^2 + 1$ and $x^3 + x + 1$.  
+\end{itemize}
+From the two possible options for the degree 3 polynomial, one can check that 
+$$x^5 + x + 1 = (x^2 + x + 1)(x^3 + x^2 + 1)$$ 
+in $\Z / 2\Z$. 
+
+\section{} 
+In all these cases, because $f(x) \defeq x^3 + x + 1$ is a degree 3 polynomial, it suffices to check that $x^3 + x + 1$ has roots (or lack thereof). 
+In the following, I drop the bar notation for convenience. 
+\subsection{p = 2}
+As noted in Q2, $f(x)$ has no roots in $\Z / 2 \Z$: 
+$f(0) = f(1) = 1$. 
+$f$ is irreducible in $\Z / 2\Z$. 
+
+\subsection{p = 3}
+$f(0) = f(2) = 1$ and $f(1) = 0$, so $x - 1 = x + 2$ is the only degree one factor of $f$.
+Use the division algorithm to check that 
+$$x^3 + x + 1 = (x + 2)(x^2 + x + 2)$$
+
+\subsection{p = 5}
+$f(0) = f(2) = f(3) = 1$, $f(1) = 3$, and $f(4) = 4$, so $f$ is irreducible in $\Z / 5\Z$. 
+
+\section{}
+It is an immediate result of the Eisenstein criterion that $x^n - p$ is irreducible for every every $n \geq 0$ and every prime integer $p$. 
+
+\section{}
+There are $5^2 = 25$ monic polynomials of degree 2 in $\Z / 5\Z[x]$. 
+The ones that factor have the form $(x - a)(x - b)$ for $a, b \in \Z / 5\Z$.
+To avoid double-counting the same polynomials, assume $a \geq b$. 
+Then there are a total of 5, 4, 3, 2, 1 choices for $a$ when $b = 0, 1, 2, 3, 4$, respectively.
+This sums to 15, so there are a total of 15 reducible degree 2 polynomials, and hence 10 irreducible degree 2 polynomials in $\Z / 5\Z [x]$. 
+
+\end{document}
