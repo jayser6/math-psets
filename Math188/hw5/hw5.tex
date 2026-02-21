@@ -1,0 +1,295 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{ytableau}
+\usepackage{blkarray}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{cancel}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math188}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#5}
+\author{\myname}
+\date{2026.02.17}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section{} 
+\newcommand{\mdeg}[1]{\text{mdeg}(#1)}
+Suppose $f(x) = \sum a_n x^n$, $f(x) \neq 0$, has a square root, say $g(x) = \sum b_n x^n$. 
+By multiplication in $\C[[x]]$, 
+\begin{equation} \label{eq:a_coef}
+  a_n = \sum_{i = 0}^{n}  b_i b_{n - i} 
+\end{equation} 
+Assume $a_0 = a_1 = \ldots = a_{2n} = 0$.
+To prove that $\mdeg{f}$ is even, it suffices to show that $a_{2n + 1} = 0$.  
+By \eqref{eq:a_coef} and the fact that $2n + 1$ is odd, 
+\begin{equation} \label{eq:odd_coef}
+  a_{2n + 1} = 2\sum_{i = 0}^{n} b_i b_{2n + 1 - i}
+\end{equation} 
+One can induct on $i$ to show that each $b_i = 0$ for $0 \leq i \leq n$. 
+When $i = 0$, $a_0 = b_0 b_0 = 0 \implies b_0 = 0$. 
+Suppose for $0 \leq i < n$ that $b_0 = b_1 = \ldots = b_i = 0$.
+Since $2i + 2 \leq 2(n - 1) + 2 = 2n$, 
+$$a_{2i + 2} = 0 = 2\sum_{j = 0}^{i} b_j b_{2i + 2 - j} + b_{i + 1}^2$$
+Because $b_j = 0$ for each summand, $a_{2i + 2} = 0 = b_{i + 1}^2 = 0 \implies b_{i + 1} = 0$, as was to be shown.
+Since $b_0 = b_1 = \ldots = b_n = 0$, it is clear that \eqref{eq:odd_coef} is equal to 0. 
+
+Conversely, let $f(x) = \sum a_n x^n$, $f(x) \neq 0$ with $\mdeg{f} = 2k$.
+Let $g(x) = \sum b_n x^n$ with $b_n$ defined as such: 
+\begin{itemize}
+  \item $b_0 = b_1 = b_{k - 1} \defeq 0$. 
+  \item$b_k \defeq \sqrt{a_{2k}}$, where $b_k \neq 0$ since $a_{2k} \neq 0$ by definition of $f$. 
+  \item Suppose $b_0, b_1, \ldots, b_n$ is defined for $n \geq k$. 
+    Then let $b_{n + 1} \defeq \sqrt{a_{2(n + 1)} - 2\sum_{i = 0}^{n} b_i b_{2(n + 1) - i}}$
+\end{itemize}
+Then one can check that $g(x)^2 = f(x)$ (e.g., via calculation demonstrated in the previous paragraph). 
+
+\section{} 
+\subsection{} 
+\newcommand{\kder}[1]{\frac{\text{d}^#1}{\text{d}x^#1}}
+\begin{align*}
+  \sum_{n \geq 0} a_n x^n & = \sum_{n \geq 0} n^2 x^n \\ 
+                          & = \sum_{n \geq 0} \left[x^2 \kder{2} (x^n)  + nx^n\right] \\ 
+                          & = x^2 \kder{2} (\sum_{n \geq 0} x^n) + \sum_{n \geq 0} nx^n \\ 
+                          & = \frac{2x^2}{(1 - x)^3} + \frac{x}{(1 - x)^2} \\ 
+                          & = \frac{x^2 + x}{(1 - x)^3}
+\end{align*} 
+
+\subsection{} 
+\begin{align*}
+  \sum_{n \geq 0} a_n x^n & = \sum_{n \geq 0} \binom{n}{k} x^n \\ 
+                  & = \sum_{n \geq k} \frac{n!}{k!(n - k)!} x^n \\ 
+                  & = \frac{1}{k!} \sum_{n \geq k} n(n - 1) \cdots (n - k + 1) x^n \\ 
+                  & = \frac{1}{k!} \sum_{n \geq k} x^k \kder{k} (x^n) \\ 
+                  & = \frac{x^k}{k!} \kder{k} (\sum_{n \geq k} x^n) \\ 
+                  & = \frac{x^k}{k!} \frac{k!}{(1 - x)^k} \\ 
+                  & = \frac{x^k}{(1 - x)^k}
+\end{align*}
+
+\subsection{} 
+Let $A(x) \defeq \sum_{n \geq 0} a_n x^n$. 
+\begin{align*}
+  A(x) - a_0 & = \sum_{n \geq 0} a_{n + 1} x^{n + 1} \\ 
+             & = \sum_{n \geq 0} (\frac{a_n}{3} + 1)x^{n + 1} \\ 
+             & = \frac{x}{3} A(x) + \frac{x}{1 - x} \\ 
+\end{align*}
+which gives 
+\begin{align*} 
+\MoveEqLeft  A(x) (1 - \frac{x}{3}) = \frac{x}{1 - x} + \frac{1 - x}{1 - x} \\ 
+  \implies A(x) & = \frac{1}{1 - x} \cdot \frac{3}{3 - x} \\ 
+                & = \frac{3}{2(1 - x)} - \frac{3}{2(3 - x)}
+\end{align*} 
+
+\section{} %TODO: is the RHS supposed to start at k = 0 or k = 1? 
+\setcounter{equation}{0}
+The equality to demonstrate is 
+\begin{equation} \label{eq:durfee}
+  \prod_{i \geq 1} \frac{1}{1 - q^i} = \sum_{k \geq 0} \frac{q^{k^2}}{\prod_{i = 1}^{k} (1 - q^{i})^2}
+\end{equation}
+The left hand side of \eqref{eq:durfee} is the generating function 
+$$\sum_{\text{partitions } \lambda} q^{\abs{\lambda}}$$
+The only partition that doesn't have a Durfee square (i.e., a Durfee square of size 0) is the empty partition. 
+Any nonempty partition $\lambda$ has a Durfee square of size at least 1;
+suppose the Durfee square of $\lambda$ is of size $k$. 
+For example, if $k = 4$, then $\lambda$ looks something like this:
+\begin{center}
+  \ydiagram[*(gray!40)]{4,4,4,4}
+  *[*(red!30)]{4+3, 4+2, 4+1, 4+1}
+  *[*(blue!30)]{0,0,0,0,4,4,3} 
+\end{center} 
+Notice that for any partition with a Durfee square of size $k$, the pink blocks form a Young diagram with at most $k$ parts, while the blue blocks form a Young diamgram with the first part of size at most $k$.
+Conjugating the pink partition, the pink young diagram is a partition whose first part has size at most $k$.
+Finally, observe that the Durfee square contributes $k^2$ blocks to $\lambda$. 
+This gives 
+\begin{align*}
+  \sum_{\text{partitions } \lambda} q^{\abs{\lambda}} & = \sum_{k \geq 0} \sum_{\substack{\text{partitions } \lambda, \\ \text{ds}(\lambda) = k}} q^{\abs{\lambda}}\\ 
+                                                      & = \sum_{k \geq 0} q^{k^2} (1 + q + q^2 + \ldots)^2 (1 + q^2 + q^4 + \ldots)^2 \cdots (1 + q^k + q^{2k} + \ldots)^2 \\ 
+                                                      & = \sum_{k \geq 0} \frac{q^{k^2}}{\prod_{i = 1}^{k} (1 - q^{i})^2} 
+\end{align*} 
+where $\text{ds}(\lambda)$ denotes the size of the Durfee squaure of $\lambda$.
+This proves the desired identity. 
+
+\section{}  
+\setcounter{equation}{0}
+The equality to demonstrate is 
+\begin{equation} \label{eq:durfee2}
+  \prod_{i \geq 0} (1 + q^{2i + 1}) = \sum_{k \geq 0} \frac{q^{k^2}}{\prod_{i = 1}^{k} (1 - q^{2i})}
+\end{equation}
+Notice that the left hand side of \eqref{eq:durfee2} is the generating function
+$$\sum_{\substack{\text{partitions } \lambda \\ \text{with distinct odd parts}}} q^{\abs{\lambda}} = (1 + q)(1 + q^3)(1 + q^5) \cdots $$
+Recall the bijection $\{\lambda \vdash n \mid \lambda = \lambda'\} \longleftrightarrow \{\lambda \vdash n \mid \lambda \text{ has distinct odd parts} \}$.
+So in general, there is a bijection 
+$$\{\text{partition } \lambda \mid \lambda = \lambda'\} \longleftrightarrow \{\text{partition } \lambda \mid \lambda \text{ has distinct odd parts} \}$$
+where both the forward map and the reverse map preserve the size of the partition. 
+Hence the left hand size of \eqref{eq:durfee2} is 
+$$\sum_{\substack{\text{partitions } \lambda, \\ \lambda = \lambda'}} q^{\abs{\lambda}}$$
+Notice that any partition $\lambda \with \lambda = \lambda'$ has a Young diagram that looks like this: 
+\begin{center}
+  \ydiagram[*(gray!40)]{4,4,4,4}
+  *[*(red!30)]{4+3, 4+2, 4+1, 4+1}
+  *[*(blue!30)]{0,0,0,0,4,2,1} 
+\end{center} 
+To verbally describe it, if $\lambda$ has a Durfee square of size $k$, the pink blocks form a Young diagram with at most $k$ parts, the blue blocks form a Young diagram whose first part has size at most $k$, and the pink Young diagram and blue Young diagram are conjugates of each other.  
+Thus $\abs{\lambda} = k^2 + 2\abs{\lambda_{\text{pink}}}$.
+This gives 
+\begin{align*}
+  \sum_{\substack{\text{partitions } \lambda, \\ \lambda = \lambda'}} q^{\abs{\lambda}} 
+  & = \sum_{k \geq 0} q^{k^2} (1 + q^2 + q^4 + \ldots) (1 + q^4 + q^8 + \ldots) \cdots (1 + q^{2k} + q^{4k} + \ldots)\\ 
+  & = \sum_{k \geq 0} \frac{q^{k^2}}{\prod_{i = 1}^{k}(1 - q^{2i})}
+\end{align*}
+as was to be shown. 
+
+\section{}
+\setcounter{equation}{0}
+The whatever derivative rule gives  
+$$\kder{k} (1 + x)^a = a(a - 1) \cdots (a - k + 1) (1 + x)^{a - k}$$ 
+Thus the Taylor expansion of $f(x) = (1 + x)^a$ is 
+\begin{align*}
+  (1 + x)^a & = \sum_{k \geq 0} \frac{f^{(k)}(0)}{k!} x^k \\ 
+            & = \sum_{k \geq 0} \frac{a(a - 1) \cdots (a - k + 1)}{k!} x^k \\ 
+            & = \sum_{k \geq 0} \binom{a}{k} x^k 
+\end{align*} 
+
+Next, I show that $(1 + x)^a (1 + x)^b = (1 + x)^{a + b}$
+as power series.
+Rewriting the left-hand side as power series,
+\begin{equation} \label{eq:big}
+(\sum_{k \geq 0}\binom{a}{k} x^k) \cdot (\sum_{k \geq 0} \binom{b}{k} x^k) = \sum_{k \geq 0} c_k x^k
+\end{equation}
+where 
+$$c_k = \sum_{i + j = k} \binom{a}{i} \binom{b}{j}$$
+View $c_k$ as a polynomial in $a$.
+If $a$ is any integer, then 
+$$c_k \defeq \sum_{i + j = k} \binom{a}{i} \binom{b}{j} = \binom{a + b}{k}$$
+by the following combinatorial proof:  
+The right hand side counts the number of ways to choose $k$ elements from $[a + b]$. 
+The total number of ways to do so is the sum of the number of ways to choose $0 \leq i \leq k$ elements from $[a]$, then choose the remaining $k - i$ elements from $[b]$, which is the left hand side. 
+
+Uh technically the above proof only holds if $b$ is also an integer, and for two polynomials in $\C[a, b]$, showing that they agree on infinitely many pairs $(a_0, b_0)$ doens't prove that the two polynomials are identical, but oh well, I tried my best. 
+Assuming $c_k = \binom{a + b}{k}$ identically, \eqref{eq:big} is equal to 
+$$(x + 1)^{a + b}$$
+as was to be shown. 
+
+
+\section{} 
+Let 
+$$b_n \defeq \begin{cases}
+  (n - 1)!, & \text{if } n \in \{1, 2, 3, 6\} \\ 
+  0, & \text{else}
+\end{cases} $$
+In other words, if $n \in \{1, 2, 3, 6\}$, $b_n$ is the number of ways to form an $n$-cycle in $[n]$; 
+if $n$ is not a divisor of 6, then forcibly set the number of ways to structure $[n]$ to be zero. 
+
+Now, since $a_n$ counts the number of $w \in \mathfrak{S}_n \st w^6 = 1$, which is equivalently the number of $w \in \mathfrak{S}_n$ whose cycle decomposition only consists of 1, 2, 3, and 6-cycles, $a_n$ can be interpreted as the number of ways to: 
+\begin{enumerate}
+  \item Partition $[n]$ into $B_1, B_2, \ldots, B_k$ such that the size of each $B_i \in \{1, 2, 3, 6\}$. 
+  \item For each $B_i$, put the elements of $B_i$ into a single cycle. 
+\end{enumerate}
+As such, the following exponentiation makes sense:
+\begin{align*}
+  A(x) \defeq \sum_{n \geq 0} \frac{a_n}{n!} x^n & = \exp(\sum_{m \geq 0} \frac{b_m}{m!} x^m) \\ 
+                                                 & = \exp(x + \frac{x^2}{2} + \frac{x^3}{3} + \frac{x^6}{6})
+\end{align*}
+
+\section{}
+$c_n$ can be interpreted as the number of ways to: 
+\begin{enumerate}
+  \item Partition $[n]$ into $B_1, \ldots, B_k$.  
+  \item \label{item:*} For each $B_i$, single out a single element, then form a single cycle out of the rest of the elements.  
+\end{enumerate}
+Namely, if $\#B_i = m > 1$, then the number of ways to achieve \eqref{item:*} is $m (m - 2)!$.
+If $\#B_i = 1$, then of course the number of ways to achieve \eqref{item:*} is just 1. 
+Thus 
+\begin{align*}
+  C(x) \defeq \sum_{n \geq 0} \frac{c_n}{n!} x^n & = \exp(x + \sum_{m > 1} \frac{m(m - 2)!}{m!} x^m) \\ 
+                                                 & = \exp(x + \sum_{m \geq 1} \frac{x^{m + 1}}{m}) \\ 
+                                                 & = \exp(x - x\log(1 - x)) \\ 
+                                                 & = e^x e^{-x\log(1 - x)} \\ 
+                                                 & = e^x \left(\frac{1}{1 - x}\right)^{-x}
+\end{align*}
+
+\section{}
+\textbf{*** I accidently made $c_n = \#\text{ of decorated permutations in } \mathfrak{S}_n$ instead of $b_n$!!!}
+
+Define
+\begin{align*}
+  a_n & \defeq \#\text{ of ways to form a single cycle from } [n] \\ 
+      & = (n - 1)!, \\ 
+  b_n  & \defeq \# \text{ of ways to pick a single element from } [n] \\
+      & = n
+\end{align*}
+and let 
+\begin{align*}
+  A(x) & \defeq \sum_{n \geq 1} a_n \frac{x^n}{n!} \\ 
+  & = \sum_{n \geq 1} \frac{x^n}{n} \\ 
+  & = -\log(1 - x)
+\end{align*}
+and 
+\begin{align*}
+  B(x) & \defeq \sum_{n \geq 0} b_n \frac{x^n}{n!} \\
+  & = \sum_{n \geq 0} n \frac{x^n}{n!} \\ 
+  & = x e^x 
+\end{align*}
+Now, note that $c_n$ counts the number of ways to:
+\begin{enumerate}
+  \item partition $[n]$ into $B_1, \ldots, B_k$. 
+  \item \label{item:a_n} For each $B_i$, form a single cycle from the elements of $B_i$. 
+  \item \label{item:b_n} Pick one block from $B_1, \ldots, B_k$ (to decorate it)
+\end{enumerate}
+Particularly, for each $B_i$, if $\#B_i = m$, \eqref{item:a_n} is given by $a_m$. 
+If $[n]$ is partitioned into $k$ blocks $B_1, \ldots, B_k$, then \eqref{item:b_n} is given by $b_k$. 
+This means 
+\begin{align*}
+  C(x) \defeq \sum_{n \geq 0} c_n \frac{x^n}{n!} & = B(A(x)) \\ 
+                                                 & = (-\log(1 - x))e^{-\log(1 - x)} \\ 
+                                                 & = \frac{-\log(1 - x)}{1 - x}
+\end{align*} 
+
+\end{document}

@@ -1,0 +1,281 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#6}
+\author{\myname}
+\date{2026.02.15}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section*{Q4} 
+Let $f_n(x) \defeq \frac{1}{1 + n^2 x}$. 
+\subsection{Absolute Convergence} %TODO: finish this 
+For a fixed value of $x$, let $a_n \defeq f(x)$.
+Suppose $x > 0$. 
+Then 
+$$\abs{\frac{1}{1 + n^2 x}} < \frac{1}{n^2 x} = c \frac{1}{n^2}$$ 
+where $c = \frac{1}{x}$. 
+$\sum c\frac{1}{n^2}$ converges, so $\sum \abs{a_n}$ converges by the comparison test when $x > 0$.
+
+Suppose $x < 0$.   
+Pick $N \in \Zpl$ such that $N^2 \abs{x} - 1 > 0$. 
+Then $\forall n \geq N$, 
+$$\abs{1 + n^2 x} = \abs{n^2 \abs{x} - 1}  = n^2 \abs{x} - 1 > 0$$ 
+Using this inequality, 
+\begin{align*}
+  \sum_{n = 1}^{\infty} \frac{1}{\abs{1 + n^2 x}} & = \sum_{n = 1}^{N - 1} \frac{1}{\abs{1 + n^2 x}} + \sum_{n = N}^{\infty} \frac{1}{n^2 \abs{x} - 1} \\ 
+                                                  & < \sum_{n = 1}^{N - 1} \frac{1}{\abs{1 + n^2 x}} + \frac{1}{\abs{x}} \sum_{n = N}^{\infty} \frac{1}{n^2} 
+\end{align*}
+so the series converges absolutely by the comparison test. 
+
+Of course, when $x = 0$, $f(x) = \sum_{n = 1}^{\infty} 1$, which diverges. 
+
+\subsection{Uniform Convergence} 
+Of course, the intervals for uniform convergence must avoid $x = 0$.  
+
+Take any $a > 0$.
+Then for any $x \in [a, \infty)$, 
+$$\sum_{n = 1}^{\infty} \frac{1}{1 + n^2 x} < \frac{1}{a} \sum_{n = 1}^{\infty} \frac{1}{n^2}$$
+which means any paramter that satisfies pointwise boundedness at $a$ satisfies the boundedness at all $x \geq a$.  
+Hence $f_n \rightarrow f$ uniformly on $[a, \infty)$ (and also $(a, \infty)$).  
+
+Next, fix any $b < 0$. 
+As in (a) $\exists N \in \Zpl \st \abs{1 + N^2 x} N^2 \abs{x} - 1 > 0$. 
+Take any $x \in (-\infty, b]$. 
+Using the fact that $N^2 \abs{x} - 1 > N^2 \abs{b} - 1 > 0$, 
+\begin{align*} 
+  \sum_{n = 1}^{\infty} \frac{1}{\abs{1 + n^2 x}} & = \sum_{n = 1}^{N - 1} \frac{1}{\abs{1 + n^2 x}} + \sum_{n = N}^{\infty} \frac{1}{n^2 \abs{x} - 1} \\ 
+                                                  & < \sum_{n = 1}^{N - 1} 1 + \frac{1}{\abs{b}} \sum_{n = N}^{\infty} \frac{1}{n^2} 
+\end{align*}
+so $f_n \rightarrow f$ uniformly on $(-\infty, b]$ (and also $(-\infty, b)$). 
+
+The analysis above also illuminates that the $f_n$'s do not uniformly converge to $f$ on intervals $(0, a]$ or $[b, 0)$. 
+As $x$ gets closer and closer to $0$, the greater the $N \in \Zpl$ required to ensure pointwise convergence to $f$ since $\frac{1}{\abs{x}}$ increases without bound as $x \rightarrow 0$.  
+
+\subsection{Continuous wherever the series converges?}
+Since absolute convergence implies convergence, $\sum \frac{1}{1 + n^2 x}$ converges whenever $x \neq 0$. 
+Also, when $x \neq 0$, $x$ is always in some closed interval that excludes 0. 
+Each individual $f_n$ is continuous on that closed interval $(*)$ and the $f_n \rightarrow f$ on the closed interval, so $f$ is continuous at $x$.
+In other words, $f$ is continuous wherever the series converges. 
+
+$(*)$: technically, $f_n$ where $n$ satisfies $n^2 x = 1$ is not even defined at $x$.  
+
+\subsection{Is f bounded?} 
+By (a), $f$ is not bounded because $\sum_{n = 1}^{\infty} \frac{1}{n^2 x + 1}$ diverges when $x = 0$.
+
+
+\section*{Q9} %TODO: what is the "converse" that Rudin speaks of?  
+Since the $f_n$'s are continuous and converge uniformly to $f$, $f$ is continuous. 
+Take any $\forall \{x_n\}_n \subset E \with x_n \rightarrow x$.
+By the continuity of $f$, 
+$$\lim_{n \rightarrow \infty} f(x_n) = f(x)$$
+Fix $\epsilon > 0$. 
+$\exists N \in \Zpl \st \forall n \geq N$, 
+$$\abs{f_n(p) - f(p)} < \epsilon \text{ for any } p \in E \text{ and } \abs{f(x_n) - f(x)} < \epsilon$$
+By the triangle inequality, $\forall n \geq N$,  
+$$\abs{f_n(x_n) - f(x)} \leq \abs{f_n(x_n) - f(x_n)} + \abs{f(x_n) - f(x)} < 2\epsilon$$ 
+which shows that $f_n(x_n) \rightarrow f(x_n)$ as $n \rightarrow \infty$. 
+
+\section*{Q10}
+Let $f_n(x) \defeq \frac{(nx)}{n^2}$. 
+If $f(x) \defeq \sum_{n = 0}^{\infty} f_{n}(x)$, then clearly $\sum f_n \rightarrow f$ uniformly on $\R$ since for all $x \in \R$, 
+$$\abs{\frac{(nx)}{n^2}} < \frac{1}{n^2}$$  
+and $\sum \frac{1}{n^2}$ converges. 
+
+Notice that for any $n$, $(nx)$ is discontinuous on all integer multiples of $1 / n$ and continuous everywhere else, i.e.,  
+\begin{equation} \label{eq:q10discnt}
+  (nx) \text{ is discontinuous on } x = x' \iff x' \in \left\{\frac{m}{n} \mid m \in \Z\right\}
+\end{equation}
+Thus the individual $f_n$'s are continuous on $\R \setminus \Q \implies \sum_{i = 1}^{n} f_i$ are continuous on $\R \setminus \Q$ for any $n \implies f$ continuous on $\R \setminus \Q$ because $\sum f_n \rightarrow f$ uniformly.  
+
+On the other hand, $f$ is discontinuous on $\Q$. 
+Take any $p / q \in \Q$ where $\gcd(p, q) = 1$. 
+By \eqref{eq:q10discnt}, $f_n$ is discontinuous on $p / q \iff q \mid n$. 
+Decompose $f$ as follows: 
+$$f(x) = \underbrace{\sum_{q \mid n} f_n (x)}_{g(x)} + \underbrace{\sum_{q \nmid n} f_n (x)}_{h(x)}$$
+where the $n$ in both sums are positive integers, of course.  
+It's easy to see that, by a similar reasoning as $\sum_{n = 1}^{\infty} f_i$, the two series in the decomposition are uniformly convergent on $\R$. 
+Furthermore, since each summand of $h$ is continuous at $p / q$, $h$ is continuous at $p / q$ by uniform convergence.  
+To show $f$ is not continuous at $p / q$, it suffices to show $g$ is not continuous at $p / q$. 
+First, rewrite $g(x)$ as 
+$$g(x) = \sum_{k = 1}^{\infty} f_{kq}(x) = \frac{1}{q^2} \sum_{k = 1}^{\infty} \frac{(kqx)}{k^2}$$ 
+Notice each $f_{kq}$ is not only discontinuous at $p / q$, but also $f_{kq} (p / q) = 0$.  
+So $g(p / q) = 0$ as well. 
+However, the left-hand limit of $g$ at $p / q$ is not 0; instead, 
+$$\lim_{t \rightarrow (p / q)^{-}} \sum_{k = 1}^{\infty} \frac{(kpt)}{k^2} = \sum_{k = 1}^{\infty} \frac{1}{k^2}$$ 
+Fix $\epsilon > 0$. 
+Since $\sum_k \frac{1}{k^2}$ converges, $\exists N \in \Zpl \st \sum_{k = N + 1}^{\infty} \frac{1}{k^2} < \epsilon / 2$. 
+Set 
+$$\delta \defeq \min\{\frac{\epsilon}{2q\sum_{k = 1}^{N} 1/k}, \frac{1}{Nq}\}$$
+Take any $t \in (p / q - \delta, p / q)$ and rewrite $t = p / q - \delta'$ for some $\delta' < \delta$. Then 
+\begin{itemize} 
+  \item $\sum_{k = N + 1}^{\infty} \frac{1 - (kqt)}{k^2} < \sum_{k = N + 1}^{\infty} \frac{1}{k^2} < \epsilon / 2$
+  \item Notice that because $\delta' < \delta \leq \frac{1}{Nq}$, $(kq[p / q - \delta']) = (-kq\delta') = 1 - kq\delta'$ for all $k < N$.  
+    Hence 
+    \begin{align*}
+    \sum_{k = 1}^{N} \frac{1 - (kpt)}{k^2} & = \sum_{k = 1}^{N} \frac{kq\delta'}{k^2} \\ 
+                                         & = kq' \sum_{k = 1}^{N} \frac{1}{k} \\ 
+                                         & < \epsilon / 2
+    \end{align*}
+    by choice of $\delta$. 
+\end{itemize}
+This shows $\abs{1 - \sum_{k = 1}^{\infty} \frac{(kqt)}{k^2}} < \epsilon$.
+In other words, $\lim_{t \rightarrow (p / q)^{-}} q^2 g(t) = \sum_{k = 1}^{\infty} \frac{1}{k^2}$, 
+the latter which does not agree with the value of $q^2 g(p / q) = 0$;
+$g$, and thus $f$, is discontinuous at $p / q$.
+
+As a bonus, a similar analysis shows that the right-hand limit of $g$ at $p / q$ is 0. 
+Recapitulating, $f$ is continuous on the irrationals and discontinuous on the rationals, which is a dense, countable subset of $\R$.  
+
+Turning to integrability, take any bounded interval $[a, b]$ in $\R$. 
+For any $n$, \eqref{eq:q10discnt} implies that $f_n$ has finitely many discontinuities. 
+Hence $\sum_{i = 1}^{n} f_i$ has finitely many discontinuities for any $n$, which means 
+$$\sum_{i = 1}^{n} f_i \in \mathscr{R}_{a}^{b}$$ 
+for every $n$. 
+By uniform convergence, $f \in \mathscr{R}_{a}^{b}$ as well. 
+
+\section*{Q12}
+\setcounter{equation}{0}
+By Theorem 4.2, the following Cauchy criterion for real valued functions can be given: 
+\begin{claim}
+  For any real-valued function $h$, $\lim_{t \rightarrow x}$ exists (and is finite) $\iff \forall \epsilon < 0$, $\exists \delta > 0 \st$ 
+  $$\forall t, t' \in \ball{\delta}{x}, \: \abs{h(t) - h(t')} < \epsilon$$ 
+  
+  Similarly, $\lim_{t \rightarrow \infty}$ exists and is finite $\iff \forall \epsilon > 0$, $\exists B \in \R \st$
+  $$\forall b, b' \geq B, \: \abs{h(b) - h(b')} < \epsilon$$   
+\end{claim} 
+
+The Cauchy criterion can be used to prove that $\int_{0}^{\infty} f_n dx$ is bounded for all $n$. 
+First, fix $t > 0$.
+Then, for any $n$, $\abs{\int_{t}^{\infty} f_n dx}$ converges and is finite: 
+Fix $\epsilon > 0$. 
+Since $\int_{t}^{\infty} g dx$ converges and is finite, $\exists T \in \R \st \forall T' > T'' \geq T$, $\abs{\int_{t}^{T'} g dx - \int_{t}^{T''} g dx} = \abs{\int_{T'}^{T''} g dx} < \epsilon$.
+But
+$$\abs{\int_{T'}^{T''} f_n dx} \leq \int_{T'}^{T''} \abs{f_n} dx \leq \int_{T}^{T''} g dx < \epsilon$$
+so the $T$ that satisfies the Cauchy criterion for $g$ satisfies the Cauchy criterion for the $f_n$'s as well.
+This shows that $\int_{t}^{\infty} f_n dx$ converges and is finite. 
+A similar proof can be used to show that for any fixed $T > 0$, $\int_{0}^{T} f_n$ converges and is finite. 
+Hence 
+$$\int_{0}^{\infty} f_n dx \text{ exists and is finite}$$
+
+Also, because $f_n \rightarrow f$ uniformly, $\abs{f} \leq g$. 
+Suppose not; $\exists x \in (0, \infty) \st \abs{f(x)} > g(x)$. 
+By the convergence of $f_n$, $\exists N \in \Zpl \st \forall n \geq N$, $\abs{f(x) - f_n(x)} < \abs{f(x)} - g(x)$.
+But the reverse triangle inequality says $\abs{f(x)} - \abs{f_n(x)} \leq \abs{f(x) - f_n(x)} < \abs{f(x)} - g(x) \implies \abs{f_n(x)} > g(x)$ for all $n \geq N$, a contradiction.
+So $\abs{f} \leq g$, and by the same reasoning as for $f_n$, 
+$$\int_{0}^{\infty} f dx \text{ exists and is finite}$$
+Now, to show
+$$\lim_{n \rightarrow \infty} \int_{0}^{\infty} f_n dx = \int_{0}^{\infty} f dx$$ 
+fix $\epsilon > 0$. 
+Since $\int_{0}^{T} gdx \rightarrow \int_{0}^{\infty} g dx$ as $T \rightarrow \infty$, $\exists T > 0 \st \int_{0}^{\infty} g dx - \int_{0}^{T} g dx =  \int_{T}^{\infty} g dx < \epsilon$. 
+Similarly, $\exists t > 0 \st \int_{0}^{t} g dx < \epsilon$. 
+Also, because $f_n \rightarrow f$ uniformly, $\exists N \in \Zpl \st \forall n \geq N, \forall x \in (0, \infty)$, $\abs{f_n(x) - f(x)} < \frac{\epsilon}{T - t}$. 
+Then $\abs{\int_{t}^{T} (f_n - f)dx} \leq \int_{t}^{T} \abs{f_n - f} dx < \epsilon$.
+Putting this together, for all $n \geq N$,  
+\begin{align*} 
+  \abs{\int_{0}^{\infty} (f_n - f) dx} & \leq \abs{\int_{0}^{t} f dx} + \abs{\int_{0}^{t} f_n dx} + \int_{t}^{T} \abs{f_n - f} dx + \abs{\int_{T}^{\infty} f_n dx} + \abs{\int_{T}^{\infty} f dx} \\ 
+                                       & < 5 \epsilon 
+\end{align*} 
+as was to be shown. 
+
+\section*{Q14} 
+\setcounter{equation}{0}
+For all $t \in I$, $\abs{x(t)} \leq \sum_{n = 1}^{\infty} 2^{-n}$, the latter being a convergent geometric series. 
+By the Weierstrass $M$-test, $x(t)$ converges uniformly on $I$. 
+Since for each $n$, $f(3^{2n - 1} t)$ is a composition of continuous functions, $x(t)$ is continuous by uniform convergence. 
+By the same reasoning as $x(t)$, $y(t)$ converges uniformly on $I$ and is continuous;
+$\varPhi(t)$ is thus continuous. 
+
+Let $E$ be the Cantor set.
+To see $\varPhi(E) = I^2$, first notice $\forall z \in I$, there is a binary sequence $\{a_n\}$, where each $a_n \in \{0, 1\}$, such that $\sum_{n = 1}^{\infty} 2^{-n} a_n = z$: 
+essentially, the $a_n$'s ``binary search" for $z$. 
+The precise construction of the $a_n$'s is as follows: let $s_0 = 0$ and for $n \geq 1$, $s_n = s_{n - 1} + a_n$.
+Then inductively define 
+$$a_n = \begin{cases}
+  1, & z - s_{n - 1} \geq 2^{-n} \\ 
+  0, & \text{otherwise} \end{cases}$$
+From this construction, one can see $0 \leq z - s^n < 2^{-n}$ for each $n$, and since $2^{-n} \rightarrow 0$, $z - s^n \rightarrow 0$. 
+Of course, $s_n = \sum_{k = 1}^{n} 2^{-k} a_k$, so $\sum_{k = 1}^{n} 2^{-k} a_k = z$.
+
+So for all $x_0, y_0 \in I^2$, one can build a binary sequence $\{a_n\}$ such that $x_0 = \sum_{n = 1}^{\infty} 2^{-n} a_{2n - 1}, \: y_0 = \sum_{n = 1}^{\infty} 2^{-n} a_{2n}$. 
+Now, let 
+$$t \defeq \sum_{n = 1}^{\infty} 3^{-n - 1} 2a_n$$
+where $t \in E$ by Ch. 3, Q19.
+Now, for any integer $k$, 
+\begin{align}
+  f(3^k t) & = f(\sum_{n = 1}^{\infty} 2 a_n 3^{k - n - 1}) \nonumber \\ 
+           & = f(2 \sum_{n = 1}^{k - 1} a_n 3^{k - n - 1} + \sum_{n = k}^{\infty} 2 a_n 3^{k - n - 1}) \nonumber \\ 
+           & = f(\sum_{n = k}^{\infty} 2 a_n 3^{k - n - 1}) \label{eq:per1}\\ 
+           & = f(\frac{2}{3} a_k + \underbrace{\sum_{n = k + 1} 2 a_n 3^{k - n - 1}}_{\delta}) \label{eq:result}  
+\end{align} 
+where \eqref{eq:per1} follows because $f$ has a periodicity of 2. 
+Notice that due the indexing of the sum, $\delta < 1/3$. 
+Consequently, if $a_k = 0$, then $0 \leq \frac{2}{3} a_k + \delta < 1/3$, which means by \eqref{eq:result}, $f(3^k t) = 0$. 
+Similarly, if $a_k = 1$, then $\frac{2}{3} \leq \frac{2}{3} a_k + \delta$, so $f(3^k t) = 1$.
+Either way, $f(3^k t) = a_k$.
+
+Using this, one easily sees 
+$$x(t) = \sum_{n = 1}^{\infty} 2^{-n} a^{2n - 1} = x_0 \text{ and } y(t) = \sum_{n = 1}^{\infty} 2^{-n} a^{2n} = y_0$$ 
+This shows that $f(E) = I^2$. 
+
+\section*{Q15}
+$f$ is uniformly continuous on $[0, \infty)$. 
+Fix $\epsilon > 0$. 
+Because the $f_n$'s are equicontinuous, 
+$$\exists \delta > 0 \st \forall n \in \Zpl, \, \forall x, y \in [0, 1] \with \abs{x - y} < \delta, \: \abs{f_n(x) - f_n(y)} < \epsilon$$
+Take any $x, y > 0 \st \abs{x - y} < \delta$. 
+Let $n \defeq \max\{\ceil{x}, \ceil{y}\}$. 
+Then 
+$$\frac{x}{n}, \frac{y}{n} \in [0, 1] \text{ and }\abs{\frac{x}{n} - \frac{y}{n}} = \frac{1}{n} \abs{x - y} < \delta$$ 
+By equicontinuity, $\abs{f_n(x / n) - f_n(y / n)} = \abs{f(x) - f(y)} < \epsilon$, which shows that $f$ is uniformly continuous on $[0, \infty))$.  
+
+\end{document}

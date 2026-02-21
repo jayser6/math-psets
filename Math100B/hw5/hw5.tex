@@ -1,0 +1,261 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math100B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#5}
+\author{\myname}
+\date{2026.02.15}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section{} 
+\subsection{} 
+$x^2 + 1$ factors; $x = 2$ is a root. 
+$$2^2 + 1 = 5 \cong 0 \pmod{5}$$
+
+\subsection{} 
+$x^2 - 3x - 3$ factors; $x = 1$ is a root since 
+$$1^2 - 3(1) - 3 = -5 \cong 0 \pmod{5}$$
+
+\subsection{} 
+One can brute force check that $x^4 + 2$ has no roots, hence has no degree 1, and thereby no degree 3, factor. 
+Thus if $x^4 + 2$ did factor, it would be of the form 
+$$x^4 + 2 = (ax^2 + bc + c)(\alpha x^2 + \beta x + \gamma)$$ 
+where the factors can be taken to monic since $\Z / 5 \Z$ is a field. 
+Muliplying out the factors yields the following system of equations (among more) 
+\begin{align}
+  bd & = 2 \label{eq:bd} \\ 
+  a + c & = 0 \label{eq:ac}\\ 
+  ac + b + d & = 0 \label{eq:acbd}
+\end{align}
+Modding out symmetric solutions (notice $(b, d)$ have symmetric solutions and $(a, c)$ have symmetric solutions), \eqref{eq:bd} gives 
+$$(b, d) \in \{(1, 2), (3, 4)\}$$
+If $(b, d) = (1, 2)$, then \eqref{eq:acbd} is equivalent to $ac = 3$, which gives $(a, c) \in \{(1, 3), (2, 4)\}$. 
+But both these solutions contradict \eqref{eq:ac}. 
+If $(b, d) = (3, 4)$, then \eqref{eq:acbd} gives $(a, c) \in \{(1, 2), (3, 4)\}$, both of which contradict \eqref{eq:ac} once again. 
+
+This shows that $x^4 + 2$ has no factors; it is irreducible. 
+
+\section{} 
+Induct on $d$, the degree of $f(x) \in F[x]$. 
+If $d = 1$, write $f(x) = ax - b$ with $a \neq 0$.  
+Then $x = ba^{-1}$ is the unique root for $f$, which proves the base case.
+
+Suppose every polynomial of degree $d - 1$ has at most $d - 1$ roots, and take any $f(x) \in F[x]$ with degree $d$. 
+If $f(x)$ has no roots, then there is nothing to be shown. 
+Suppose $c$ is a root of $f(x)$. 
+Then 
+$$f(x) = (x - c)q(x)$$ 
+where $q(x)$ must be a degree $d - 1$ polynomial since $F$ is a field. 
+$q(x)$ has at most $d - 1$ roots, so $f(x)$ has at most $d$ roots, as was to be shown. 
+
+If $F$ is not a field, then this is not true. 
+For example, in $\Z / 4\Z$, the polynomial $g(x) = 2x$ has two roots: 0 and 2. 
+
+\section{}  
+Suppose there are only finitely many monic irreducible polynomials in $F[x]$. 
+Let this set of irreducibles be 
+$$\mathcal{F} = \{f_1, f_2, \ldots, f_n\}$$ 
+Take $g(x) = \prod_{i = 1}^{n} f_i(x) + 1$. 
+$g$ is clearly monic and not in $\mathcal{F}$, which means it is not irreducible.  
+Since none of the $f_i \in \mathcal{F}$ divide 1 (due to the $f_i$ having a higher degree than the constant 1, for example), none of the $f_i \in \mathcal{F}$ divide $g(x)$. 
+So a monic irreducible factor of $g$ exists, but it is not in the set of all monic irreducible polynomials, which is a contradiction.
+Thus, $F[x]$ has infinitely many monic irreducible polynomials. 
+
+Namely, if $F$ is a finite field, then $F[x]$ has irreducible polynomials of arbitrarily high degree because for any degree $d$, there are finitely many polynomials of degree $d$.  
+
+\section{} 
+\subsection{} 
+Suppose $\<2, x\> = \<f\>$ for some $f(x) \in \Z[x]$. 
+Then $f \mid 2$. 
+Since $\Z$ is an integral domain $\implies \Z[x]$ integral domain $\implies \deg(f) \leq \deg(2) = 0$, $f(x)$ must be some constant, say $f(x) = c \in \Z$.  
+But $\<f\> = \<c\> = \<2, x\>$ says that $c \mid x$, and the only constant that divides $x$ is 1 and -1. 
+So $c$ is a unit, i.e., 
+$$\<2, x\> = \<c\> = \Z[x]$$
+But $x + 1$ is clearly not in $\<2, x\>$, which is a contradiction. 
+Thus $\<2, x\>$ cannot be principal. 
+
+\subsection{}  
+\setcounter{equation}{0}
+$f$ is an irreducible element of $\Z[x]$, which is a UFD. 
+An element in a UFD is prime $\iff$ it is irreducible, so $f$ is a prime element of $\Z[x]$. 
+Hence the principal ideal generated by $f$ is prime. 
+
+While $\<f\>$ is maximal amongst principal ideals, it is not a maximal ideal. 
+Take any prime number $p$ that doesn't divide the leading coefficint of $f$. 
+Then by the correspondence theorem,  
+\begin{equation} \label{eq:quotisom}
+  \Z[x] / \<f(x), p\> \equiv \frac{\Z / p\Z [x]}{\<\bar{f(x)}\>}
+\end{equation}
+Since $p$ doesn't divide the leading coefficient of $f$, $\bar{f}$ has the same degree as $f$, say $n$. 
+The units of $\Z / p\Z [x]$ are just the units of $\Z / p\Z$, i.e., the constant 1.  
+$\bar{f}$ has the same degree as $f$ since $p$ doesn't dividie the leading coefficient of $f$. 
+Namely, $\bar{f}$ is not a constant, so $\<\bar{f}\>$ is not the entire ring $\Z/p\Z [x]$, 
+So \eqref{eq:quotisom} is not the zero ring, which means $\<f(x), p\>$ is a proper ideal properly containing $\<f(x)\>$.
+$\<f(x)\>$ is not a maximal ideal. 
+
+\section{} 
+\subsection{} 
+$a + bi$ is a root of 
+$$q(x) \defeq (x - (a + bi))(x - (a - bi)) = x^2 - 2bx + a^2 + b^2$$
+which, by the right hand side, is clearly a degree two polynomial in $\R[x]$. 
+
+\subsection{} 
+Consider the substitution homomorphism 
+$$\varphi: \R[x] \rightarrow \C; \: x \mapsto a + bi, \, \left.\varphi\right|_{\R} = \id$$
+It was shown multiple times throughout the course (e.g, the midterm) that $\ker \varphi = \<q\>$.
+Since $f(a + bi) = 0$ by definition, $f \in \ker \varphi$, which means $q \mid f$. 
+
+\subsection{} 
+For any field $F$, all degree one polynomials in $F[x]$ are irreducible. 
+If $ax - b = \alpha \beta$, $a \neq 0$, then $\alpha$ or $\beta$ must be a constant since $\deg(ax - b) = 1 = \deg(\alpha) + \deg(\beta)$.  
+
+If $f(x) \in \R[x]$ has degree two, it is irreducible if and only if it has a complex root. 
+
+Suppose $f(x)$ has degree greater than two.  
+Since $\R[x] \hookrightarrow \C[x]$, $f(x)$ can be viewed as a complex polynomial. 
+$\C$ is algebraically closed, so $f(x)$ has some root $\alpha$. 
+If $\alpha$ has no complex part, then $f(x)$ has a linear real factor. 
+If $\alpha$ has a complex part, then by (a) and (b), $f(x)$ has a quadratic factor. 
+Either way, $f(x)$ factors and hence it is not irreducible.  
+
+
+\section{} 
+\newcommand{\rttwo}{\sqrt{-2}} 
+Define the norm function 
+$$\lambda:\Z[\rttwo] \rightarrow \Znn; \: a + b\rttwo \mapsto a^2 + 2b^2$$ 
+See Q7 for a parallel analysis showing why $\lambda$ is a multiplicative function: 
+$\forall \alpha, \beta \in \Z[\rttwo]$, $\lambda(\alpha \beta) = \lambda(\alpha) \lambda(\beta)$. 
+
+Take any $\alpha, \gamma \in \Z[\rttwo]$, where $\alpha = a + b\rttwo$ and $\gamma \neq 0$. 
+Since $\gamma$ is a complex number, $\gamma^{-1} = \frac{\bar{\gamma}}{\gamma \bar \gamma} \in \Q[\rttwo]$, hence $\alpha / \gamma = x + y\rttwo$ where $x, y \in \Q$.
+So 
+$$\exists \delta = c + d \rttwo \in \Z[\rttwo] \text{ where } \abs{x - c} \leq 1/2, \, \abs{y - d} \leq 1/2$$ 
+Let $r \defeq \alpha - \gamma \delta \in \Z[\rttwo]$. 
+Then, because the norm function is multiplicative and $\gamma \neq 0 \implies \lambda(\gamma) \neq 0$, the following analysis holds:   
+\begin{align*}
+  \lambda(r) / \lambda{\gamma}  & = \lambda(r / \gamma) \\ 
+                                & = \lambda(x + y\rttwo - (c + d\rttwo)) \\ 
+                                & = (x - c)^2 + 2(y - d)^2 \\ 
+                                & \leq 1/4 + 1/2 \\
+                                & < 1
+\end{align*}
+This shows that $\lambda(r) < \lambda(\gamma)$, so a division algorithm exists for $\Z[\rttwo]$; it is a Euclidean domain. 
+
+\section{}
+\newcommand{\adj}{\sqrt{-5}}
+Define the following norm function on $\Z[\adj]$: 
+$$\lambda: \Z[\adj] \rightarrow \Znn; \quad a + b\adj \rightarrow a^2 + 5b^2$$
+The following calculation shows that $\lambda$ is a multiplicative function: 
+\begin{align*}
+  \lambda(a + b\adj) \lambda(c + d\adj) & = (a^2 + 5b^2)(c^2 + 5d^2) \\
+                            & = a^2 c^2 + 25 b^2 d^2 + 5(b^2 c^2 + a^2 d^2) \\
+  \lambda((a + b\adj)(c + d\adj)) & = \lambda(ac - 5bd + (bc + ad)\adj) \\
+                            & = a^2 - 10abcd  + 25 b^2 d^2 + 5(b^2 c^2 + 2abcd + a^2 d^2) \\
+                            & = a^2 c^2 + 25 b^2 d^2 + 5 b^2 c^2 + 5 a^2 d^2
+\end{align*}
+i.e., $\lambda(\alpha \beta) = \lambda(\alpha) \lambda(\beta) \, \forall \alpha, \beta \in \Z[\adj]$.
+
+Suppose $\alpha \in \Z[\adj]$ is a unit. 
+Then $\exists \beta \in \Z[\adj] \st \alpha \beta = 1$.
+Applying the norm on both sides of the equality yields 
+$$\lambda(\alpha) \lambda(\beta) = 1$$
+Since $\lambda$ maps to the nonnegative integers, $\lambda(\alpha) = 1$.
+
+Conversely, suppose $\lambda(\alpha) = 1$. 
+Write $\alpha = a + b\adj$. 
+Notice that $\lambda(a + b\adj) = (a + b\adj)(a - b\adj)$; 
+$a - b\adj$ is $\alpha$'s inverse;
+This shows that $\alpha \in \Z[\adj]$ is a unit $\iff \lambda(\alpha) = 1$. 
+
+The norm function gives an easy method way of checking that 2, 3, and $1 \pm \adj$ are all irreducible. 
+Suppose $2 = \alpha \beta$. 
+Applying norm to both sides yields 
+$$4 = \lambda(\alpha) \lambda(\beta)$$ 
+Since $\lambda$ maps to nonnegative integers,
+$$(\lambda(\alpha), \lambda(\beta)) \in \{(2, 2), (1, 4), (4, 1)\}$$ 
+One can easily check from the definition of the norm function that 2 is not in the image of $\lambda$, so either $\lambda(\alpha) = 1$ or $\lambda(\beta) = 1$. 
+Thus one of the factors must be a unit, hence 2 is irreducible. 
+One can use this same method to verify that the 3 and $1 \pm \adj$ are irreducible. 
+\begin{itemize}
+  \item $3 = \alpha \beta \implies (\lambda(\alpha), \lambda(\beta)) \in \{(3, 3), (1, 9), (9, 1)\}$, but 3 is not in the image of $\lambda$. 
+  \item $1 \pm \adj = \alpha \beta \implies (\lambda(\alpha), \lambda(\beta)) \in \{(2, 3), (3, 2), (1, 6), (6, 1)\}$, but 2 and 3 are not in the image of $\lambda$. 
+\end{itemize}
+Although 2 is an irreducible element, it is not a prime element of $\Z[\adj]$. 
+$$2 \mid 6 = (1 + \sqrt{5})(1 - \sqrt{5}), \text{ but } 2 \nmid 1 + \sqrt{5}, 1 - \sqrt{5}$$ 
+
+$\Z[\adj]$ is Noetherian, so irreducible decomposition exists. 
+However, because irreducible elements are not neccessarily prime, irreducible decompositions are not unique.
+This shows $\Z[\adj]$ is not a UFD.  
+
+\section{}
+\setcounter{equation}{0}
+\subsection{} 
+$\Z$ is a famous Euclidean domain that isn't a field. 
+
+\subsection{} 
+By Q4, $\Z[x]$ is a UFD that is not a PID.  
+
+\subsection{} 
+By Q7, $\Z[\sqrt{-5}]$ is not a UFD. 
+It is an integral domain, however. 
+Observe
+\begin{equation} \label{eq:intdomain}
+  (a + b\adj)(c + d\adj) = 0 \iff ac = 0, \, bd = 0, \, ad + bc = 0  
+\end{equation}
+  For any $a, b, c, d \in \Z$. 
+To show that $\Z[\adj]$ is a UFD, it must be shown $(a, b) = (0, 0)$ or $(c, d) = (0, 0)$. 
+Well, since $\Z$ is an integral domain, the right-hande side of \eqref{eq:intdomain} shows $a = 0$ or $c = 0$ and $b = 0$ or $d = 0$. 
+Suppose $a = 0$ and $d = 0$.
+Then $bc = 0$ and thus $b = 0$ or $c = 0$, thus either $(a, b) = (0, 0)$ or $(c, d) = (0, 0)$. 
+Similarly, if $b = 0$ and $c = 0$, $ac = 0$, so once again, one of the pairs has to be $(0, 0)$. 
+This shows that $\Z[\adj]$ is an integral domain.
+
+\end{document}
