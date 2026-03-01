@@ -1,0 +1,285 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#7}
+\author{\myname}
+\date{2026.02.22}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section*{Q13}
+\subsection{}
+% Let $E_i$ be the set of all discontinuities of $f_i$. 
+% By Theorem 4.30, because each $f_i$ is monotonic, each $E_i$ is at most countably infinite.  
+% Define 
+% $$E \defeq \Q \cup \bigcup_{i = 1}^{\infty} E_i$$ 
+% Then $E$ is countably infinite.  
+% Now, since each $f_n$ is clearly pointwise bounded (by 1, for example), Theorem 7.23 says 
+% $$\text{There is a subsequence } \{f_{n_k}\} \st \{f_{n_k}(x)\} \text{ converges for every } x \in E$$ 
+% Take $y \notin E$. 
+% It must be shown that $\{f_{n_k}(y)\}$ converges as well. 
+% Fix $\epsilon > 0$. 
+% By definition of $E$ and the $E_i$'s, every $f_n$ is continuous at $y$. 
+% Thus 
+% $$\exists \delta > 0 \st \forall t \in \ball{\delta}{y}, \: \abs{f_n(y) - f_n(y)} < \epsilon \text{ for every } n \in \Zpl$$ % TODO: wrong!!! such a delta exists for a single n, but f_{n_k}'s are not equicont
+% Also, $E$ includes $\Q$, a dense subset of $\R$, so $\exists x \in E \st \abs{y - x} < \delta$.
+% By definition of $\{f_{n_k}\}$, 
+% $$\exists N \in \Zpl \st \forall i \geq j \geq N, \: \abs{f_{n_i}(x) - f_{n_j}(x)} < \epsilon$$
+% Combining the continuity of the $f_n$'s at $y$ and the convergence of $\{f_{n_k}(x)\}$, 
+% \begin{align*}
+%   \abs{f_{n_i}(y) - f_{n_j}(y)} & \leq \abs{f_{n_i}(x) - f_{n_i}(y)} + \abs{f_{n_i}(y) - f_{n_j}(y)} + \abs{f_{n_j}(y) - f_{n_j}(x)} \\ 
+%                                 & < 3\epsilon
+% \end{align*}
+% for all $i \geq j \geq N$. 
+% So $\{f_{n_k}(y)\}$ converges by the Cauchy criterion for real sequences. 
+% This shows that there is a function $f$ and a subsequence $\{f_{n_k}\}$ such that $f_{n_k} \rightarrow f$ pointwise on $\R$.  
+
+$\Q$ is a countable and dense subset of $\R$. 
+$\{f_n\}$ is pointwise bounded, so there is a subsequence $\{f_{n_k}\}$ such that $\{f_{n_k}(x)\}$ converges for each $x \in \Q$.
+Denote $g(x) = \lim_{k \rightarrow \infty} f_{n_k} (x)$ for $x \in \Q$. 
+Because the $f_{n_k}$'s are monotonic increasing, $g$ is monotonic increasing: 
+if $x < y \in \Q$, 
+$$g(y) - g(x) = \lim_{k \rightarrow \infty} (f_{n_k}(y) - f_{n_k}(x)) \geq 0$$
+Now, let 
+\begin{equation} \label{eq:f_def}
+  f(x) \defeq \sup\{g(q) \mid q \leq x, \, q \in \Q\}
+\end{equation}
+Then $f$ is monotonic increasing because $g$ is monotonic increasing. 
+Also, it is clear from \eqref{eq:f_def} that $f(q) = g(q)$ for all $q \in \Q$. 
+The following shows that if $f$ is continuous at $x$, then $f_{n_k}(x) \rightarrow f(x)$. 
+Fix $\epsilon > 0$. 
+$\exists \delta > 0 \st \forall t \in \ball{\delta}{x}$, $\abs{f(x) - f(t)} < \epsilon$. 
+Since $\Q$ is dense in $\R$, $\exists q_1, q_2$ satisfying 
+$$x - \delta / 2 < q_1 < x < q_2 < x + \delta / 2$$
+Also, $\exists N \in \Zpl \st \forall k \geq N$, $\abs{f_{n_k} (q_1) - f(q_1)} < \epsilon$ and $\abs{f_{n_k}(q_2) - f(q_2)} < \epsilon$. 
+Because both $f$ and $f_{n_k}$ are monotonic increasing,  
+\begin{equation} \label{eq:ineq1}
+  f_{n_k}(x) \leq f_{n_k} (q_2) < f(q_2) + \epsilon \leq f(x + \delta / 2) + \epsilon < f(x) + 2\epsilon
+\end{equation}
+and 
+\begin{equation} \label{eq:ineq2}
+  f_{n_k}(x) \geq f_{n_k}(q_1) > f(q_1) - \epsilon \geq f(x - \delta / 2) - \epsilon > f(x) - 2\epsilon
+\end{equation}
+for all $k \geq N$. 
+\eqref{eq:ineq1} and \eqref{eq:ineq2} show that for all $k \geq N$, $\abs{f_{n_k}(x) - f(x)} < 2\epsilon$, hence $f_{n_k}(x) \rightarrow f(x)$. 
+
+Finally, because $f$ is monotonic increasing, it has at most countably infinitely many points of discontinuity. 
+So there is a subsequence of $\{f_{n_k}\}$ that converges pointwise on the discontinuities of $f$; 
+of course, it converges pointwise where $f$ is continuous as well. 
+Thus $\{f_n\}$ has a subsequence that converges pointwise on all of $\R$. 
+
+\subsection{} 
+Suppose $f_{n_k} \rightarrow f$ pointwise on all of $\R$ where $f$ is continuous. 
+Let $K \subset \R$ be a compact subset. 
+Then $f$ is uniformly continuous on $K$.
+Fix $\epsilon > 0$. 
+$\exists \delta > 0 \st \forall x, y \in K \with \abs{x - y} < \delta$, $\abs{f(x) - f(y)} < \epsilon$. 
+Since $K$ is compact, $\exists q_1 < \ldots < q_m \in \Q \st$
+\begin{equation} \label{eq:opencover}
+  K \subset \bigcup_{i = 1}^{m} \ball{\delta / 2}{q_i} \text{ and } q_i - q_{i - 1} < \delta / 2 \text{ for each } 1 < i \leq m
+\end{equation}
+where the second condition can be assumed since $K$ is bounded.
+Next, pick $N \in \Zpl \st \forall k \geq N$, 
+$$\abs{f_{n_k}(q_i) - f(q_i)} < \epsilon \text{ for each } 1 \leq i \leq m$$
+Take any $x \in K$. 
+By \eqref{eq:opencover}, $1 < i \leq m \st$
+$$x - \delta / 2< r_{i - 1} \leq x \text{ and } x < r_{i} < x + \delta / 2$$
+Then by essentially the same inequalities as \eqref{eq:ineq1} and \eqref{eq:ineq2}from part (a), but with $q_1$ replaced by $q_{i - 1}$ and $q_2$ replaced by $q_i$, one can see that 
+$$\forall k \geq N, \: \abs{f_{n_k}(x) - f(x)} < 2\epsilon$$ 
+$N$ was chosen independently from $x$, so this shows that $f_{n_k} \rightarrow f$ uniformly on $K$. 
+
+\section*{Q18}
+To prove that there exists a subsequence of $\{F_n\}$ that converges uniformly on $[a, b]$, Theorem 7.25 says that it suffices to show $\{F_n\}$ is pointwise bounded, equicontinuous, and each $F_n \in \mathscr{C}([a, b])$. 
+By Theorem 6.20, each $F_n$ is continuous. 
+Particularly, they are continuous on a compact set, so they are bounded as well. 
+This shows each $F_n \in \mathscr{C}([a, b])$. 
+Next, let $\{f_n\}$ be uniformly bounded by $M$. 
+Fix a point $x \in [a, b]$.
+For any $n \in \Zpl$, 
+$$F_n(x) = \int_{a}^{x} f_n (t) dt \leq M(x - a)$$
+Hence $\{F_n\}$ is pointwise bounded.
+To see that it is equicontinuous, take $\epsilon > 0$ and let $\delta \defeq \epsilon / M$. 
+Then for any $n \in \Zpl$ and any $x, y \in [a, b] \with \abs{y - x} < \delta$, 
+$$\abs{F_n(x) - F_n(y)} = \abs{\int_{y}^{x} f_n(t) dt} \leq M(y - x) < M\delta = \epsilon$$ 
+so $\delta$ satisfies the equicontinuity condition. 
+
+\section*{Q19} 
+I use the following fact from metric topology:
+\begin{proposition} \label{prop:cpct}
+  A metric space $K$ is compact $\iff$ for every sequence $\{x_n\} \subset K$, there is a subsequence that converges to a point in $K$.  
+\end{proposition}
+\begin{proof}[Proof of Proposition \ref{prop:cpct}] 
+  The forward direction has already been proven in Rudin. 
+  Assume that every sequence in $K$ has a convergent subsequence.  
+  Then I assert the following two claims: 
+
+  \begin{claim}\label{claim:balls}
+    For any $\epsilon > 0$, $K$ can be covered by finitely many $\epsilon$-balls. 
+  \end{claim}
+
+  \begin{claim} \label{claim:diam}
+    Let $\{U_\alpha\}$ be an open cover for $K$. 
+    $\exists \delta > 0$ such that for every $A \subset K$ with $\diam(A) < \delta$, $A$ is contained in a single $U_\alpha$. 
+  \end{claim}
+
+  \begin{proof}[Proof of Claim \ref{claim:balls}] 
+    Suppose not. 
+    Inductively construct the sequence $\{x_n\} \subset K$: 
+    Take $x_1 \in K$ arbitrarily. 
+    Given $x_1, \ldots, x_k$, take 
+    $$x_{k + 1} \in K \setminus \bigcup_{i = 1}^{k} \ball{\epsilon}{x_i}$$
+    where the set is guaranteed to be nonempty since $K$ cannot be covered by finitely many $\epsilon$-balls. 
+    The construction of $\{x_n\}$ forces $d(x_i, x_j) \geq \epsilon$ for all $i \neq j$. 
+    This contradicts the assumption on $K$ that $\{x_n\} \subset K$ must have a convergent subsequence.
+  \end{proof}
+
+  \begin{proof}[Proof of Claim \ref{claim:diam}]
+    Suppose not. 
+    Then for every $n \in \Zpl$, let $A_n \subset K$ such that 
+    $$\diam(A_n) < 1/n \text{ and } A_n \subsetneq U_\alpha \text{ for any } \alpha$$
+    Note that each $A_n \neq \emptyset$ since any singleton has diameter 0. 
+    Define the sequence $\{x_n\}$ such that for every index $k$, $x_k \in A_k$. 
+    By the assumption on $K$, there is a subsequence $\{x_{n_k}\} \st x_{n_k} \rightarrow x$ for some $x \in K$. 
+    Since $\{U_\alpha\}$ is an open cover for $K$, $x \in U_\alpha$ for a single $\alpha$. 
+    $U_\alpha$ is open, of course, so $\exists \epsilon > 0 \st \ball{\epsilon}{x} \subset U_\alpha$. 
+    By the convergence of $\{x_{n_k}\}$, $\exists j \in \Zpl \st 1/n_j < \epsilon / 2$ and $d(x, x_{n_j}) < \epsilon / 2$. 
+    Also, by the diameter condition on $A_{n_j}$, $\forall y \in A_{n_j}$, $d(x_{n_j}, y) < 1 / n_j$. 
+    This means 
+    $$d(x, y) \leq d(x, x_{n_j}) + d(x_{n_j}, y) < \epsilon K$$ 
+    Hence $A_{n_j} \subset U_\alpha$, which contradicts the second condition on $A_{n_j}$. 
+  \end{proof}
+
+  To finish the proof of the proposition, let $\{U_\alpha\}$ be an open cover for $K$. 
+  Use Claim \ref{claim:diam} to take $\delta > 0 \st \forall A \subset K \with \diam(A) < \delta$, $A \subset U_\alpha$ for some $\alpha$. 
+  By Claim \ref{claim:balls}, $\exists x_1, \ldots, x_n \in K$ such that 
+  $$K = \bigcup_{i = 1}^{n} \ball{\delta}{x_i} \subset \bigcup_{i = 1}^{n} U_{\alpha_i} \subset K$$ 
+  where each $\ball{\delta}{x_i} \subset U_{\alpha_i}$. 
+  This gives the finite subcover of $\{U_\alpha\}$ for $K$, which shows that $K$ is compact. 
+\end{proof}
+
+Onto actually solving Question 19. 
+Take $S \subset \mathscr{C}(K)$ and assume $S$ is uniformly closed, pointwise bounded, and equicontinuous. 
+Consider any $\{f_n\} \subset S$. 
+Since $f_n \in \mathscr{C}(K)$ and $\{f_n\}$ is pointwise bounded and equicontinuous, a subsequence $f_{n_k} \rightarrow f$ uniformly for some $f \in \mathscr{C}(K)$ by Theorem 7.25. 
+In other words, $f_{n_k} \rightarrow f$ with respect to the supremum norm. 
+Furthermore, since $S$ is uniformly closed, i.e., closed with respect to the supremum norm, $f \in S$ by Theorem 3.2(d). 
+Thus, by Proposition \ref{prop:cpct}, $S$ is compact. 
+
+Conversely, suppose $S$ is compact with respect to the supremum norm.  
+Then $S$ is closed with with respect to the supremum norm, i.e., uniformly closed. 
+Next, suppose for contradiction that $S$ is not an equicontinuous collection of functions. 
+Let $\epsilon > 0$ be the value where the condition for equicontinuity fails. 
+This means the following sequence $\{f_n\} \subset S$ can be constructed: 
+$$\text{for each index } n, \text{ choose } f_n \in S \st \exists x_n, y_n \in K \with d(x_n, y_n) < 1/n \text{ and } \abs{f_n(x_n) - f_n(y_n)} \geq \epsilon$$ 
+Since $S$ is compact, by Proposition \ref{prop:cpct}, there is a subsequence $\{f_{n_k}\}$ that converges to a function in $S$ with respect to the supremum norm.
+In other words, $\{f_{n_k}\}$ uniformly converges on $K$. 
+By Theorem 7.24, $\{f_{n_k}\}$ is equicontinuous on $K$; 
+particularly, $\exists \delta > 0 \st \forall k \in \Zpl$ and $\forall x, y \in K \with d(x, y) < \delta$, $\abs{f_{n_k}(x) - f_{n_k}(y)} < \epsilon$. 
+This contradicts the construction of $\{f_n\}$. 
+Thus, $S$ must be equicontinuous. 
+Similarly, assume for contradiction that $S$ is not pointwise bounded. 
+Let $x \in K$ be the point where the condition for pointwise boundedness fails. 
+Construct the following sequence $\{g_n\} \subset S$: 
+$$\text{for each index } n, \text{ choose } g_n \in S \st \abs{g_n(x)} > n$$  
+Once again, because $S$ is compact, there is a subsequence $\{g_{n_k}\}$ that converges uniformly on $K$. 
+This contradicts the obvious fact that $\{g_n\}$ does not even converge pointwise at $x$. 
+So $S$ must be pointwise bounded, which finishes this question. 
+
+\section*{Q20}
+By the Weierstrass theorem, there is a sequence of polynomials $\{P_n\} \st P_n \rightarrow f$ uniformly. 
+Then $f P_n \rightarrow f^2$ uniformly as well: 
+fix $\epsilon > 0$. 
+Since $f$ is continuous on a bounded set, $f$ is bounded.
+Pick $M \geq \sup_{x \in [0, 1]} \abs{f(x)}$. 
+Since $P_n \rightarrow f$ uniformly, $\exists N \in \Zpl \st \forall n \geq N$ and $\forall x \in [0, 1]$, $\abs{P_n(x) - f(x)} < \epsilon / M$. 
+Then 
+$$\abs{f(x) P_n(x) - f^2(x)} < \abs{f(x)} \epsilon / M < \epsilon$$
+for any $n \geq N$ and $x \in [0, 1]$. 
+Hence $f P_n \rightarrow f^2$ uniformly. 
+It follows that 
+$$\lim_{n \rightarrow \infty} \int_{0}^{1} f(x) P_n(x) dx = \int_{0}^{1} f^2(x) dx$$ 
+But for any polynomial $Q(x)$, $\int_{0}^{1} f(x) Q(x)dx = 0$ by the assumption $\int_{0}^{1} x^n f(x) dx = 0$ for any $n \in \Znn$.  
+Hence 
+$$\int_{0}^{1} f^2 (x) dx = 0$$ 
+Now, it follows easily that $f(x) = 0$ for all $x \in [0, 1]$. 
+Suppose $\exists x \in [0, 1] \st f(x) \neq 0$. 
+$f^2$ is continuous, so $\exists \delta > 0 \st \forall t \in \ball{\delta}{x}$, $f^2(t) \geq m$ for some fixed arbitrarily small, positive $m$. 
+For any partition $\mathcal{P}$ of $[0, 1]$, 
+$$L(\mathcal{P}, f^2) \geq m\delta > 0$$ 
+Which shows $\int_{0}^{1} f^2 (x) dx > 0$, a contradiction. 
+
+\section*{Q21}
+I freely use some basic facts about the complex plane and some fundamental facts about it. 
+
+$K$, the unit circle on the complex plane, is the set of points $\{e^{i\theta} \mid \theta \in [0, 2\pi)\}$. 
+That $\mathscr{A}$ separates points on $K$ and vanishes nowhere on $K$ is trivial: 
+$f(e^{i\theta}) = e^{i\theta} \in \mathscr{A}$, so given any $e^{i\theta_1} \neq e^{i\theta_2} \in K$, $f(e^{i\theta_1}) \neq f(e^{i\theta_2})$ by definition. 
+Also, $f(e^{i\theta}) = \cos \theta + i \sin \theta$ and it is impossible for $\sin \theta$ and $\cos \theta$ to be simultaneously zero, so $f(e^{i\theta}) \neq 0$ for any $e^{i\theta} \in K$. 
+
+Now, I prove the fact provided by the hint: $\forall f \in \mathscr{A}$,
+\begin{align*}
+  \int_{0}^{2\pi} f(e^{i\theta}) e^{i\theta} d\theta & = \sum_{n = 0}^{N} \int_{0}^{2\pi} c_n e^{i\theta(n + 1)} d\theta \\ 
+                                                     & = \sum_{n = 0}^{N} \left[ \frac{c_n}{i(n + 1)} e^{i\theta(n + 1)}\right]_{0}^{2\pi} \\ 
+                                                     & = \sum_{n = 0}^{N} \frac{c_n}{i(n + 1)}(1 - 1) \\ 
+                                                     & = 0
+\end{align*} 
+Since the uniform closure of $\mathscr{A}$ consist of functions $g$ such that $f_n \rightarrow g$ uniformly on $K$ for some sequence $\{f_n\} \subset \mathscr{A}$ and $f_n e^{i\theta} \rightarrow g e^{i\theta}$ uniformly on $K$ (since $\abs{e^{i\theta}} = 1$ and thus bounded),   
+$$\int_{0}^{2\pi} g(e^{i\theta}) e^{i\theta} d\theta = \lim_{n \rightarrow \infty} \int_{0}^{2\pi} f_n(e^{i\theta}) e^{i \theta} d\theta = 0$$
+However, $h(e^{i\theta}) = e^{-i\theta}$ is a continuous function on $K$.
+$$\int_{0}^{2\pi} h(e^{i\theta}) e^{i\theta} d\theta = \int_{0}^{2\pi} 1 d\theta = 2\pi$$
+shows that $h$ is a continuous function on $K$ that is not in the uniform closure of $\mathscr{A}$. 
+This example illustrates why the self-adjointedness condition is required for the Stone-Weierstrass theorem to hold for an algebra of complex-valued functions. 
+
+
+\end{document}
