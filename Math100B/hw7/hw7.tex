@@ -1,0 +1,230 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math100B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#7}
+\author{\myname}
+\date{2026.03.01}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section{} 
+\subsection{}
+I leave the matrix computations mod $p$ to Gavin. 
+To solve the systems, I row reduce and represent row redution via elementary matrices. 
+When $p = 5$, 
+\begin{align*}
+  \bmat{1 & 0 \\ 0 & 3} \bmat {1 & -1 \\ 0 & 1} \bmat{1 & 0 \\ -2 & 1} \bmat{6 & -3 & 3 \\ 2 & 6 & 1} & = \bmat{1 & 0 \\ 0 & 3} \bmat {1 & -1 \\ 0 & 1} \bmat{1 & 0 \\ -2 & 1} \bmat{1 & 2 & 3 \\ 2 & 1 & 1} \\ 
+          & = \bmat{1 & 0 \\ 0 & 3} \bmat {1 & -1 \\ 0 & 1} \bmat{1 & 2 & 3 \\ 0 & 2 & 0} \\ 
+          & = \bmat{1 & 0 \\ 0 & 3} \bmat{1 & 0 & 3 \\ 0 & 2 & 0} \\ 
+          & = \bmat{1 & 0 & 3 \\ 0 & 1 & 0}
+\end{align*}
+So $X = \bmat{3 \\ 0}$ is the unique solution to the system $AX = B$. 
+
+When $p = 7$, 
+\begin{align*}
+  \bmat{1 & 0 \\ -2 & 1} \bmat {6 & 0 \\ 0 & 1} \bmat{6 & -3 & 3 \\ 2 & 6 & 1} & = \bmat{1 & 0 \\ -2 & 1} \bmat{1 & 3 & 4 \\ 2 & 6 & 1} \\ 
+          & = \bmat{1 & 3 & 4 \\ 0 & 0 & 0}
+\end{align*}
+So any $X = \bmat{x_1 \\ x_2}$ satisfying $x_1 + 3x_2 = 4$ is a solution to the system $AX = B$. 
+
+When $p = 11$, 
+\begin{align*}
+  \bmat{1 & -3 \\ 0 & 1} \bmat{1 & 0 \\ -6 & 1} \bmat{6 & 0 \\ 0 & 1} \bmat{0 & 1 \\ 1 & 0} \bmat{6 & -3 & 3 \\ 2 & 6 & 1} & = \bmat{1 & -3 \\ 0 & 1} \bmat{1 & 0 \\ -6 & 1} \bmat{6 & 0 \\ 0 & 1} \bmat{2 & 6 & 1 \\ 6 & 8 & 3} \\ 
+          & = \bmat{1 & -3 \\ 0 & 1} \bmat{1 & 0 \\ -6 & 1} \bmat{1 & 3 & 6 \\ 6 & 8 & 3} \\ 
+          & = \bmat{1 & -3 \\ 0 & 1} \bmat{1 & 3 & 6 \\ 0 & 1 & 0} \\ 
+          & = \bmat{1 & 0 & 6 \\ 0 & 1 & 0} 
+\end{align*}
+So $X = \bmat{6 \\ 0}$ is the unique solution to the system $AX = B$. 
+
+\subsection{}
+Using the formula for the determinant of a $3 \times 3$ matrix, 
+$$\det{\bmat{1 & 2 & 0 \\ 0 & 3 & -1 \\ -2 & 0 & 2}} = 10$$ 
+Since reduction mod $p$ respects addition and multiplication, the determinant of the matrix mod $p$ is $10 \pmod{p}$. 
+Hence the matrix is invertible mod $p \iff p \neq 2, 5$. 
+
+\subsection{} 
+Over any of the fields $\Q, \F_2, \F_3$, the following row reduction makes sense: 
+\begin{equation} \label{eq:res_mat}
+  \bmat{1 & -1 & \\ & 1 & \\ & & 1} \bmat{1 & & & \\ -1 & 1 &  \\ & & 1} \bmat{1 & & & \\  & 1 &  \\ -1 & & 1} \bmat{1 & 1 & 0 & 1 \\ 1 & 0 & 1 & -1 \\ 1 & -1 & -1 & 1} = \bmat{1 & 0 & 1 & -1 \\ 0 & 1 & -1 & 2 \\ 0 & 2 & 1 & 0}  
+\end{equation}
+Over $\F_{2}$, the resulting matrix in \eqref{eq:res_mat} is 
+$$\bmat{1 & & 1 & 1 \\ & 1 & 1 & \\ & & 1 }$$
+It can be row-reduced to 
+$$\bmat{1 & &  \\  & 1 & -1 \\  &  & 1} \bmat{1 & & -1\\  & 1 &  \\  &  & 1} \bmat{1 & & 1 & 1 \\ & 1 & 1 & \\ & & 1 } = \bmat{1 & & & 1 \\ & 1 & & 0 \\ & & 1 & 0}$$
+Hence $X = \bmat{1 \\ 0 \\ 0}$ is the unique solution to $AX = B$ over $\F_{2}$. 
+
+Over $\F_3$, the resulting matrix in \eqref{eq:res_mat} is 
+$$\bmat{1 & & 1 & 2 \\ & 1 & 2 & 2 \\  & 2 & 1 & }$$
+It can be row-reduced to 
+$$\bmat{1 & & \\ & 1 & \\ & -2 & 1} \bmat{1 & & 1 & 2 \\ & 1 & 2 & 2 \\  & 2 & 1 & } = \bmat{1 & & 1 & 2 \\ & 1 & 2 & 2 \\ & & & 1}$$
+The bottom row indicates that the system $AX = B$ has no solutions over $\F_3$. 
+
+Over $\Q$, row-reduce \eqref{eq:res_mat} as such:  
+$$\bmat{1 & & -1 \\ & 1 & \\ & & 1} \bmat{1 & & \\ & 1 & 1 \\ &  & 1}\bmat{1 & & \\ & 1 & \\ &  & \frac{1}{3}} \bmat{1 & & \\ & 1 & \\ & -2 & 1} \bmat{1 & 0 & 1 & -1 \\ 0 & 1 & -1 & 2 \\ 0 & 2 & 1 & 0} = \bmat{1 & & & \frac{1}{3} \\ & 1 & & \frac{2}{3} \\ & & 1 & -\frac{4}{3}}$$
+So $X = \bmat{1/3 \\ 2/3 \\ - 4/3}$ is the unique solution to $AX = B$ over $\Q$. 
+
+\subsection{}
+Notice that 
+$$\bmat{1 & 1 \\ & 1}^n = \bmat{1 & n \\ & 1}$$
+The identity in $\GL_2(\F_7)$ is just the $2 \times 2$ identity matrix $I_2$, so the order of $\bmat{1 & 1 \\ & 1}$ in $\GL_2(\F_7)$ is 7. 
+
+\section{} 
+\subsection{}
+$0v = (0 + 0)v = 0v + 0v \implies 0v = 0$ by the distributive property of scalar multipliation and the cancellation law. 
+
+\subsection{}
+$0 \in F$, so if $w \in W$, $0w = 0 \in W$. 
+
+\subsection{} 
+$-1(w) + w = (-1 + 1)w = 0w = 0$ by the distributive property of scalar addition, so $-1(w)$ is the additive inverse of $w$. 
+Hence $-w = -1(w) \in W$ if $w \in W$. 
+
+\section{}
+\subsection{}
+It is clear that $P_d$ is an abelian group under the usual polynomial addition since $F$ is a field and the sum of polynomials of degree at most $d$ has degree at most $d$ as well. 
+Let scalar multiplication in $P_d$ be the usual polynomial multiplication, where the scalar is treated as a degree 0 polynomial. 
+Take any $f(x), g(x) \in F[x]$ with degree at most $d$.
+By properties of the ring of polynomials, $\forall \lambda, \mu \in F \setminus 0$,  
+$$\lambda(f(x) + g(x)) = \lambda f(x) + \lambda g(x) \text{ and } (\lambda + \mu)f(x) = \lambda f(x) + \mu f(x)$$ 
+where clearly the degrees of $\lambda f(x) + \lambda g(x)$ and $\lambda f(x) + \mu f(x)$ are at most $d$. 
+This shows that $P_d$ is a vector space over $F$. 
+
+\subsection{}
+$\{1, x, \ldots, x^d\}$ form a basis for $P_d$. 
+By definition of an indeterminant, 
+$$\alpha_0 1 + \alpha_1 x + \ldots + \alpha_d x^d = 0 \iff \alpha_0 = \alpha_1 = \ldots = \alpha_d = 0$$
+so $\{1, x, \ldots, x^d\}$ is a linearly independent set.   
+It also follows by definition of the polynomial ring that any polynomial in $P_d$ is a linear combination of $\{1, x, \ldots, x^d\}$.
+This shows that $\{1, x, \ldots, x^d\}$ is a basis for $P_d$. 
+
+\section{} 
+\subsection{}
+Because matrix addition is pointwise and $F$ is a field, namely an additive abelian group, matrix multiplicaiton clearly makes $M_n(F)$ into an additive abelian group where the zero matrix, which I will denote $[0]$, is the additive identity.  
+Also, define the mutiplicaiton of a scalar $\lambda \in F$ with a matrix to be pointwise multiplication;
+that is, multiply every entry of the matrix by $\lambda$. 
+Once again, because $F$ is a field, pointwise multiplication by a scalar and pointwise addition satisfies the two distributive properties for a vector space. 
+
+\subsection{}
+Because matrix multiplicaiton and scalar addition is pointwise, the sum of two symmetric matrices is a symmetric matrix and a symmetric matrix multiplied by a scalar is a symmetric matrix, 
+i.e., the set of all symmetric matrices is closed under addition and scalar multiplication, hence it is a subspace of $M_n(F)$. 
+
+\subsection{}
+$\{s_{ij}\}_{1 \leq i \leq j \leq n}$, where $s_{ij}$ is a $n \times n$ matrix with $1$ in the $i, j$th entry and the $j, i$th entry and zeros everywhere else, form a basis for $n \times n$ symmetric matrices.  
+By definition, each $s_{ij}$ is symmetric, and it is clear that the $s_{ij}$'s are linearly independent; 
+for example, the sum of any linear combination of the $s_{ij}$'s is zero if and only if the coefficient of each term is 0 since each $s_{ij}$ occupies entries that are occupied my no other $s_{i'j'}$.  
+It is also clear that the $s_{ij}$'s span the space of all symmetric matrices since any $i, j$th entry of a symmetric matrix can be represented uniquely by a scalar multiple of $s_{ij}$. 
+
+\section{}
+\subsection{}
+One aleady knows that given any $A \in M_{m \times n}(F)$, any $X, Y \in F^n$, and any $\lambda \in F$,
+$$A(X + Y) = AX + AY, \: A(\lambda X) = (\lambda A) X$$
+So it follows immediately that $\varphi_{A}$ is a linear transformation. 
+
+\subsection{} 
+By above, $\varphi_{A}: F^n \rightarrow F^m$ defined by matrix multiplication is a linear transformation. 
+
+Conversely, given any linear transformation $\varphi: F^n \rightarrow F^m$, let 
+$$A = \bmat{\varphi(e_1) & \varphi(e_2) & \ldots & \varphi(e_n)}$$ 
+be a $m \times n$ matrix where the $\varphi(e_i)$'s are written as coordinate vectors with respect to the standard basis in $F^m$. 
+Recall that $Ae_i$ gives the $i$th column of $A$.
+Thus for any $v = \bmat{v_1 \\ \vdots \\ v_n} \in F^n$ written as a coordinate vector with respect to the standard basis in $F^n$, $v = v_1 e_2 + v_2 e_2 + \ldots v_n e_n$ implies  
+\begin{align*}
+  Av  & = v_1 Ae_1 + v_2 Ae_2 + \ldots + v_n Ae_n \\ 
+      & = v_1 \varphi(e_1) + v_2 \varphi(e_2) + \ldots + v_n \varphi(e_n) \\ 
+      & = \varphi(v)
+\end{align*}
+This shows that linear transformations and matrices are different representations of the same thing.  
+
+\subsection*{(c) and (d)}
+(c) follows immediately from (d) since the fact that $\varphi^{-1}$ can be represented by a matrix automatically means $\varphi^{-1}$ is a linear transformation. 
+
+(d) is obvious too. 
+$\psi$ is the inverse of $\varphi$ if and only if $m = n$ \textit{(quick proof of this in case it cannot be assumed: if $m > n$, then $\varphi$ isn't surjective since the images of the basis elements for $F^n$ form a basis for the $n$-dimensional subspace $\varphi(F^n)$ of $F^m$
+Similarly, if $m < n$, then $\varphi$ is not injective)} and  
+\begin{equation} \label{eq:fn_inv} 
+  \forall v \in F^n, \, \psi(\varphi(v)) = v \text{ and } \forall w \in F^m, \, \varphi(\psi(w)) = w
+\end{equation}
+If $B$ is the matrix associated to $\psi$ and $A$ is the matrix associated with $\varphi$, then \eqref{eq:fn_inv} is equivalent to 
+\begin{equation} \label{eq:mat_inv}
+  \forall v \in F^n, \, BAv = v \text{ and } \forall w \in F^m, \, ABw = w
+\end{equation}
+and, \eqref{eq:mat_inv} is of course equivalent to saying $BA = I_n$ and $AB = I_m$. 
+But $m = n$, so $B = A^{-1}$.  
+
+\section{}
+This follows from Q5. 
+Let $A = \bmat{v_1, \ldots, v_n}$. 
+If $\{v_1, \ldots, v_n\}$ is a basis for $F^n$, then any $Y \in F^n$ is represented by a unique linear combination of $v_1, \ldots, v_n$.  
+In other words, the linear transformation $\varphi_A$ associated to $A$ is surjective and injective, hence bijective. 
+This means that $A$ is invertible. 
+
+Conversely, suppose $\{v_1, \ldots, v_n\}$ is not a basis for $F^n$.
+$F^n$ is $n$-dimensional; 
+it must be that $\{v_1, \ldots, v_n\}$ do not span $V$ and are not linearly independent (rank nullity theorem or whatever, I think it also follows from what was discussed in lecture? Haven't gone to lecture...).
+Namely, if $\{v_1, \ldots, v_n\}$ do not span $V$, then $\exists Y \in F^n \st \forall X \in F^n$, $AX \neq Y$. 
+So $A$ is not surjective, which means it is not invertible. 
+
+\section{}
+\subsection{}
+This follows immediately from Q6. 
+Every distinct element of $\GL_2(\F_p)$ corresponds to a distinct (ordered) basis for $\F_{p}^{2}$. 
+
+\subsection{}
+Let's count the number of ordered bases for $\F_{p}^{2}$. 
+This corresponds to the number of ordered pairs $(v_1, v_2)$ in $\F_{p}^{2}$ where $v_1$ and $v_2$ are linearly independent.
+$v_1$ can be chosen to be any element in $\F_{p}^{2}$ except 0;
+there are $p^2 - 1$ such elements. 
+Since the only requirement for $v_2$ is that $v_2$ is linearly independent from $v_1$, i.e., not a scalar multiple of $v_1$, there are $p^2 - p$ choices for $v_2$. 
+In all, this gives 
+$$(p^2 - 1)(p^2 - p) = p(p - 1)^2(p + 1)$$
+choices for the pair $(v_1, v_2)$, i.e., this is the order of $\GL_{2}(\F_p)$.
+
+\end{document}

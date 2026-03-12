@@ -1,0 +1,320 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{ytableau}
+\usepackage{blkarray}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{cancel}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math188}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#6}
+\author{\myname}
+\date{2026.03.09}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section{} 
+It follows immediately from the property of the M\"{o}bius function that 
+$$\mu_{P \times Q}[(x, y), (x, y)] = 1 = \mu_{P}[x, x] \mu_{Q}[y, y]$$
+Suppose $(x, y) < (x', y')$.  
+Then 
+\begin{align*}
+  \sum_{(x, y) \leq (z, w) \leq (x', y')} \mu_{P}[x, z] \mu_{Q}[y, w] 
+  & = \sum_{x \leq z \leq x'} \mu_{P}[x, z] \sum_{y \leq w \leq y'} \mu_{Q}[y, w]  \\ 
+  & = 0 
+\end{align*}
+since $x < x'$ or $y < y'$.
+$\mu_{P \times Q}[(x, y), (x', y')]$ and $\mu_{P}[x, x'] \mu_{Q}[y, y']$ satisfy the same recursion, so they are equal. 
+
+\section{} 
+\begin{center}
+\begin{tikzpicture}[
+    every node/.style={
+        circle, draw, inner sep=1pt, minimum size=24pt,
+        font=\footnotesize\strut
+    },
+    edge/.style={thick, gray!60},
+    rank0/.style={fill=orange!15, draw=orange!70!black},
+    rank1/.style={fill=violet!12, draw=violet!70!black},
+    rank2/.style={fill=pink!18, draw=pink!70!black},
+]
+
+% --- Rank 0 (bottom): discrete partition ---
+\node[rank0] (0) at (0, 0) {$1|2|3$};
+
+% --- Rank 1: three partitions with one pair merged ---
+\node[rank1] (12) at (-2.5, 3) {$12|3$};
+\node[rank1] (13) at (0, 3)   {$13|2$};
+\node[rank1] (23) at (2.5, 3) {$23|1$};
+
+% --- Rank 2 (top): single block ---
+\node[rank2] (top) at (0, 6) {$123$};
+
+% --- Rank labels ---
+\node[draw=none, fill=none, font=\scriptsize\itshape\color{gray}] at (-4.5, 0) {rank 0};
+\node[draw=none, fill=none, font=\scriptsize\itshape\color{gray}] at (-4.5, 3) {rank 1};
+\node[draw=none, fill=none, font=\scriptsize\itshape\color{gray}] at (-4.5, 6) {rank 2};
+
+% ========== EDGES ==========
+
+% Rank 0 -> Rank 1
+\draw[edge] (0) -- (12);
+\draw[edge] (0) -- (13);
+\draw[edge] (0) -- (23);
+
+% Rank 1 -> Rank 2
+\draw[edge] (12) -- (top);
+\draw[edge] (13) -- (top);
+\draw[edge] (23) -- (top);
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    every node/.style={
+        circle, draw, inner sep=1pt, minimum size=22pt,
+        font=\footnotesize\strut
+    },
+    edge/.style={thick, gray!60},
+    rank0/.style={fill=orange!15, draw=orange!70!black},
+    rank1/.style={fill=violet!12, draw=violet!70!black},
+    rank2/.style={fill=green!12, draw=green!50!black},
+    rank3/.style={fill=pink!18, draw=pink!70!black},
+]
+
+% --- Rank 0 (bottom): discrete partition ---
+\node[rank0] (0) at (0, 0) {$1|2|3|4$};
+
+% --- Rank 1: six partitions with one pair merged ---
+\node[rank1] (12) at (-5, 3) {$12|3|4$};
+\node[rank1] (13) at (-3, 3) {$13|2|4$};
+\node[rank1] (14) at (-1, 3) {$14|2|3$};
+\node[rank1] (23) at (1, 3)  {$23|1|4$};
+\node[rank1] (24) at (3, 3)  {$24|1|3$};
+\node[rank1] (34) at (5, 3)  {$34|1|2$};
+
+% --- Rank 2: seven partitions with two blocks ---
+\node[rank2] (123) at (-5.5, 6) {$123|4$};
+\node[rank2] (124) at (-3.5, 6) {$124|3$};
+\node[rank2] (134) at (-1.5, 6) {$134|2$};
+\node[rank2] (234) at (0.5, 6)  {$234|1$};
+\node[rank2] (1234a) at (2.5, 6) {$12|34$};
+\node[rank2] (1324) at (4.2, 6)  {$13|24$};
+\node[rank2] (1423) at (5.9, 6) {$14|23$};
+
+% --- Rank 3 (top): single block ---
+\node[rank3] (top) at (0, 9) {$1234$};
+
+% --- Rank labels ---
+\node[draw=none, fill=none, font=\scriptsize\itshape\color{gray}] at (-7.2, 0) {rank 0};
+\node[draw=none, fill=none, font=\scriptsize\itshape\color{gray}] at (-7.2, 3) {rank 1};
+\node[draw=none, fill=none, font=\scriptsize\itshape\color{gray}] at (-7.2, 6) {rank 2};
+\node[draw=none, fill=none, font=\scriptsize\itshape\color{gray}] at (-7.2, 9) {rank 3};
+
+% ========== EDGES ==========
+
+% Rank 0 -> Rank 1
+\foreach \x in {12,13,14,23,24,34} {
+    \draw[edge] (0) -- (\x);
+}
+
+% Rank 1 -> Rank 2
+% 12|3|4 covers: 123|4, 124|3, 12|34
+\draw[edge] (12) -- (123);
+\draw[edge] (12) -- (124);
+\draw[edge] (12) -- (1234a);
+
+% 13|2|4 covers: 123|4, 134|2, 13|24
+\draw[edge] (13) -- (123);
+\draw[edge] (13) -- (134);
+\draw[edge] (13) -- (1324);
+
+% 14|2|3 covers: 124|3, 134|2, 14|23
+\draw[edge] (14) -- (124);
+\draw[edge] (14) -- (134);
+\draw[edge] (14) -- (1423);
+
+% 23|1|4 covers: 123|4, 234|1, 14|23
+\draw[edge] (23) -- (123);
+\draw[edge] (23) -- (234);
+\draw[edge] (23) -- (1423);
+
+% 24|1|3 covers: 124|3, 234|1, 13|24
+\draw[edge] (24) -- (124);
+\draw[edge] (24) -- (234);
+\draw[edge] (24) -- (1324);
+
+% 34|1|2 covers: 134|2, 234|1, 12|34
+\draw[edge] (34) -- (134);
+\draw[edge] (34) -- (234);
+\draw[edge] (34) -- (1234a);
+
+% Rank 2 -> Rank 3
+\foreach \x in {123,124,134,234,1234a,1324,1423} {
+    \draw[edge] (\x) -- (top);
+}
+\end{tikzpicture}
+\end{center}
+
+The number of maximal chains in $\Pi_n$ can be counted by starting from $\hat{0} = \{1 \mid 2 \mid \ldots \mid n\}$ and then, at each level, joining two blocks from the partition.  
+So the number of maximal chains in $\Pi_n$ is 
+\begin{align*}
+  \binom{n}{2} \binom{n - 1}{2} \cdots \binom{3}{2} \binom{2}{3}  
+  & = \left( \frac{n!}{2! \cancel{(n - 2)!}} \right) \left( \frac{(n - 1)!}{2! \cancel{(n - 3)!}} \right) \cdots \left( \frac{\cancel{3!}}{2!} \right) \left( \frac{\cancel{2!}}{2!} \right) \\ 
+  & = \frac{n! (n - 1)!}{2^{n - 1}}
+\end{align*}
+
+\section{}
+Take any $\pi' \in [\hat{0}, \pi]_{\Pi_n}$. 
+Since $\pi'$ refines $\pi$, there is a partition of $\pi'$ such that the union of each block in that partition is equal to a single block of $\pi$. 
+In other words, if $\pi' = \{B_{1}' \mid B_{2}' \mid \ldots \mid B_{t}'\}$, then there is a reordering of $B_1, \ldots, B_k$ and $B'_{1}, \ldots, B'_{t}$ and numbers $1 < m_1 <  \ldots < m_{k - 1} < t$ such that 
+$$B_1 = \bigsqcup_{i = 1}^{m_1} B_{i}', \: B_2 = \bigsqcup_{i = m_{1} + 1}^{m_2} B_{i}', \ldots, \:  B_k = \bigsqcup_{i = m_{k - 1} + 1}^{t} B_{i}' $$
+Let $Q = \Pi_{\#B_1} \times \ldots \Pi_{\#B_{k}}$ and define $\varphi: [\hat{0}, \pi]_{\Pi_n} \rightarrow Q$ where 
+\begin{equation} \label{eq:ptn_Bp}
+  \pi' = \{B'_{1} \mid \ldots \mid B'_{t}\} \mapsto (\{B'_{1} \mid \ldots \mid B'_{m_1}\}, \ldots, \{B'_{m_{k - 1} + 1} \mid \ldots \mid B'_{t}\})
+\end{equation}
+Of course, the elements of the blocks of the partition in each coordinate of the image, for example $\{B'_{1} \mid \ldots \mid B'_{m_1} \}$, need to be relabeled to elements of $[\#B_1]$ in an order-preserving way. 
+Then it is not difficult to see from the definition of $\varphi$ that given $\pi_1, \pi_2 \in [\hat{0}, \pi]_{\Pi_n}$, 
+$$\varphi(\pi_1) \leq_{Q} \varphi(\pi_2) \iff \pi_1 \leq_{\Pi_n} \pi_2$$
+so $\varphi$ is a homomorphism between posets. 
+Given a refinement $\pi' \leq_{\Pi_n} \pi$, it is also clear that the partition of $\pi'$ given by \eqref{eq:ptn_Bp} is indeed unique to $\pi'$; 
+no other $\pi'' \in [\hat{0}, \pi]_{\Pi_n}$ induces such a partition of $\pi'$. 
+Finally, it is similarly trivial to see that $\varphi$ is surjective since a refinement of $\pi$ is essentially a refinement of each of the blocks of $\pi$. 
+
+\section{}
+
+
+\section{}
+Notice $\text{Int}(P + Q) = \left\{ [x, y]_{P + Q} \mid (x, y \in P \text{ and } x \leq_{P}) \text{ or } (x, y \in Q \text{ and } x \leq_{Q} y) \right\}$. 
+Hence 
+$$\text{Int}(P + Q) \equiv \text{Int}(P) \sqcup \text{Int}(Q)$$
+and the following functions can be defined: 
+\begin{align*}
+  \iota_{P}: \text{Int}(P) \hookrightarrow \text{Int}(P + Q) & ; \: [x, y]_{P} \mapsto [x, y]_{P + Q} \\ 
+  \iota_{Q}: \text{Int}(Q) \hookrightarrow \text{Int}(P + Q) & ; \: [x, y]_{Q} \mapsto [x, y]_{P + Q} \\ 
+\end{align*}
+
+Take $f \in I(P + Q)$. 
+Then define 
+\begin{align*}
+  g: \text{Int}(P) \rightarrow \C & ; \: [x, y]_{P} \overset{\iota_{P}}{\mapsto} [x, y]_{P + Q} \overset{f}{\mapsto} \C \\ 
+  h: \text{Int}(Q) \rightarrow \C & ; \: [x, y]_{Q} \overset{\iota_{Q}}{\mapsto} [x, y]_{P + Q} \overset{f}{\mapsto} \C
+\end{align*} 
+Then if 
+\begin{equation} \label{eq:oplus_map}
+  (g, h)[x, y]_{P + Q} \defeq 
+  \begin{cases}
+    g[x, y]_{P} & \text{ if } x, y \in P \\ 
+    h[x, y]_{Q} & \text{ if } x, y \in Q
+  \end{cases}
+\end{equation}
+then it's clear $f = (g, h)$ and thus $f \in I(P) \oplus I(Q)$; 
+this shows $I(P + Q) \subset I(P) \oplus I(Q)$. 
+
+The reverse inclusion is clear: 
+if $(g, h) \in I(P) \oplus I(Q)$, then $(g, h)$ can be viewed as an element in $I(P + Q)$ by defining $(g, h): \text{Int}(P + Q) \rightarrow \C$ as in \eqref{eq:oplus_map}. 
+
+\section{}
+Recall that $\zeta^2[x, y]$ counts the number of multichains $\{x \leq z \leq y\}$. 
+Notice that these multichains, namely, via the middle element $z$, corresponds bijectively to an element in $[x, y]$. 
+Hence $\zeta^2[x, y] = \#[x, y]$. 
+
+\section{}
+If $\hat{0} \lessdot x$, then 
+$$0 = \sum_{\hat{0} \leq z \leq x} \mu[\hat{0}, z] = \mu[\hat{0}, \hat{0}] + \mu[\hat{0}, x] = 1 + \mu[\hat{0}, x]$$
+hence $\mu[\hat{0}, x] = -1$. 
+Next, suppose $y \lessdot x$ and $y \neq 0$. 
+Then if $z \in P$ is an element such that $\hat{0} \leq z \leq x$ and $z \neq x$, then $z \leq y$. 
+Therefore, 
+\begin{align*}
+  0 & = \sum_{\hat{0} \leq z \leq x} \mu[\hat{0}, z] \\ 
+    & = \sum_{\hat{0} \leq z \leq y} \mu[\hat{0}, z] + \mu[\hat{0}, x] \\ 
+    & = \mu[\hat{0}, x]
+\end{align*}
+as was to be shown. 
+
+\section{}
+For $n = 0$, let $P$ be a chain $\{x_1 < x_2 < x_3\}$. 
+Then $x_1 = \hat{0}$ and 
+$$0 = \sum_{\hat{0} \leq z \leq x_3} \mu_[\hat{0}, z] \mu[\hat{0}, x_3] = 1 - 1 + \mu[\hat{0}, x_3] = \mu[\hat{0}, x_3]$$
+
+Next, take $n > 0$. 
+Then let $P$ be a graded poset of rank 2, with minimum $\hat{0}$ and maximum $\hat{1}$,
+i.e., the only element of rank 0 is $\hat{0}$ and the only element of rank 2 is $\hat{1}$. 
+Finally, let there be $n + 1$ elements of rank 1. 
+For all $z \in P$ with $\rank{z} = -1$, then $\mu[\hat{0}, z] = 1$. 
+Then 
+\begin{align*}
+  0 & = \sum_{\hat{0} \leq z \leq \hat{1}} \mu[\hat{0}, z] \\ 
+    & = \mu[\hat{0}, \hat{0}] + \sum_{\substack{z \in P \\ \rank{z} = 1}} \mu[\hat{0}, z] + \mu[\hat{0}, \hat{1}] \\ 
+    & = 1 + -(n + 1) + \mu[\hat{0}, \hat{1}] 
+\end{align*}
+Hence $\mu[\hat{0}, \hat{1}] = n$. 
+
+Finally, let $n < 0$. 
+If $n$ is even, then let $P$ be a poset of rank 3 with minimum $\hat{0}$ and $\hat{1}$. 
+Add three elements of rank 1 and $\abs{n} / 2 + 1$ elements of rank 2, where each element of rank 2 is connected to all three elements of rank 1. 
+Of course, for every $z \in P \with \rank{z} = 1$, $\mu[\hat{0}, z] = -1$. 
+Furthermore, for every $z \in P$ with $\rank z = 2$, $\mu[\hat{0}, z] = 2$. 
+Hence 
+\begin{align*}
+  0 & = \sum_{\hat{0} \leq z \leq \hat{1}} \mu[\hat{0}, z] \\ 
+    & = \mu[\hat{0}, \hat{0}] + \sum_{\substack{z \in P \\ \rank{z} = 1}}\mu[\hat{0}, z] + \sum_{\substack{z \in P \\ \rank{z} = 2}}\mu[\hat{0}, z] + \mu[\hat{0}, \hat{1}] \\ 
+    & = 1 + 3(-1) + (\frac{\abs{n}}{2} + 1)2 + \mu[\hat{0}, \hat{1}] \\ 
+    & = \frac{\abs{n}}{2} + \mu[\hat{0}, \hat{1}] 
+\end{align*}
+Hence $\mu[\hat{0}, \hat{1}] = -\abs{n} = n$ since $n < 0$.  
+
+\newpage{}
+\section*{Acknowledgement}
+I used claude.ai to typeset the Hasse Diagrams of $\Pi_3$ and $\Pi_4$ after first illustrating them for myself on paper. 
+
+\end{document}

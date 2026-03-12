@@ -1,0 +1,217 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#9}
+\author{\myname}
+\date{2026.03.08} 
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section*{Q4} 
+\subsection{}
+Notice 
+$$\lim_{x \rightarrow 0} \frac{b^x - 1}{x} = f'(0)$$ 
+where $f(x) = b^x = e^{x \log b}$. 
+Then 
+$$f'(x) = e^{x \log b} \log b = b^x \log b$$
+So $f'(0) = \log b$, as was to be shown. 
+
+\subsection{}
+By the L'Hospital rule, 
+$$\lim_{x \rightarrow 0} \frac{\log(1 + x)}{x} = \lim_{x \rightarrow 0} \frac{1}{1 + x} = 1$$
+
+\subsection{}
+Part (c) follows from part (b). 
+$$\lim_{x \rightarrow 0} (1 + x)^{1/x} = \lim_{x \rightarrow 0} e^{1/x \log{(1 + x)}} = e$$
+
+\subsection{} 
+Proceed as in the proof for Theorem 3.31 of Rudin. 
+Fix $x \in \R$ and let 
+$$f_n(x) = (1 + \frac{x}{n})^n$$ 
+By the Binomial Theorem, 
+\begin{align}
+  f_n(x) & = \sum_{k = 0}^{n} \binom{n}{k} (\frac{x}{n})^k \nonumber \\ 
+         & = \sum_{k = 0}^{n} \frac{x^k}{k!} \frac{n(n - 1) \cdots (n - k + 1)}{n^k} \nonumber \\ 
+         & = \sum_{k = 0}^{n} \frac{x^k}{k!} (1 - \frac{1}{n})(1 - \frac{2}{n}) \cdots (1 - \frac{k - 1}{n}) \label{eq:binom} \\ 
+         & \leq \sum_{k = 0}^{n} \frac{x^k}{k!} \nonumber
+\end{align}
+which gives  
+$$\limsup_{n \rightarrow \infty} f_n(x) \leq e^x$$ 
+Next, if $n \geq m$, then by \eqref{eq:binom},  
+$$f_n(x) \geq \sum_{k = 0}^{m} \frac{x^k}{k!} (1 - \frac{1}{n})(1 - \frac{2}{n}) \cdots (1 - \frac{k - 1}{n}) \geq \sum_{k = 0}^{m} \frac{x^k}{k!}$$ 
+Fixing $m$ and letting $n \rightarrow \infty$, 
+$$\liminf_{n \rightarrow \infty} f_n(x) \geq \sum_{k = 0}^{m} \frac{x^k}{k!}$$
+Letting $m \rightarrow \infty$, obtain 
+$$\liminf_{n \rightarrow \infty} f_n(x) \geq e^x$$ 
+This gives the desired result. 
+
+\section*{Q5}
+\setcounter{subsection}{0}
+\subsection{}
+Recall from Q4 (c) that $\lim_{x \rightarrow 0} \frac{e - (1 + x)^{1/x}}{x}$ and $(1 + x)^{1/x}$ is differentiable everywhere except $x = 0$, so L'Hospital's rule applies:  
+\begin{equation} \label{eq:5_res}
+  \lim_{x \rightarrow 0} \frac{e - (1 + x)^{1/x}}{x} = - \lim_{x \rightarrow 0} \frac{dy}{dx}
+\end{equation}
+where $y = (1 + x)^{1/x}$. 
+$\log y = -x \log(1 + x)$, so 
+$$\frac{1}{y} \frac{dy}{dx} = \frac{d}{dx} \log y = \frac{1}{x(1 + x)} - \frac{\log(1 + x)}{x^2} $$
+This gives 
+$$\frac{dy}{dx} = -(1 + x)^{1/x} \left(\frac{1}{x(1 + x)} - \frac{\log(1 + x)}{x^2}\right)$$
+As $x \rightarrow 0$, the first term approaches $e$. 
+L'Hospital's rule can be applied a few more times to calculate limit of the second term as $x \rightarrow 0$: 
+\begin{align*}
+  \lim_{x \rightarrow 0} \left[ \frac{1}{x(1 + x)} - \frac{\log(1 + x)}{x^2} \right] 
+  & = \lim_{x \rightarrow 0} \frac{x - (1 + x)\log(1 + x)}{x^2 (1 + x)} \\ 
+  & = \lim_{x \rightarrow 0} \frac{1 - \frac{1 + x}{1 + x} - \log(1 + x)}{2x + 3x^2} \\ 
+  & = \lim_{x \rightarrow 0} \frac{-1/(1 + x)}{2 + 6x} = -1/2
+\end{align*}
+Recapitulating, 
+$$-\lim_{x \rightarrow 0} \frac{dy}{dx} = e / 2$$ 
+
+\subsection{}
+I will show 
+$$\lim_{n \rightarrow \infty} \frac{n}{\log{n}} (n^{1/n} - 1) = \lim_{x \rightarrow \infty} \frac{x}{\log{x}}(x^{1/x} - 1) = 1$$ 
+where the first equality is trivial. 
+Recall that $\lim_{x \rightarrow \infty} \log{x}/x = 0$. 
+Applying L'Hospital's rule, 
+\begin{align*}
+  \lim_{x \rightarrow \infty} \frac{x}{\log{x}}(x^{1/x} - 1) 
+  & = \lim_{x \rightarrow \infty} \frac{e^{\log{x} / x} - 1}{\log{x} / x} \\ 
+  & = \lim_{x \rightarrow \infty} \frac{y e^{\log{x} / x}}{y} \\ 
+  & = e^0 = 1
+\end{align*}
+where $y = \frac{d}{dx} \log{x} / x$. 
+
+\section*{Q9}
+\setcounter{subsection}{0}
+\subsection{}
+I show that $s_N - \log{N}$ is a monotonic decreasing and bounded sequence.
+To see that the sequence is monotonic decreasing, 
+\begin{align*}
+  s_{N + 1} - \log{N + 1} - (s_{N} - \log{N}) & = \frac{1}{N + 1} - \int_{N}^{N + 1} \frac{dt}{t} \\ 
+                                              & < \frac{1}{N + 1} - \frac{1}{N + 1} \\ 
+                                              & = 0
+\end{align*}
+where the inequality comes from letting $P = \{N, N + 1\}$ be a one-block partition of $[N, N + 1]$ and the fact that $L(P, \frac{1}{x}) = \frac{1}{N + 1}$ since $\frac{1}{x}$ is a decreasing function. 
+
+To show that $s_N - \log{N}$ is bounded, it suffices to show that each term in the sequence is positive. 
+Indeed, for any $N$, 
+\begin{align*}
+  s_N - \log{N} & = s_N - \int_{1}^{N} \frac{dt}{t} \\ 
+                & > s_N - \sum_{k = 1}^{N - 1} \frac{1}{k} \\ 
+                & = \frac{1}{N} > 0
+\end{align*}
+where the inequality arises from letting $P = \{1, 2, \ldots, N - 1, N\}$ be a partition of $[1, N]$ and the fact that $U(P, \frac{1}{x}) = \sum_{k = 1}^{N - 1} \frac{1}{k}$ since $\frac{1}{x}$ is a decreasing function. 
+
+I have shown that $s_N - \log{N}$ is monotonic decreasing and bounded. 
+Hence, it is a converging sequence. 
+
+\section*{Q11}
+Notice 
+\begin{equation} \label{eq:one}
+  1 = t\int_{0}^{\infty} e^{-tx} dx
+\end{equation}
+The desired result is equivalent to 
+\begin{equation} \label{eq:end_res} 
+  \lim_{t \rightarrow 0} \abs{t \int_{0}^{\infty} e^{-tx} f(x) dx - 1} = 0
+\end{equation}
+
+Fix $\epsilon > 0$. 
+Let $A \in \R$ be the value such that $\abs{f(x) - 1} < \epsilon$ for all $x \geq A$. 
+Denote $M \defeq \sup_{x \in [0, A]} \abs{f(x) - 1}$. 
+Combining \eqref{eq:one} and \eqref{eq:end_res}, obtain 
+\begin{align}
+  \limsup_{t \rightarrow 0} \abs{t \int_{0}^{\infty} e^{-tx} dx - 1} 
+  & = \limsup_{t \rightarrow 0} \abs{t \int_{0}^{\infty} e^{-tx} (f(x) - 1)dx} \nonumber \\ 
+  & \leq \lim_{t \rightarrow 0} \abs{t} \left[ \int_{0}^{A} M e^{-tx} dx + \int_{A}^{\infty} \epsilon e^{-tx}dx \right] \label{eq:pos_t} \\ 
+  & = \lim_{t \rightarrow 0} \abs{t} \left[ \left.-\frac{M}{t}e^{-tx} \right|_{0}^{A} + \left. -\frac{\epsilon}{t}e^{-tx}\right|_{A}^{\infty}\right] \nonumber \\ 
+  & = \lim_{t \rightarrow 0} \left[M(e^{-Ax} - 1) + \epsilon e^{-At} \right] \label{eq:cancel} \\
+  & = \epsilon \nonumber
+\end{align}
+where in \eqref{eq:cancel}, the $\abs{t}$ and $\frac{1}{t}$ cancel because only the nonnegative values of $t$ are considered when integrating $e^{-tx}$ in \eqref{eq:pos_t}. 
+Since $\epsilon$ was chosen to be arbitrary, 
+$$\limsup_{t \rightarrow 0} \abs{t \int_{0}^{\infty} e^{-tx} dx - 1} = 0$$
+which proves \eqref{eq:end_res}. 
+
+\section*{Q22}
+Let 
+\begin{equation} \label{eq:22_series}
+  f(x) = 1 + \sum_{n = 1}^{\infty} \frac{\alpha (\alpha - 1) \cdots (\alpha - n + 1)}{n!} x^n
+\end{equation}
+The series in \eqref{eq:22_series} converges with a radius of convergence of 1 by the ratio test: 
+$$\limsup_{n \rightarrow \infty} \abs{\frac{x(\alpha - n)}{n + 1}} < 1 \iff \abs{x} < 1$$
+To obtain the differential equation, first calculate 
+$$f'(x) = \sum_{n = 1}^{\infty} \frac{\alpha(\alpha - 1) \cdots (\alpha - n + 1)}{(n - 1)!} x^{n - 1} = \sum_{n = 0}^{\infty} \frac{\alpha(\alpha - 1) \cdots (\alpha - n)}{n!} x^n$$
+Recall the notation $\binom{\alpha}{n} = \frac{\alpha(\alpha - 1) \cdots (\alpha - n + 1)}{n!}$.
+A result from combinatorics is that $\binom{\alpha}{n} = \binom{\alpha - 1}{n - 1} + \binom{\alpha - 1}{n}$. 
+Then 
+\begin{align*}
+  \frac{1 + x}{\alpha} f'(x) & = \sum_{n = 1}^{\infty} \frac{(\alpha - 1)(\alpha - 2) \cdots (\alpha - n + 1)}{(n - 1)!} x^n + \sum_{n = 0}^{\infty} \frac{(\alpha - 1) (\alpha - 2) \cdots (\alpha - n)}{n!} x^n  \\ 
+                             & = 1 + \sum_{n = 1}^{\infty} (\binom{\alpha - 1}{n - 1} + \binom{\alpha - 1}{n}) x^n \\ 
+                             & = 1 + \sum_{n = 1}^{\infty} \binom{\alpha}{n} x^n \\ 
+                             & = f(x)
+\end{align*}
+In other words, $(1 + x)f'(x) = \alpha f(x)$. 
+Now, using the differential relation,  
+\begin{align*}
+  \frac{d}{dx}\left[ \frac{f(x)}{(1 + x)^\alpha} \right] 
+  & = \frac{f'(x) (1 + x)^\alpha - \alpha f(x) (1 + x)^{\alpha - 1}}{(1 + x)^{2\alpha}} \\ 
+  & = \frac{f'(x) (1 + x) - \alpha f(x)}{(1 + x)^{\alpha + 1}} \\ 
+  & = \frac{\alpha f(x) - \alpha f(x)}{(1 + x)^{\alpha + 1}} \\ 
+  & = 0 
+\end{align*}
+So $f(x) = c(1 + x)^\alpha$. 
+Plugging in $x = 0$ gives $c = 1$, which gives the desired result. 
+
+\end{document}

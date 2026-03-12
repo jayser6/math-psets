@@ -1,0 +1,137 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140B}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#8}
+\author{\myname}
+\date{2026.03.01}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\newcommand{\kder}[1]{\frac{d^[#1]}{dx^[#1]}}
+
+\section*{Q1}
+We have not covered the construction of the exponential function as of the due date of HW \#8, so I record the theorem in Rudin that is needed here: 
+\begin{theorem}
+  For any $x$,
+  $$e^x = \sum_{n = 0}^{\infty} \frac{x^n}{n!}$$
+  converges. 
+  It follows that for every $n \in \Znn$, 
+  $$\lim_{x \rightarrow \infty} x^n e^{-x} = 0$$
+\end{theorem}
+
+To solve the question, induct on $n$ for the following claim: 
+for all $n \in \Zpl$, 
+$$f^{(n)}(x) = \begin{cases} P_n(\frac{1}{x}) e^{-1/x^2} & \text{ if } x \neq 0 \\ 0 & \text{ if } x = 0 \end{cases}$$
+where $P_n(1/x)$ is a polynomial in $1/x$. 
+Consider $n = 1$. 
+The $x \neq 0$ case follows by the chain rule when differentiating $e^{-1/x^2}$. 
+For $x = 0$, notice that 
+\begin{align*}
+  f'(0) & = \lim_{x \rightarrow 0} \frac{e^{-1/x^2}}{x}  \\ 
+        & = \lim_{y \rightarrow \infty} ye^{-y^2} \\ 
+        & = 0
+\end{align*}
+where $y = 1 / x$ and the final equality follows by the same reason as Theorem 1: 
+$e^{y^2} = \sum_{n = 0}^{\infty} \frac{y^{2n}}{n!} \implies y^n e^{-y^2} < \frac{(n + 1)!}{y^{n + 2}}$ for any $n$. 
+
+Next, suppose the proposition is true for $n - 1$. 
+When $x \neq 0$, $f^{(n)}$ is the product of a polynomial in $1/x$ and $e^{-1/x^2}$ by the chain rule and product rule for the derivative of $f^{(n - 1)}(x) = P_{n - 1}(1/x) e^{-1/x^2}$. 
+When $x = 0$, 
+\begin{align*}
+  f^{(n)}(0) & = \lim_{x \rightarrow 0} \frac{P_{n - 1}(\frac{1}{x}) e^{-1/x^2}}{x} \\ 
+             & = \lim_{y \rightarrow \infty} yP_{n - 1}(y) e^{-y^2} \\ 
+             & = 0
+\end{align*}
+since each summand in the polynomial $yP_{n - 1}(y)$ multiplied by $e^{-y^2}$ goes to 0 as $y \rightarrow \infty$. 
+This completes the induction and thereby completes the problem. 
+
+\section*{Q6} 
+\subsection{} 
+Fix any $y \in \R$. Differentiate with respect to $x$ to obtain $f(x + y) = f(x) f(y)$
+$$f'(x + y) = f(y) f'(x)$$ 
+Hence, letting $x = 0$, 
+\begin{equation} \label{eq:idk}
+  f'(y) = f'(0) f(y)
+\end{equation}
+for any $y \in \R$. 
+Let $c = f'(0)$ and consider $g(x) = \frac{f(x)}{e^{cx}}$. 
+Differentiating, 
+$$g'(x) = \frac{e^{cx} f'(x) - ce^{cx} f(x)}{e^{2cx}} = \frac{f'(x) - cf(x)}{e^{ct}}$$ 
+But \eqref{eq:idk} says the denominator of $g'(x)$ is zero for all $x \in \R$, hence 
+$$g'(x) = 0 \text{ for all } x \in \R$$
+It follows that $f(x) / e^{cx}$ is a constant, so $f(x) = k e^{cx}$.
+Finally, $f(0 + y) = f(0)f(y)$ and the fact that $f(y) \neq 0$ for some $y \in \R$ means $f(0) = k e^0 = k = 1$, so 
+$$f(x) = e^{cx}$$ 
+
+\subsection{} 
+Let $g(x) = \log(f(x))$. 
+Then 
+\begin{equation} \label{eq:hom} 
+  g(x + y) = \log(f(x)f(y)) = \log(f(x)) + \log(f(y)) = g(x) + g(y)
+\end{equation}
+i.e., $g$ is an endomorphism on $\R$. 
+Note $g$ is indeed defined on all of $\R$ because $f > 0$ by the following: 
+$f(x) = f(x / 2 + x / 2) = (f(x / 2))^2$, so $f(x) \geq 0$ on all of $\R$. 
+But also $f(0) = f(x) f(-x)$ and $f(0) = 1$ as shown in (a), hence $f(x) \neq 0$ on all of $\R$.  
+Because $g$ is an endomorphism, for any $m / n \in \Q$, 
+\begin{equation} \label{eq:cnt} 
+  g(m) = n g(\frac{m}{n}) \implies g(\frac{m}{n}) = \frac{1}{n} g(m) = \frac{1}{n} m g(1) = \frac{m}{n} g(1)
+\end{equation}
+In other words, denoting $g(1) = c$, $g(q) = cq$ for all $q \in Q$. 
+Finally, because $f$ and $\log$ are continuous, $g$ is continuous, and $\Q$ dense in $\R$, 
+$$g(x) = cx \text{ for all } x \in \R$$ 
+By the relationship between $f$ and $g$, it follows that $f(x) = e^{cx}$ on all of $\R$. 
+
+
+\end{document}
