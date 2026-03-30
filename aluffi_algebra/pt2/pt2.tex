@@ -1,0 +1,176 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-cd} 
+\usepackage{ytableau}
+\usepackage{blkarray}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{cancel}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\S \arabic{section}}
+\renewcommand{\thesubsection}{\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{(\alph{subsubsection})} 
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{\textit{Algebra: Chapter 0}, Aluffi} 
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ \\ Part II: Groups, First Encounter}
+\author{\myname}
+\date{March 23, 2026 $\sim$ \today}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\setcounter{section}{2}
+\section{The Category Grp} 
+
+\setcounter{subsection}{2} 
+It must be shown that a unique group homomorphism $\sigma: A \times B \rightarrow G$ exists in the following commuting diagram: 
+\subsection{} 
+\begin{center}
+  \begin{tikzcd}
+    & & A \arrow[dll, bend right, "f"] \arrow[dl, "\iota_{A}"]\\ 
+    G & A \times B \arrow[l, "\sigma"] \\ 
+      & & B \arrow[ull, bend left, "g"] \arrow[ul, "\iota_{B}"]
+  \end{tikzcd}
+\end{center}
+where $\iota_{A}: A \rightarrow A \times B$ is the natural inclusion map $a \mapsto (a, 0)$, and $\iota_{B}: B \rightarrow A \times B; \: b \mapsto (0, b)$. 
+Then the fact that the diagram commutes and $\sigma$ must be a group homomorphism forces the unique definition
+$$\sigma(a, b) = f(a) + g(b).$$
+Defined thus, $\sigma:A \times B \rightarrow G$ is indeed a group homomorphism because $G$ is an abelian group:
+\begin{align*}
+  \sigma(a_1, b_1) + \sigma(a_2, b_2) & = f(a_1) + g(b_1) + f(a_2) + g(a_2) \\ 
+                                      & = f(a_1) + f(a_2) + g(a_1) + g(a_2) \\ 
+                                      & = \sigma(a_1 + a_2, b_1 + b_2).
+\end{align*}
+This shows that $A \times B$ satisfies the universal property for the coproduct of $A$ and $B$ in $\mathsf{Ab}$. 
+
+\setcounter{subsection}{4}
+\subsection{} 
+
+Suppose $\Q \equiv A \times B$ for some nontrivial groups $A$ and $B$. 
+Then there exist the natural projection maps $\pi_A:\Q \rightarrow A$ and $\pi_B: \Q \rightarrow B$. 
+Notice that for natural projection maps from the product group to its component, say A, $(a, b) \in \ker \pi_{A} \iff a = 0$. 
+Since $\Q$ is isomorphic to the product group, 
+\begin{equation} \label{eq:2_4_triv_kernal}
+  \ker \pi_A \cap \ker \pi_B = 0 
+\end{equation}
+Now, consider the two commuting diagrams from $\Z$ decomposing through $\Q$ to $A$ and $B$: 
+\begin{center}
+  \begin{tikzcd}
+    & & a \in A \setminus 0 \\ 
+    1 \arrow[urr, bend left, maps to] \arrow[drr, bend right, maps to] \arrow[r, "!\sigma_1", maps to] & r_1 \in \Q \arrow[ur, "\pi_A", maps to] \arrow[dr, "\pi_B", maps to] \\ 
+                                                  & & 0 \in B 
+  \end{tikzcd}
+  \begin{tikzcd}
+    & & 0 \in A \\ 
+    1 \arrow[urr, bend left, maps to] \arrow[drr, bend right, maps to] \arrow[r, "!\sigma_1", maps to] & r_2 \in \Q \arrow[ur, "\pi_A", maps to] \arrow[dr, "\pi_B", maps to] \\ 
+                                                  & & b \in B \setminus 0 
+  \end{tikzcd}
+\end{center}
+Since $\pi_{A}(r_1) \neq 0$ and $\pi_{B}(r_2) \neq 0$, $r_1, r_2 \neq 0$ in $\Q$.
+By properties of the natural numbers, there are integers $n, m$ such that $mr_1 = nr_2$. 
+Applying $\pi_A$ to both sides of this equation, 
+$$\pi_{A}(mr_1) = n0 = 0,$$
+hence $mr_1 \in \ker \pi_A$. 
+But $\pi_{B}(r_1) = 0 \implies mr_1 \in \ker\pi_{B}$ as well. 
+Finally, since $r_1 \neq 0$, $mr_1 \neq 0$. 
+This contradicts the fact that $\ker\pi_{A} \cap \ker\pi_{B}$ is trivial, as was established in \eqref{eq:2_4_triv_kernal}. 
+
+\subsection{} 
+Suppose $Z_2 \times Z_3$ is the coproduct of $Z_2$ and $Z_3$ in $\mathsf{Grp}$. 
+Define the injective homomorphisms 
+\begin{align*}
+  f: Z_2 \rightarrow \mathfrak{S}_3; \: & 1 \mapsto \cyc{12} \\ 
+  g: Z_3 \rightarrow \mathfrak{S}_3; \: & 1 \mapsto \cyc{123}.
+\end{align*}
+Then by the universal property, there is a unique homomorphism $\sigma Z_2 \times Z_3 \rightarrow \mathfrak{S}_3$ such that the diagram below commutes: 
+\begin{center}
+  \coproduct{Z_2}{Z_3}{Z_2 \times Z_3}{\mathfrak{S}_3}{\iota_2}{f}{\iota_3}{g}{\sigma}
+\end{center}
+Namely, $\cyc{12}, \cyc{123} \in \sigma(Z_2 \times Z_3)$ because the diagram commutes. 
+$\cyc{12}$ and $\cyc{123}$ generate $\mathfrak{S}_3$, so $\sigma$ is surjective.
+$Z_2 \times Z_3$ and $\mathfrak{S}_3$ are both finite groups, so $\sigma$ is an isomorphism. 
+By exercise 4.9, $Z_2 \times Z_3 \equiv Z_6$, so it must be that $\mathfrak{S}_3$ has an element of order 6. 
+This is not true, however; 
+hence $Z_2 \times Z_3$ is not the coproduct of $Z_2$ and $Z_3$ in $\mathsf{Grp}$. 
+
+\subsection{}
+
+\subsection{}
+
+\subsection{} %TODO: finish this for fibered coproduct 
+The fiber product exists in $\mathsf{Grp}$. 
+Given 
+\begin{center}
+  \begin{tikzcd}
+    G \arrow[dr, "\varphi"] & \\ 
+    & K \\ 
+    H \arrow[ur, "\psi"]
+  \end{tikzcd}
+\end{center}
+$G \times_{K} H \defeq \{(g, h) \in G \times H \mid \varphi(g) = \psi(h)\}$ is the fiber product of $G$ and $H$ with respect to $K$ in $\mathsf{Ab}$, just like the fiber product in $\mathsf{Set}$. 
+$G \times_{K} H$ is a subgroup of $G \times H$: 
+given $(g_1, h_1), (g_2, h_2) \in G \times_{K} H$, the fact that $\varphi$ and $\psi$ are group homomorphisms means
+$$\varphi(g_1 g_2) = \varphi(g_1) \varphi (g_2) = \psi(h_1) \psi(h_2) = \psi(h_1 h_2),$$ 
+so $(g_1 g_2, h_1 h_2) \in G \times_{K} H$.  
+Next, multiplying $\varphi(g_{1}^{-1})$ to the equation $\varphi(g_1) = \psi(h_1)$ yields 
+$$1 = \psi(h_1) \varphi(g^{-1}),$$
+hence $\psi(h_{1}^{-1}) = \varphi(g^{-1})$. 
+This shows the inverse of $(g_1, h_1)$, namely $(g_{1}^{-1}, h_{1}^{-1})$, is in $G \times_{K} H$.
+Finally, of course $(1, 1) \in G \times_{K} H$. 
+$G \times_{K} H$ is a subgroup of $G \times H$, so $G \times_{K} H$ is an object in $\mathsf{Grp}$. 
+Next, consider the commuting diagram 
+\begin{center}
+  \begin{tikzcd}
+    & & G \arrow[dr, "\varphi"] \\ 
+    L \arrow[r, "\sigma"] \arrow[urr, bend left, "f"] \arrow[drr, bend right, "g"] & G \times_{K} H \arrow[dr, "\pi_{H}"] \arrow[ur, "\pi_{G}"] & & K \\ 
+                          & & H \arrow[ur, "\psi"]
+  \end{tikzcd}
+\end{center}
+It must be shown that a unique homomorphism $\sigma: L \rightarrow G \times_{K} H$ exists. 
+Indeed, the commutativity of the diagram forces $\sigma(l) = (f(l), g(l))$, and one can check that $\sigma$ essentially inherits the homomorphism property from the fact that $f$ and $g$ are homomorphisms. 
+
+\end{document}
