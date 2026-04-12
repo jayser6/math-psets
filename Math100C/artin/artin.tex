@@ -1,0 +1,93 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-cd} 
+\usepackage{ytableau}
+\usepackage{blkarray}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{cancel}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\S \arabic{section}}
+\renewcommand{\thesubsection}{\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{(\alph{subsubsection})} 
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+\newcommand{\form}[2]{\<#1, #2\>}
+
+%% Headers & title setup
+\newcommand{\course}{\textit{Algebra}, Artin} 
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ \\ Linear Algebra Chapters }
+\author{\myname}
+\date{April 7 $\sim$ \today}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+TODO: Chapter 4 up to Jordan form, Chapter 8 up to Orthogonality, Chapter 10 things
+
+\setcounter{section}{7}
+\section{Bilinear Forms}
+\subsection*{1.1} 
+\newcommand{\symform}[2]{\form{#1}{#2}_{sym}}
+\newcommand{\skewform}[2]{\form{#1}{#2}_{sk}}
+Suppose such a decomposition exists: 
+given $\form{}{}$, let $\symform{}{}$ and $\skewform{}{}$ be symmetric and skew-symmetric forms on $V$ such that for all $v, w \in V$, 
+\begin{equation} \label{eq:8_1_1_formdef} 
+  \form{v}{w} = \symform{v}{w} + \skewform{v}{w}.
+\end{equation}
+Then by \eqref{eq:8_1_1_formdef}, 
+\begin{align*} 
+  \form{v}{w} + \form{w}{v} & = 2\symform{v}{w} \\ 
+  \form{v}{w} - \form{w}{v} & = 2\skewform{v}{w}
+\end{align*}
+So one can just define the forms $\symform{v}{w} \defeq \frac{1}{2}(\form{v}{w} + \form{w}{w})$ and $\skewform{v}{w} \defeq \frac{1}{2}(\form{v}{w} - \form{v}{w})$ and check that 
+\begin{enumerate}
+  \item $\symform{}{}$ and $\skewform{}{}$ are indeed bilinear forms 
+  \item $\symform{}{}$ is symmetric, while $\skewform{}{}$ is skew-symmetric
+  \item For all $v, w \in V$, $\form{v}{w} = \symform{v}{w} + \skewform{v}{w}$. 
+\end{enumerate}
+
+\end{document}

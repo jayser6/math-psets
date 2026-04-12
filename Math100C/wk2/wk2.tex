@@ -1,0 +1,514 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math100C}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - WK2} 
+\author{\myname}
+\date{2026.04.10}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+%TODO: do I need to verify more things about the matrix to show that the representation is properly defined? 
+\section{Standard Two-Dimensional Representation of $D_n$}
+
+Write the standard two-dimensional representation of the dihedral group $D_n$
+explicitly in terms of matrices with respect to some basis.
+
+\noindent\dotfill
+
+Let's just use the standard basis for $\R^2$. 
+Denoting $c = \cos{\frac{2\pi}{n}}$ and $s = \sin{\frac{2\pi}{n}}$, recall that 
+\begin{align*}
+  A_x = \bmat{c & -s \\ s & c} & \text{ rotates any vector } v \in \R^2 \text{ by } \frac{2\pi}{n} \text{ around the origin} \\ 
+  A_y = \bmat{1 & 0 \\ 0 & -1} & \text{ reflects any vector } v \in R^2 \text{ across the } e_1 \text{-axis}
+\end{align*}
+Letting $x = \text{rotation by } 2\pi / n$ and $y = \text{ reflection across } e_1$, the standard two-dimensional representation of $D_n$ is defined by 
+\begin{align*}
+  x & \mapsto A_x \\ 
+  y & \mapsto A_y
+\end{align*}
+since $D_n$ is presented by $(x, y \mid x^n, y^2, xyxy)$. 
+
+%------------------------------------------------------------------------------%
+
+\section{Irreducible Representations of $\mathfrak{S}_3$ Are Isomorphic}
+\newcommand{\grp}{\mathfrak{S}_3}
+
+Let $R_1, R_2 \colon \mathfrak{S}_3 \to \mathrm{GL}_2(\mathbb{C})$ be two irreducible
+representations.  Prove directly (without using any theorems about characters)
+that $R_1$ and $R_2$ are isomorphic.
+
+\emph{Hint:} let $x = (123)$ and $y = (12)$.  Pick a nonzero
+$u \in \mathbb{C}^2$ and look at the $G$-orbits of
+\[
+  u + R_1(g)(u) + R_1(g^2)(u)
+  \qquad\text{and}\qquad
+  u + R_1(h)(u).
+\]
+\noindent\dotfill
+
+Since I'm going to be changing basis a lot, I will let the two given representations be independent of basis: 
+take vector space representations $R, S: \mathfrak{S}_3 \rightarrow \GL(\C^2)$. 
+More so, in an abuse of notation, I will continue to use the symbols $R$ and $S$ after I fix some basis for $\C^2$, thus viewing $R$ and $S$ as matrix representations. 
+
+I first consider the representation $R$. 
+Let $x = \cyc{123}, \, y = \cyc{12}$. 
+For notational clarity, I denote $R_x$ as the invertible linear transformation $R(x)$. 
+$\grp$ is a finite group, so $R_{x}$ is diagonalizable. 
+Let $\lambda$ be an eigenvector of $R_x$ with eigenvector $v_1$. 
+Particularly, one can choose $\lambda \neq 1$: 
+that is, at least one of the eigenvalues of $R_x$ is not 1. 
+If $\lambda = 1$ is a eigenvalue of $R_x$ with multiplicity 2, then with respect to the eigenbasis, $R_x$ is a scalar matrix (namely, the identity). 
+Scalar matrices commute in $\GL_2(\C)$; 
+hence $R_x$ commutes with the other generator for $R(\grp)$, which is $R_y$ (since $\grp = \<x, y\>$),
+i.e., $R(\grp)$ is an abelian subgroup of $\GL_{2}(\C)$. 
+Factoring the map $R: \grp \rightarrow \GL_{2}(\C)$ into 
+$$ \grp \rightarrow R(\grp) \overset{\iota}{\hookrightarrow} \GL_{2}(\C), $$
+one sees that $R$ is the direct sum of irreducible representations because $\iota$ is a two-dimensional representation of the abelian group $R(\grp)$ (recall that all irreducible representations of abelian groups are degree 1). 
+This contradicts the assumption that $R$ is an irredubible two-dimensional representation of $\grp$. 
+
+To conclude, we can assume $\lambda \neq 1$ is an eigenvalue of $R_x$ with eigenvector $v_1$. 
+Next, use the relation $yx = x^2 y$ in $\grp$ to calculate
+\begin{align*}
+  R_x R_y v_1 
+  & = R_{xy} v_1 = R_{yx^2} v_1 = R_{y} R_{x} R_{x} v_1 \\ 
+  & = R_{y} \lambda^2 v_1 = \lambda^2 R_{y} v_1.
+\end{align*}
+Namely, this shows $v_2 \defeq R_y v_1$ is an eigenvector of $R_x$ with eigenvalue $\lambda^2$. 
+Recall that because $x$ is an order 3 element of $\grp$, $\lambda$ is a third root of unity. 
+Since $\lambda \neq 1$, that is, $\lambda$ is a nontrivial third root of unity, $\lambda^2$ and $\lambda$ are distinct eigenvalues of $R_x$, so $v_1$ and $v_2$ are linearly independent vectors in $\C^2$. 
+$(v_1, v_2)$ gives a basis for $\C^2$, with respect to whom 
+$$R_x = \bmat{\lambda & \\ & \lambda^2}, \: R_y = \bmat{ & 1 \\ 1}.$$
+The matrix $R_y$ comes from the fact that $v_2 = R_y v_1$ and, because $y$ is an order 2 element in $\grp$, $R_y v_2 = v_1$. 
+
+Using the exact same line of reasoning for the representation $S$, find $w_1, w_2 \in \C^2$ such that $(w_1, w_2)$ is a basis for $\C^2$ and 
+$$S_x = \bmat{\lambda \\ & \lambda^2}, \: S_y = \bmat{ & 1 \\ 1}$$
+with respect to this basis. 
+Notice that the two distinct nontrivial third roots of unity must be eigenvalues for $S_x$ as well: 
+as was reasoned above, at least one of the eigenvalues for $S_x$ is a nontrivial third root of unity, and that eigenvalue gives the other nontrivial third root of unity as an eigenvalue for $S_x$. 
+
+Now, define the invertible linear map 
+$$T: \C^2 \rightarrow \C^2; \: v_1 \mapsto w_1, \, v_2 \mapsto w_2.$$
+To verify that this is an isomorphism of the representations $R$ and $S$, the following commuting diagram must commute for all $g \in \grp$: 
+\begin{center}
+  \begin{tikzcd}
+    \C^2 \arrow[d, "T"] \arrow[r, "R_g"] & \C^2 \arrow[d, "T"]\\ 
+    \C^2  \arrow[r, "S_g"] & \C^2
+  \end{tikzcd}
+\end{center}
+Particularly, since $x, y$ generate $\grp$ and $(v_1, v_2)$ is a basis for $\C^2$, one only needs to check the diagram commute for four cases: 
+independently pick group elements $g \in \{x, y\}$ and vectors $v \in \{v_1, v_2\}$. 
+And indeed, because the matrices $R_g = S_g$ for all $g \in \grp$, where $R_g$ is written with respect to $(v_1, v_2)$ and $S_g$ is written with respect to $(w_1, w_2)$, the diagram does commute. 
+For example, for $g = x$ and $v = v_1$, 
+\begin{center}
+  \begin{tikzcd}
+    v_1 \arrow[d, "T", maps to] \arrow[r, "R_g", maps to] & \lambda v_1 \arrow[d, "T", maps to]\\ 
+    w_1  \arrow[r, "S_g", maps to] & \lambda w_1
+  \end{tikzcd}
+\end{center}
+
+%------------------------------------------------------------------------------%
+
+\section{Character Tables}
+
+Compute (with justification) the full character tables for each of the
+following groups.
+
+\subsection{The Klein Four-Group}
+Denote $V_4 = \{1, x, y, xy\}$ as the Klein four-group. 
+Recall $V_4 \equiv C_2 \times C_2$; 
+namely, $V_4$ is abelian, so each element forms its own conjugacy class, and it follows that there are four irreducible nonisomorphic representations of $V_4$. 
+If $d_1, \ldots, d_4$ are the dimensions of the irreducible representations $\rho_1, \ldots, \rho_4$, then 
+$$d_{1}^{2} + \ldots + d_{4}^{2} = 4$$ 
+must be satisfied. 
+Clearly, each $d_i = 1$. 
+Each nonidentity element has order 2 in $V_4$, so each group operator $\rho_{z}$ for $z \in V_4$ must have trace = -1 or 1. 
+For each $i$, notice that because $\rho_{i}$ is a one-dimensional representation, $\chi_{i}(x) \chi_{i}(y) = \chi_{i}(xy)$; 
+the trace of $\rho_{i}(z)$ is equal to just the singular entry of the $1 \times 1$ matrix $\rho_{i}(z)$, and $\rho$ itself is a homomorphism.
+Hence for each $i$, one can just make two binary choices of picking $\chi_{i}(x) \in \{1, -1\}$ and $\chi_{i}(y) \in \{-1, 1\}$ to fully determine $\chi_{i}$. 
+This yields exactly the four possible characters of an irreducible representation of $V_4$. 
+\begin{center}
+  \begin{tabular}{l | cccc}
+    $V_4$ & $[1]$ & $[x]$ & $[y]$ & $[xy]$ \\
+    \midrule
+    $\chi_1$ & 1 & 1  & 1 & 1 \\
+    $\chi_2$ & 1 & 1 & -1 & -1 \\
+    $\chi_3$ & 1 & -1 & 1 & -1 \\ 
+    $\chi_4$ & 1 & -1 & -1 & 1
+  \end{tabular}
+\end{center}
+
+\subsection{The Quaternion Group of Order $8$}
+Denote the quaternion group $Q_8 = \{1, -1, i, -i, j, -j, k, -k\}$. 
+Considering the presentation 
+$$Q_8 = (-1, i, j, k \mid i^2 = 1, -i^2 = -j^2 = -k^2 = -ijk),$$
+it is clear that the center of $Q_8$ is $\{1, -1\}$. 
+Given the symmetric properties satisfied by $i, j$ and $k$, one might guess that the class equation and conjugacy classes for $Q_8$ are
+$$8 = 1 + 1 + 2 + 2 + 2; \hspace{1.5em} \{1\}, \{-1\}, \{i, -i\}, \{j, -j\}, \{k, -k\}$$ 
+Indeed, this is true. 
+To give an example for the conjugacy class of $i$, $jij^{-1} = ji(-j) = -jk = -i$ and $kik^{-1} = -i$ as well. 
+
+So there are five isomorphism classes for the irreducible representations of $Q_8$. 
+Letting $d_1, \ldots, d_5$ denote the dimensions of nonisomprhic irreducible representations $\rho_1, \ldots, \rho_5$, 
+\begin{equation} \label{eq:3_a_dimrep}
+d_{1}^2 + \ldots + d_{5}^{2} = 8.
+\end{equation}
+Up to reordering, only 
+$$(d_1, d_2, d_3, d_4, d_5) = (1, 1, 1, 1, 2)$$ 
+satisfies \eqref{eq:3_a_dimrep}. 
+Consider the table
+\begin{center}
+  \begin{tabular}{l | ccccc}
+    $Q_8$ & $[1]$ & [-1] & $[i]$ & $[j]$ & $[k]$ \\
+    \midrule
+    $\chi_1$ & 1 & 1  & 1 & 1 & 1 \\
+    $\chi_2$ & 1 & a & b & c & d \\
+    $\chi_3$ & 1 &  &  & & \\ 
+    $\chi_4$ & 1 &  &  &  & \\
+    $\chi_5$ & 2 &  &  &  &
+  \end{tabular}
+\end{center}
+Because $0 = \<\chi_1, \chi_2\> = \frac{1}{\#Q_8}\sum_{g \in Q_8} \overline{\chi_{1}(g)}\chi_{2}(g)$,
+$$0 = 1 + a + 2b + 2c + 2d.$$
+Since $\chi_2$ is a 1-dimensional representation, given $g \in Q_8$ of order $n$, $\chi_{2}(g)$ is an $n$th root of unity. 
+Namely, $a = \pm 1$ and $b, c, d$ are fourth roots of unity. 
+Finally, due to the relation $i^2 = j^2 = k^2 = ijk = -1$ in $Q_8$, $a = bcd$ and $a = b^2 = c^2 = d^2$. 
+I reorganize these conditions below: 
+\begin{enumerate}
+  \item $0 = 1 + a + 2b + 2c + 2d.$
+  \item The roots of unity condition.
+  \item $a = bcd$.
+  \item $a = b^2 = c^2 = d^2$. 
+\end{enumerate}
+If $a = -1$, then condition 1 says $b + c + d = 0$. 
+But this is impossible given that $b, c, d$ are fourth roots of unity. 
+So $a = 1$ is forced. 
+By condition 4, $b, c, d \in \{\pm 1\}$. 
+Since $\chi_2$ is not the trivial representation, at least one of $b, c, d$ is $-1$. 
+Condition 3 then supplies further restriction; 
+exactly two of $b, c, d$ must be $-1$. 
+It follows that $(b, c, d) \in \{(1, -1, -1), (-1, 1, -1), (-1, -1, 1)\}$. 
+In fact, this exact conclusion applies to $\chi_3$ and $\chi_4$ as well. 
+Thus the following character table is forced for the 1-dimensional representations: 
+\begin{center}
+  \begin{tabular}{l | ccccc}
+    $Q_8$ & $[1]$ & [-1] & $[i]$ & $[j]$ & $[k]$ \\
+    \midrule
+    $\chi_1$ & 1 & 1  & 1 & 1 & 1 \\
+    $\chi_2$ & 1 & 1 & 1 & 1 & -1 \\
+    $\chi_3$ & 1 & 1 & 1 & -1 & 1 \\
+    $\chi_4$ & 1 & 1 & -1 & 1 & 1 \\
+    $\chi_5$ & 2 &  &  &  &
+  \end{tabular}
+\end{center}
+Since the matrix given by the character table is unitary after scaling, its columns must be orthogonal. 
+This gives the final row of the table: 
+\begin{center}
+  \begin{tabular}{l | ccccc}
+    $Q_8$ & $[1]$ & [-1] & $[i]$ & $[j]$ & $[k]$ \\
+    \midrule
+    $\chi_1$ & 1 & 1  & 1 & 1 & 1 \\
+    $\chi_2$ & 1 & 1 & 1 & 1 & -1 \\
+    $\chi_3$ & 1 & 1 & 1 & -1 & 1 \\
+    $\chi_4$ & 1 & 1 & -1 & 1 & 1 \\
+    $\chi_5$ & 2 & -2 & -1 & -1 & -1
+  \end{tabular}
+\end{center}
+
+
+%------------------------------------------------------------------------------%
+
+\section{Space of Linear Transformations as a Representation}
+Let $R_1: G \rightarrow \GL(V_1)$ and $R_2: G \rightarrow \GL(V_2)$ be two representations of a group $G$. 
+Let $V$ be the space of linear transformations $T \colon V_1 \to V_2$.
+
+\subsection{Vector Space Structure on $V$}
+\newcommand{\calH}{\mathcal{H}}
+
+There is a ``natural'' way to view $V$ as a vector space over $\mathbb{C}$.
+What are the addition and scalar multiplication?
+
+\noindent\dotfill
+
+I refuse to denote the space of linear transformations $V_1 \rightarrow V_2$ as $V$. 
+Instead, I call it $\calH$. 
+Given $T_1, T_2 \in \calH$, define the element $T_1 + T_2$ as the linear transformation 
+$$(T_1 + T_2)(v) = T_1(v) + T_2(v)$$ 
+for all $v \in V_1$. 
+It is trivial to check that such a mapping is indeed a linear transformation. 
+Next, for any $c \in \C$ and $T \in \calH$, let $cT$ be the linear transformation 
+$$(cT)(v) = cT(v)$$
+for all $v \in V_1$. 
+It follows that $\calH$ can be viewed as a vector space over $\C$. 
+
+\subsection{A Representation on $V$}
+
+Show that with the vector space structure from (a), we get a representation
+$R \colon G \to \mathrm{GL}(V)$ by the formula
+\[
+  R(g)(T)(v_1) \;=\; R_2(g)\!\left(T\!\left(R_1(g^{-1})(v_1)\right)\right).
+\]
+\noindent\dotfill 
+
+$R$ is a map $G \rightarrow \GL(\calH)$, which is confusing to grasp. 
+One needs to stare at the following derivation for a while before it makes sense. 
+My advice is to just type-check each function-composition and expression. 
+Take any $v \in V_1$ and any $T: V_1 \rightarrow T_2$. 
+\begin{align*}
+  \{[R(g_1)R(g_2)](T)\} (v) 
+  & = \{[R(g_1)](\overbrace{[R(g_2)](T))}^{V_1 \rightarrow V_2} \} (v) \\ 
+  & = R_{2} (g_1) \left\{ R(g_2) [T R_{1}(g_{1}^{-1})] (v) \right\}  \\ 
+  & = R_{2} (g_1) \left\{ R_{2} (g_2) [T R_1(g_{1}^{-1})] R_{1}(g_{2}^{-1}) (v) \right \} \\ 
+  & = R_2(g_1 g_2) T R_1(g_2^{-1} g_{1}^{-1}) (v) \\ 
+  & = \left\{[R(g_1 g_2)] (T) \right\} (v)
+\end{align*}
+where the last equality follows because $R_1$ and $R_2$ are group representations. 
+The manipulation above shows that $R: G \rightarrow \GL(\calH)$ is a homomorphism as well, which means $R$ is a group representation. 
+
+%------------------------------------------------------------------------------%
+
+\section{Finite Subgroups of $\mathrm{GL}_n(\mathbb{R})$ Are Conjugate into $O_n$}
+
+By imitating the proof of Maschke's theorem, prove that every finite subgroup
+$G$ of $\mathrm{GL}_n(\mathbb{R})$ is conjugate to a subgroup of the orthogonal
+group $O_n$.
+
+\emph{Hint:} construct a $G$-invariant positive definite inner product on $V$.
+
+\noindent\dotfill 
+
+Suppose $R: G \rightarrow \GL_{n}(\R)$ is a representation of $G$ with respect to some basis $\mathscr{B}'$. 
+Let 
+$$\<x, y\>_{G} = \frac{1}{\#G} \sum_{g \in G} \<gx, gy\>,$$ 
+where $\<x, y\>$ is the standard Hermitian, be a positive definite $G$-invariant Hermitian form. 
+By the $\<, \>_G$ Gram Schmidt process, there is an orthonormal basis $\mathscr{B}$ for $\R^{n}$ with respect to the form $\<,\>_{G}$. 
+Let $P$ be the basechange matrix from $\mathscr{B}'$ to $\mathscr{B}$. 
+Take some $g \in G$ and let $A' = R_g$, that is, the matrix of $g$ with respect to the old basis $\mathscr{B}'$. 
+The matrix $A$ of $g$ with respect to the new, orthonormal basis $\mathscr{B}$ is given by 
+$$A = P^{-1} A' P.$$
+Then one can see $A$ is unitary by checking $\<AX, AY\>_{G} = \<X, Y\>_{G}$ for all coordinate vectors $X, Y \in \R^{n}$ (with respect to $\mathscr{B}$). 
+If $X = \bmat{x_1 \\ \vdots \\ x_n}$ and $Y = \bmat{y_1 \\ \vdots \\ y_n}$, 
+\begin{align}
+  \<AX, AY\>_{G} & = \left\<\sum_{j} x_j Ab_j, \sum_{k} y_k Ab_{k} \right\>_G \nonumber \\ 
+                 & = \sum_{j, k} \bar{x}_j y_k \left\<Ab_j, Ab_k \right\>_G \nonumber \\ 
+                 & = \sum_{j, k} \bar{x}_j y_k \left\<b_j, b_k \right\>_G \label{eq:5_G_invar} \\ 
+                 & = \sum_{j = k} \bar{x}_j y_k = X^{*} Y = \<X, Y\>_G \label{eq:5_orthonorm}
+\end{align}
+where \eqref{eq:5_G_invar} follows because $Ab_j$ and $Ab_k$ are really the action of the group element $g$ on $b_j$ and $b_k$, respectively, and \eqref{eq:5_orthonorm} follows from the orthonormality of the basis $(b_1, \ldots, b_n)$.  
+Hence $A$ is a unitary matrix; 
+since the question restricts itself to $\GL_n(\R)$, rather than over the complex numbers, a unitary matrix is just an orthogonal matrix. 
+Since this computation works for the basis $\mathscr{B}$ that was chosen independently from the group element $g \in G$, it follows that conjugating $R_g$ to represent it in the basis $\mathscr{B}$ gives an orthogonal matrix. 
+So every finite subgroup $G$ of $\GL_{n}(\R)$ is conjugate to a subgroup of the orthogonal group $O_n$. 
+
+%------------------------------------------------------------------------------%
+
+\section{$G$-Invariant Hermitian Form for a Representation of $\mathbb{Z}/3\mathbb{Z}$}
+
+Let $R \colon \mathbb{Z}/3\mathbb{Z} \to \mathrm{GL}_2(\mathbb{C})$ be the
+representation with
+\[
+  R(\bar{1}) \;=\; \begin{pmatrix} -1 & -1 \\ 1 & 0 \end{pmatrix}.
+\]
+Construct a $G$-invariant Hermitian form on $\mathbb{C}^2$, then verify by
+explicit matrix computation that your answer is correct.
+
+\noindent\dotfill
+
+Denote $G = Z_3$ and fix the standard basis on $\C^2$. 
+Let $M \defeq R(\bar{1}) =  \bmat{-1 & -1 \\ 1 & 0}$. 
+$M^2 = \bmat{0 & 1 \\ -1 & -1}$. 
+Letting $\<, \>$ be the standard Hermitian product on $\C^2$, define 
+\begin{align*}
+  \<X, Y\>_R & = \frac{1}{\#G}\sum_{g \in G}\<g \cdot X, g \cdot Y\> \\ 
+\end{align*}
+where $X = \bmat{x_1 \\ x_2}, Y = \bmat{y_1 \\ y_2}$. 
+The matrix of this $G$-invariant Hermitian form is given by $A = [a_{ij}]$, where $a_{ij} = \<e_i, e_j\>_R$.
+For example, 
+\begin{align*}
+  a_{11} & = \<e_1, e_1\>_R \\ 
+         & = \frac{1}{3} \left( \<I e_1, I e_1\> + \left\< \bmat{-1 & -1 \\ 1 & 0} e_1, \bmat{-1 & -1 \\ 1 & 0} e_1 \right\> + \left\< \bmat{0 & 1 \\ -1 & -1} e_1, \bmat{0 & 1 \\ -1 & -1} e_1 \right\> \right) \\ 
+         & = \frac{1}{3}(1 + 2 + 1) \\ 
+         & = \frac{4}{3}
+\end{align*}
+Calculating the other three values similarly, 
+$$A = \frac{1}{3} \bmat{4 & 2 \\ 2 & 4}.$$ 
+To verify that $A$ is indeed a $G$-invariant, one can calculate 
+\begin{align*}
+  M^{*}AM  & = A \\ 
+  {M^2}^{*} A M^2 & = A, 
+\end{align*}
+hence for all $g \in G$, $\<g x, g y\>_R = \<x, y\>_R$. 
+
+%------------------------------------------------------------------------------%
+
+\section{A Non-Semisimple Representation in Characteristic $p$}
+
+Show that the subgroup $G$ of $\mathrm{GL}_2(\mathbb{F}_p)$ generated by
+$\begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}$
+is cyclic of order $p$.  Then show that the vector space $\mathbb{F}_p^2$ does
+admit a one-dimensional $G$-invariant subspace, but cannot be written as the
+direct sum of two such subspaces.  (Note that this does not contradict
+Maschke's theorem!)
+
+\noindent\dotfill 
+
+Let $R: G \rightarrow \GL_2(\F_p)$ be the representation in question. 
+Notice that over $\Z$, 
+$$\bmat{1 & 1 \\ 0 & 1}^n = \bmat{1 & n \\ 0 & 1}.$$
+for any positive integer $n$. 
+So clearly $M \defeq \bmat{1 & 1 \\ 0 & 1}$ is cyclic of order $p$ in $\GL_2(\F_p)$.
+Since $R(G) \subset \GL_{2}(\F_p)$ is generated by this one element of order $p$, i.e., $R: 1_G \mapsto \bmat{1 & 1 \\ 0 & 1}$, one can conclude 
+$$G \equiv \Z / p\Z.$$ 
+To find the one-dimensional $G$-invariant subspace, let's determine the eigenvalue of $M$: 
+one can quickly check that the characteristic polynomial of $M$ is $(t - 1)^2$. 
+Hence $\lambda = 1$ is the only eigenvalue of $M$, and its only corresponding eigenvector (up to scaling) is $e_1$:
+$$\bmat{1 & 1 \\ 0 & 1}\bmat{1 \\ 0} = \bmat{1 \\ 0}.$$
+So $W \defeq \text{span}(e_1) \subset \F_{p}^{2}$ is a one-dimensional $G$-invariant subspace. 
+
+It is clear that $W^{\perp} = \text{span}(e_2)$, where perp is taken with respect to the standard Hermitian.  
+But clearly $e_2$ is not invariant under $G$: 
+
+However, no one-dimensional subspace of $\F_{p}^{2}$ linearly independent from $W$ is $G$-invariant. 
+If there was, then that subspace would be generated by vector $v \in \F_{p}^{2}$ linearly independent from $e_1$. 
+By $G$-invariance, $Mv = \lambda v$ for some $\lambda$, i.e., $v$ must be a eigenvector of $M$. 
+But $M$ only has eigenvalue 1, whose eigenvector, up to scaling, is $e_1$, forcing $v \in W$, a contradiction. 
+Hence $\F_{p}^{2}$ cannot be written as the direct product of two one-dimensional $G$-invariant subspaces. 
+
+%------------------------------------------------------------------------------%
+
+\section{Nonabelian Group of Order 55}
+
+Suppose that $G$ is a nonabelian group of order $55$.  Compute the class
+equation and the dimensions of the irreducible characters of $G$.
+
+\emph{Hint:} you should be able to do this just from the known constraints on
+conjugacy classes and characters.  For an extra challenge, you could try to
+prove that this group exists and is unique, and then use its structure to read
+off the requested information.
+
+\noindent\dotfill 
+
+Let $n_5$ and $n_{11}$ denote the number of Sylow-5 and Sylow-11 subgroups of $G$, respectively. 
+By Sylow's third theorem, 
+\begin{align*}
+  n_{11} = 1 \pmod{11}, \hspace{1.5em} & n_{11} \mid 5 \\ 
+  n_{5} = 1 \pmod{5}, \hspace{1.5em} & n_{5} \mid 11 
+\end{align*}
+$n_{11} = 1$ follows immediately, whereas there are two possible values for $n_5$: 1 or 11. 
+If $n_5 = 1$, then by Sylow's Second Theorem, the unique Sylow-5 and -11 subgroups $P_5$ and $P_{11}$ are both normal in $G$. 
+Notice that $P_{5}$ and $P_{11}$ have prime orders, so necessarily they are cyclic groups of order 5 and 11, respectively. 
+By the fundamental theorem for product groups or whatever it's called, $G \equiv Z_{5} \times Z_{11}$, which contradicts the assumption that $G$ is nonabelian. 
+Hence $n_{5} = 11$. 
+
+At this point, I know that $G$ is the semidirect product of something, but I really don't know that theory too well; 
+let's do something else. 
+Notice that given any two $P_{5} \neq P_{5}' \in \Syl{5}{G}$, $P_5 \cap P_{5}' = \{1\}$ (if not, the shared nontrivial element generates both $P_{5}$ and $P_{5}'$ because they are both isomorphic to $Z_5$, and hence they are canonically equal subgroups). 
+So $P_{11}$ and each of the $P_5$'s are pairwise disjoint besides the identity element. 
+Counting the distinct elements of $P_{11}$ and the eleven $P_5$'s, 
+\begin{equation} \label{eq:8_syl_sum}
+  1 + 10 + 11(4) = 55.
+\end{equation}
+where the 1 in the left hand side corresponds to the identity element in $G$. 
+In other words, each nontrivial element of $G$ belongs to exactly one Sylow subgroup of $G$. 
+
+Now, let's try to decompose the numbers in \eqref{eq:8_syl_sum} to obtain $G$'s class equation. 
+First, each number in the class equation must divide $\#G$; 
+in this case, this means each number is either 1, 5, or 11. 
+Recall that any normal subgroup is the union of conjugacy classes. 
+The unique $P_{11}$ is normal by Sylow's second theorem. 
+Since the 10 in the left hand side of \eqref{eq:8_syl_sum} corresponds to $P_{11}$, the class equation will partially simplify to 
+\begin{equation} \label{eq:8_simplify}
+  1 + 10 + c_1 + \ldots + c_k = 55
+\end{equation}
+where 10 is the sum of the sizes of the conjugacy classes of nontrivial elements in $P_{11}$, 
+and where $c_1, \ldots, c_k$ are the sizes of the conjugacy classes of the elements not in $P_{11}$; 
+that is, sizes of conjugacy classes of the nontrivial elements in any of the $P_5$'s. 
+Notice that none of the $c_i = 1$. 
+If some $c_i = 1$, then some $P_5$ contains a nonidentity element in $Z(G)$, the center of $G$. 
+That element generates the $P_5$, so the entire $P_5$ is contained in $Z(G)$. 
+Namely, then the $P_5$ is normal. 
+This contradicts Sylow's second theorem and the fact that $n_5 = 11 \neq 1$  
+(in general, $P_p$ is normal in $G$ if and only if $n_p = 1$). 
+So the conclusion is that the $c_i$'s are either 5 or 11. 
+In fact, considering \eqref{eq:8_simplify} gives $c_1 + \ldots + c_k = 44$, basic arithmetic shows that $k = 4$ and each $c_{i} = 11$. 
+
+The only thing left to determine is the conjugacy classes that make up the unique $P_{11}$. 
+Since $10 \nmid 55$, it is clear $P_{11} \setminus \{1_G\}$ is itself not a conjugacy class. 
+I show that $P_{11}$ does not contain any nontrivial element also belonging to $Z(G)$; 
+that is, there is no conjugacy class of size 1, besides the conjugacy class of the identity, contained in $P_{11}$.  
+It was demonstrated in the previous paragraph that none of the 44 nonidentity elements in a $P_5$ is in $Z(G)$. 
+Because $Z(G)$ is a (normal) subgroup of $G$, it follows by considering the order of $G$ that $Z(G) = \{1_G\}$ or $Z(G) = P_{11}$. 
+Suppose $Z(G) = P_{11}$. 
+Then $\#(G / Z(G)) = 5$, i.e., $G / Z(G)$ is cyclic. 
+Recall that if $G / Z(G)$ is cyclic, then $G$ is abelian. 
+This contradicts the assumption that $G$ is nonabelian. 
+Hence $Z(G) = \{1\}$ and $P_{11}$ contains no nontrivial element that is in the center. 
+This forces $P_{11} \setminus \{1\}$ to be the union of two conjugacy classes of size five. 
+In all,  
+$$1 + 5 + 5 + 11 + 11 + 11 + 11 = 55$$ 
+is the class equation for $G$. 
+
+Determining the irreducible characters of $G$ follows quickly. 
+Since $G$ has seven conjugacy classes, there are seven isomorphism classes of the irreducible representations of $G$. 
+Letting $d_1, \ldots, d_7$ be their dimensions, there are two restrictions: 
+\begin{enumerate}
+  \item $d_{1}^{2} + \ldots + d_{7}^{2} = 55$, 
+  \item Each $d_i \mid 55$. 
+\end{enumerate}
+It is clear from combining the two conditions that each $d_i \in \{1, 5\}$. 
+With this restraint, the only tuple that satisfies condition 1 is 
+$$(d_1, d_2, d_3, d_4, d_5, d_6, d_7) = (1, 1, 1, 1, 1, 5, 5),$$
+which finishes this problem.
+
+
+\end{document}
