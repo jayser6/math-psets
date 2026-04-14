@@ -12,6 +12,7 @@
 \usepackage{ytableau}
 \usepackage{blkarray}
 \usepackage{hyperref}
+\usepackage{caption}
 \usepackage{setspace}
 \usepackage{array}
 \usepackage{fancyhdr}
@@ -137,9 +138,27 @@ By exercise 4.9, $Z_2 \times Z_3 \equiv Z_6$, so it must be that $\mathfrak{S}_3
 This is not true, however; 
 hence $Z_2 \times Z_3$ is not the coproduct of $Z_2$ and $Z_3$ in $\mathsf{Grp}$. 
 
+\setcounter{subsection}{7}
 \subsection{}
-
-\subsection{}
+There are injections $\iota_2: Z_2 \hookrightarrow G; \: 1_2 \mapsto y$ and $\iota_3: Z_3 \hookrightarrow G; \: 1_3 \mapsto x$. 
+Suppose there is a group $H$ and homomorphisms 
+\begin{align*}
+  \varphi: Z_2 \rightarrow H; \: & 1_2 \mapsto h_2 \\ 
+  \psi: Z_3 \rightarrow H; \: & 1_3 \mapsto h_3
+\end{align*}
+\begin{center}
+  \coproduct{Z_2}{Z_3}{G}{H}{\iota_2}{\varphi}{\iota_3}{\psi}{\sigma}
+\end{center}
+In the commuting diagram above, it must be shown that a unique homomorphism $\sigma: G \rightarrow H$ exists. 
+Assuming a homomorphism $\sigma$ exists, then mapping $1_2$ from $Z_2$ gives $\sigma(y) = h_2$, and mapping $1_3$ from $Z_3$ gives $\sigma(x) = h_3$. 
+Because $x$ and $y$ generate $G$, these two mappings fully determine the hypothetical homomorphism $\sigma$. 
+Indeed, such a homomorphism $\sigma: G \rightarrow H$ does exist: 
+given each word $w = (w_1, \ldots, w_n) \in G$, map the letter 
+$$w_i \mapsto \begin{cases} 
+  h_2 & \text{ if } w_i = y \\ 
+  h_3 & \text{ if } w_i = x.
+\end{cases}$$
+One can check that this is a group homomorphism, and furthermore $\sigma{x} = h_3$ and $\sigma(y) = h_2$. 
 
 \subsection{} %TODO: finish this for fibered coproduct 
 The fiber product exists in $\mathsf{Grp}$. 
@@ -172,5 +191,590 @@ Next, consider the commuting diagram
 \end{center}
 It must be shown that a unique homomorphism $\sigma: L \rightarrow G \times_{K} H$ exists. 
 Indeed, the commutativity of the diagram forces $\sigma(l) = (f(l), g(l))$, and one can check that $\sigma$ essentially inherits the homomorphism property from the fact that $f$ and $g$ are homomorphisms. 
+
+\setcounter{section}{4}
+\section{Free Groups} 
+\setcounter{subsection}{5} 
+\subsection{} 
+Recall that $F\{x\} \equiv \Z$. 
+By the universal property of the free group, there is a (unique) map $\iota_1: \Z \rightarrow F\{x, y\}$ such that $1 \mapsto x$. 
+\begin{center}  
+  \begin{tikzcd}
+    \Z \arrow[r, "\iota_1"] & F\{x, y\} \\ 
+    \{x\} \arrow[u] \arrow[ur] 
+  \end{tikzcd} \hspace{1.5em}
+  \begin{tikzcd}
+    1 \arrow[r, "\iota_1", maps to] & x \\ 
+    x \arrow[u, maps to] \arrow[ur, maps to] 
+  \end{tikzcd} 
+\end{center}
+Similarly, there is a map $\iota_2: \Z \rightarrow F\{x, y\}; \: 1 \mapsto y$. 
+Take a group $G$ and homomorphisms 
+\begin{align*}
+  \varphi: \Z \rightarrow G; \: & 1 \mapsto g_1 \\ 
+  \psi: \Z \rightarrow G; \: & 1 \mapsto g_2 
+\end{align*}
+For the diagram 
+\begin{center}
+  \coproduct{\Z}{\Z}{F\{x, y\}}{G}{\iota_1}{\varphi}{\iota_2}{\psi}{\sigma}
+\end{center}
+to commute, a unique group homomorphism $\sigma:F\{x, y\} \rightarrow G$ sending $\sigma(x) = g_1$ and $\sigma(y) = g_2$ must exist. 
+Indeed, such a $\sigma$ is uniquely given by the universal property of the free group on $\{x, y\}$ with respect to $f: \{x, y\} \rightarrow G; \: x \mapsto g_1, \, y \mapsto g_2$. 
+\begin{center}
+  \begin{tikzcd}
+    F\{x, y\} \arrow[r, "!\sigma"] & G \\ 
+    \{x, y\} \arrow[u] \arrow[ur, "f"]
+  \end{tikzcd}
+\end{center}
+This shows that $F\{x, y\}$ satisfies the universal property for the coproduct of $\Z$ and $\Z$ in $\mathsf{Grp}$, hence $\Z * \Z \equiv F\{x, y\}$. 
+
+\setcounter{subsection}{7} 
+\subsection{} \label{subsec:5_8}
+I only demonstrate the isomorphism for the category $\mathsf{Grp}$ since the argument for $\mathsf{Ab}$ is exactly the same. 
+By the inclusion $A \hookrightarrow A \sqcup B \hookrightarrow F(A \sqcup B)$ and the universal property of the free group, there is a map $\iota_1: F(A) \rightarrow F(A \sqcup B)$. 
+\begin{center}
+  \begin{tikzcd}
+    F(A) \arrow[r, "\iota_1"] & F(A \sqcup B) \\ 
+    A \arrow[u] \arrow[ur] 
+  \end{tikzcd}
+\end{center}
+Similarly, there is a map $\iota_2: F(B) \rightarrow F(A \sqcup B)$. 
+To prove $F(A \sqcup B) \equiv F(A) * F(B)$, it must be shown that given a group $G$ and group homomorphisms $\varphi: F(A) \rightarrow G$ and $\psi: F(B) \rightarrow G$, there is a unique gropu homomorphism $\sigma$ that makes the following diagram commute: 
+\begin{figure}[h]
+  \centering
+  \coproduct{F(A)}{F(B)}{F(A \sqcup B)}{G}{\iota_1}{\varphi}{\iota_2}{\psi}{\sigma}
+  \captionsetup{labelsep=period}
+  \renewcommand{\figurename}{Diagram}
+  \caption{}
+  \label{fig:5_8_up}
+\end{figure}
+Notice that, by the universal property of the free group on $A$ respectively, the entire homomorphism $\varphi$ is determined uniquely by the restricted map $\varphi: A \rightarrow G$: 
+letting $f \defeq \left. \varphi \right|_A$, 
+\begin{center}
+  \begin{tikzcd}
+    F(A) \arrow[r, "\varphi"] & G \\ 
+    A \arrow[u] \arrow[ur, "f", swap]
+  \end{tikzcd}
+\end{center}
+Similarly, letting $g \defeq \left.\psi\right|_{B}$, $\psi$ is determined uniquely by $g$. 
+  This means that if $\sigma$ is indeed a homomorphism that makes diagram \ref{fig:5_8_up} commute, then 
+\begin{align*}
+  \fnrest{\sigma}{A} & = f \\ 
+  \fnrest{\sigma}{B} & = g
+\end{align*}
+Indeed, the universal property for the coproduct of $A$ and $B$ combined the with the universal property for the free product of $A \sqcup B$ guarantees a unique $\sigma$ that makes the diagrams below commute: 
+\begin{center}
+  \begin{tikzcd}
+                  &            & A \arrow[dll, bend right, "f"] \arrow[dl] \\
+    G             & \arrow[l, "\sigma_0"] \arrow[dl] A \sqcup B & \\ 
+    F(A \sqcup B) \arrow[u, "\sigma"] &            & B \arrow[ull, bend left, "g"] \arrow[ul]
+  \end{tikzcd}
+\end{center}
+where the unlabeled maps are just the respective inclusion maps and $\sigma_0:A \sqcup B \rightarrow G$ is the unique function furnished by the universal property satisfied by $A \sqcup B$ with respect to $f$ and $g$; 
+$\sigma$ is the unique homomorphism furnished by the universal property satisfied by $F(A \sqcup B)$ as a free group on $A \sqcup B$ with respect to $\sigma_0$. 
+Since $\sigma_0$ is unique, $\sigma$ is unique as well. 
+It follows that $\sigma$ is the unique homomorphism that makes diagram \ref{fig:5_8_up} commute. 
+
+\setcounter{subsection}{9}
+\subsection{}
+\subsubsection{}
+Suppose $\#A$ is finite. 
+Then $F \equiv \oplus_{i = 1}^{n} \Z$ by question 7.  
+Let $A = \{x_1, \ldots, x_n\}$; 
+in $F$, identify $x_i$ as $(0, \ldots, 0, 1, 0, \ldots, 0)$, where the 1 occurs in the $i$th position. 
+It follows equivalence class of $x_i$ under $\sim$ consists exactly of all $z \in \oplus_{i = 1}^{n}\Z$ such that the $i$th coordinate is odd and all other coordinates are even. 
+As such, the distinct elements of $F / \sim$ map bijectively with subsets of $A$, giving 
+$$\#(F/\sim) = 2^{\#A} < \infty.$$
+
+Conversely, if $\#A$ is infinite, then the identification $F \equiv \Z^{\oplus A}$ demonstrates that for all pairs $x \neq y \in A$, $\bar{x}$ and $\bar{y}$ are distinct equivalence classes in $F / \sim$.
+It follows that $\#F$ is infinite as well. 
+
+\subsubsection{}
+I'm not sure how to show this extra rigorously, but the intuition is clear: 
+Since $F^{ab}(B)$ and $F^{ab}(A)$ are isomorphic groups, an equivalence relation $\sim_{A}$ on $F^{ab}(A)$ defined as in part (a) defines an analogous equivalence relation $\sim_{B}$ on $F^{ab}(B)$. 
+Hence 
+$$F^{ab}(A) / \sim_A \equiv F^{ab}(B) / \sim_B.$$
+The desired results follow from this isomorphism of sets. 
+
+\section{Subgroups}
+\setcounter{subsection}{7}
+\subsection{}
+Suppose $G$ is finitely generated, say by $A = \{x_1, \ldots, x_n\}$. 
+Since $A$ is finite, $F^{ab}(A) \equiv \bigoplus_{i = 1}^{n} \Z$. 
+Consider the commuting diagram below:
+\begin{center}
+  \begin{tikzcd}
+    \bigoplus_{i = 1}^{n} \Z \arrow[r, "\varphi"] & G \\ 
+    A \arrow[u] \arrow[ur, "\iota", hook]
+  \end{tikzcd}
+\end{center}
+Since $\iota(A) = A \subset G$, the image $\varphi(\bigoplus_{i = 1}^{n} \Z)$ includes a copy of $A$ in $G$ too. 
+But $A$ generates $G$ and $\varphi$ is a group homomorphism, so $\varphi(\bigoplus_{i = 1}^{n} \Z) = G$ necessarily; 
+$\varphi$ is surjective. 
+
+Conversely, suppose there is a surjective homomorphism $\varphi: \bigoplus_{i = 1}^{n} \Z \twoheadrightarrow G$. 
+$\bigoplus_{i = 1}^{n} \Z \equiv \Z^{n}$ in $\textsf{Ab}$;
+the latter is generated by the standard bases, so let $e_1, \ldots, e_n$ analogously be the generators for $\bigoplus_{i = 1}^{n} \Z$.  
+Denoting $x_i = \varphi(e_i)$ for $i \in 1..n$, the fact that $\varphi$ is a surjective homomorphism and that the $e_i$'s generate $\bigoplus_{i = 1}^{n} \Z$ means the $x_i$'s generate $A$; 
+$A$ is thus finitely generated. 
+
+\setcounter{subsection}{9} 
+\subsection{} 
+\newcommand{\grp}{\SL_{2}(\Z)}
+The hint described by the textbook is essentially the extended Euclidean algorithm. 
+After playing around with the matrices a bit, one can see that 
+\begin{itemize}
+  \item $t^n = \bmat{1 & n \\ & 1}$, so $t^{-n} = \bmat{1 & -n \\ & 1}$. 
+  \item $s^{-1} t^{-n} s = \bmat{1 & \\ n & 1}$, so $s^{-1} t^{n} s = \bmat{1 \\ -n & 1}$. 
+\end{itemize}
+Hence for all $n \in \Z$, $\bmat{1 & -n \\ & 1}, \bmat{1 \\ -n & 1} \in H$. 
+Take any $m = \bmat{a & b \\ c & d} \in \grp$.
+Since $m$ is invertible, $c = d = 0$ is impossible. 
+Suppose $c = 0$. 
+Then $\det{m} = 1$ means $ad = 1 \implies a = d = 1$ or $a = d = -1$. 
+Either way, $m \in H$ since $t^n$, $t^{-n}$, and $s^2 = -I_2$ give the two desired forms for $m$; 
+$m \in H$. 
+Next, if $d = 0$, then $bc = -1$, so $m = \bmat{a & 1 \\ -1}$ or $m = \bmat{a & -1 \\ 1}$.
+Notice $t^n s = \bmat{n & -1 \\ 1}$.
+It follows that in both cases, $m \in H$ once again. 
+
+Finally, suppose $c, d \neq 0$.
+Then, as the hint says, 
+\begin{align*}
+  \bmat{a & b \\ c & d} \bmat{1 & -q \\ & 1} & = \bmat{a & -aq + b \\ c & -cq + d} \\ 
+  \bmat{a & b \\ c & d} \bmat {1 \\ -q & 1} & = \bmat{a - bq & b \\ c - dq & d}
+\end{align*}
+Without loss of generality, assume $\abs{c} < \abs{d}$. 
+The Euclidean algorithm for the integers says there is an integer $q$ such that $\abs{d - cq} < \abs{c}$. 
+Hence multiply $\bmat{a & b \\ c & d} \bmat{1 & -q \\ & 1} = \bmat{a & b_1 \\ c_1 & d_1}$, where the specific value of $b_1$ is irrelevant, $c_1 = c$, and $\abs{d_1} < \abs{c_1}$ by choice of $q$. 
+Now, continue performing the division algorithm for $c_1$ and $d_1$, etc., until one of the $d_k$'s divide the corresponding $c_{k}$ or vice versa; 
+this state is guaranteed by the Euclidean algorithm in $\Z$. 
+This leads to a reduction where $c_k = 0$ or $d_k = 0$, and hence this resulting matrix is in $H$. 
+Since only matrices in $H$ were multiplied to $m$ to obtain the resulting matrix in $H$, it follows $m \in H$ as well. 
+This proves that $s$ and $t$ generate $\grp$. 
+
+\subsection{} 
+\renewcommand{\grp}{\mathfrak{S}_3}
+Suppose $\grp \equiv Z_n * Z_m$ for some integers $n$ and $m$. 
+Consider the diagram 
+\begin{center}
+  \coproduct{Z_n}{Z_m}{\grp}{Z_n \times Z_m}{j_1}{\iota_1}{j_2}{\iota_2}{\sigma}
+\end{center}
+where $\iota_1$ and $\iota_2$ are the respective inclusion maps into $Z_n \times Z_m$. 
+Denote $e_1 \defeq \iota_1([1]_n) = ([1]_n, 0)$ and $e_2 \defeq \iota_2([1]_m) = (0, [1]_m)$. 
+Also, let $w_1 \defeq j_1([1]_n)$ and $w_2 \defeq j_2([1]_m)$. 
+Since the diagram commutes, $\sigma(w_1) = e_1$ and $\sigma(w_2) = e_2$. 
+Because $j_1$, $\iota_1$, $j_2$, $\iota_2$ are all homomorphisms, 
+\begin{align*}
+  o(w_1) \mid o([1]_n) = n; \: & o(e_1) = n \mid o(w_1) \\ 
+  o(w_2) \mid o([1]_m) = m; \: & o(e_2) = m \mid o(w_2).
+\end{align*}
+These relations show that $o(w_1) = n$ and $o(w_2) = m$. 
+Recall that elements of $\grp$ have orders 1, 2, and 3. 
+Namely, it wouldn't make sense for $o(w_2)$ or $o(w_3)$ to be 1 because that would imply either $j_1$ or $j_2$ are the zero maps, in which case $\grp$ doesn't satisfy the universal property for the coproduct of $Z_n$ and $Z_m$.  
+Hence $n, m \in \{2, 3\}$. 
+First, consider the caes that $n \neq m$; 
+that is, without loss of generality, assume $n = 2$ and $m = 3$. 
+Then $w_1$ must be a two-cycle and $w_2$ a three-cycle. 
+Furthermore, $\sigma(w_1 w_2) = \sigma(w_3) = ([1]_{2}, [1]_3)$ in $Z_2 \times Z_3$, where $w_2 = w_1 w_2$ is a two-cycle (the product of a three-cycle with a two-cycle in $\grp$ is a two-cycle).
+It follows that 
+$$0 = \sigma(w_{3}^{2}) = ([1]_{2}, [1]_{3}) + ([1]_{2}, [1]_{3}) = (0, [2]_{3})$$
+in $Z_2 \times Z_3$, which is clearly a contradiction. 
+
+Similarly contradictions can be derived for $(n, m) = (2, 2)$ and $(n, m) = (3, 3)$.
+
+\section{Quotient Groups} 
+\setcounter{subsection}{3}
+\subsection{} 
+Suppose $f' \sim f$. 
+It must be shown that for all $a \in F$, 
+$$af' \sim af \text{ and } f'a \sim fa.$$
+Clearly this is so: 
+by definition, $\exists g \in F \st f - f' = 2g$, from which follows $af - af' = fa - fa' = 2ag$ with $ag \in F$. 
+
+Recall from \S 5, Q10 that equivalence classes under $\sim$ are analogous to subsets of $A$; 
+in other words, $F/\sim$ is the group of words in $A$ where each letter occurs at most once.
+In other words, $F/\sim \equiv Z_2^{\oplus A}$.
+
+\setcounter{subsection}{10} 
+\subsection{} 
+\renewcommand{\grp}{[G, G]}
+Take any $aba^{-1} b^{-1} \in \grp$ and $g \in G$.  
+Denote $h = aba^{-1}b^{-1}$. 
+Then $gaba^{-1}b^{-1}g^{-1} = ghg^{-1}$ and by definition of $\grp$, $ghg^{-1} h^{-1} \in \grp$. 
+Since $[G, G]$ is a subgroup of $G$ and $h \in \grp$,
+$$ghg^{-1} h^{-1}h = gaba^{-1}b^{-1}g^{-1} \in \grp.$$
+This shows that $\grp$ is normal.
+
+Take any $\bar{a}, \bar{b} \in G / \grp$. 
+Since 
+$$\bar{a} \bar{b} \bar{a}^{-1} \bar{b}^{-1} = \bar{1}$$
+in the quotient group, $\bar{a} \bar{b} = \bar{b} \bar{a}$, which shows that $G / \grp$ is commutative. 
+
+\subsection{} 
+\renewcommand{\grp}{[F, F]} 
+By the universal property satisfied by the free group, $f$ induces a unique group homomorphism $\varphi: F \rightarrow G$. 
+Take any $a, b \in F$. 
+Since $\varphi$ is a group homomorphism and $G$ is an abelian group, $\varphi(ab) = \varphi(a)\varphi(b) = \varphi(b)\varphi(a) = \varphi(ba)$, 
+i.e., 
+$$\varphi(aba^{-1} b^{-1}) \in \ker \varphi.$$
+It follows that $\grp \subset \ker \varphi$. 
+By the universal property satisfied by the quotient group, there is a unique group homomorphism $\bar{\varphi}: \grp \rightarrow G$ induced by $\varphi$. 
+Since $\varphi$ is uniquely induced by $f$, it can be said that $f$ uniquely induces $\bar{\varphi}$; 
+that is, $\bar{\varphi}$ is the unique group homomorphism that makes the diagram below commute: 
+\begin{center}
+  \begin{tikzcd}
+    F / \grp \arrow[r, "\bar{\varphi}"] & G \\ 
+    A \arrow[u] \arrow[ur, "f", swap]
+  \end{tikzcd}
+\end{center}
+This is to say that $F / \grp$ satisfies the universal property for the free group of $A$ in $\mathsf{Ab}$. 
+It follows that $F / \grp \equiv F^{ab}(A)$. 
+
+Intuitively, it makes sense that $F / \grp$ is the free product over $A$ in $\mathsf{Ab}$: 
+if $W = (w_1 w_2 \ldots w_n)\in F(A)$ is a word in $A$, one can reduce $W$ modulo $\grp$ to move each letter $w_i$ anywhere in the word since $F / \grp$ is abelian. 
+So in $F / \grp$, $W$ can be reorganized as a finite sum of powers of elements of $A$, which is exactly the structure of $F^{ab}(A)$. 
+
+\section{Canonical Decomposition and Lagrange's Theorem}
+\setcounter{subsection}{0}
+\subsection{} 
+$G_1 \equiv G_2$ is not guaranteed. 
+Take $G_1 = Z_6$ and $G_2 = \mathfrak{S}_3$. 
+Both have $Z_3$ as a normal subgroup: 
+$\<[2]_6\> \subset Z_6$ is isomorphic to $Z_3$ and normal in $Z_6$ because $Z_6$ is an abelian group. 
+$\<\cyc{123}\>$ is isomorphic to $Z_3$ and normal in $\mathfrak{S}_3$ due to the fact that $\<\cyc{123}\>$ contains all the 3-cycles of $\mathfrak{S}_3$ and that two permutations are of the same type if and only if they are conjugates (not yet covered in the book).  
+Hence $Z_6 / Z_3 \equiv \mathfrak{S}_3 / Z_3 \equiv Z_2$, but $Z_6 \not \equiv \mathfrak{S}_3$. 
+
+\subsection{} 
+Take $g \in G$. 
+If $g \in H$, then $gH = Hg = H$. 
+If $g \notin H$, then $H = H \sqcup gH = H \sqcup Hg$ since $G$ has index 2. 
+Because these are disjoint unions, it follows that $gH = Hg$. 
+So in either case, $gH = Hg$, and this holds for all $g \in G$. 
+This is an equivalent condition to the normality of $H$ in $G$. 
+
+\subsection{} 
+Let $G$ be a finite group. 
+Then $G$ is finitely presented by $(G \mid \mathscr{R})$, where $\mathscr{R}$ consists of all words $g g^{-1}$ where $g$ is an element of $G$.  
+It's intuitively clear that $\mathscr{R}$ generates the kernal of the surjective homomorphism $\varphi:F(G) \rightarrow G$. 
+
+\setcounter{subsection}{6} 
+\subsection{} 
+Denote $H \defeq F(A \cup A') / <R \cup R'>$ where $R$ and $R'$ are generated by $\mathscr{R}$ and $\mathscr{R'}$, respectively. 
+Define $\iota_1: G \rightarrow H$ as the unique map satisfying 
+\begin{center}
+  \begin{tikzcd} 
+    F(A) \arrow[r] \arrow[dr] \arrow[rr, bend left, "j"] & F(A \cup A') \arrow[r] & F(A \cup A') / \<R \cup R'\> \\ 
+                                         & F(A) / R \arrow[ur, "j_1", swap]
+  \end{tikzcd} 
+\end{center}
+which is guaranteed to exist since the kernal of the composed map $j$ contains $R$ 
+Identifying $G$ as $F(A) / R$, write elements of $G$ as a coset $wR$ for some $w \in F(A)$.  
+Then $j_1$ maps 
+$$wR \mapsto w\<R \cup R'\>.$$
+Define $j_2: G' \rightarrow H$ analogously. 
+To verify that $H$ is indeed the coproduct of $G$ and $G'$ in $\mathsf{Grp}$, suppose a group $K$ and homomorphisms $\bar{\varphi}: G \rightarrow K$, $\bar{\psi}: G' \rightarrow K$ are given. 
+It must be shown that a unique $\bar{\sigma}: H \rightarrow K$ makes the following diagram commute: 
+
+\begin{figure}[h]
+  \centering
+  \coproduct{G}{G'}{H}{K}{j_1}{\bar{\varphi}}{j_2}{\bar{\psi}}{\bar{\sigma}}
+  \captionsetup{labelsep=period}
+  \renewcommand{\figurename}{Diagram}
+  \caption{} \label{fig:8_8_up}
+\end{figure}
+Composing $\bar{\varphi}$ with the projection $F(A) \rightarrow F(A) / R$ recovers the homomorphism $\varphi: F(A) \rightarrow K$ with $R \subset \ker \varphi$.   
+Similarly, recover $\psi:F(A') \rightarrow K$ with $R' \subset \ker \psi$. 
+As was seen in exercise 5.\ref{subsec:5_8}, $F(A \cup A')$ is the coproduct of $F(A)$ and $F(A')$ in $\mathsf{Grp}$, so there is a unique homomorphism $\sigma: F(A \cup A') \rightarrow K$ induced by $\varphi$ and $\psi$: 
+\begin{center}
+  \coproduct{F(A)}{F(A')}{F(A \cup A')}{K}{}{\varphi}{}{\psi}{\sigma}
+\end{center}
+Since the diagram commutes, $R, R' \subset \ker \sigma$. 
+Since $\ker \sigma$ is a (sub)group, the subgroup generated by $R$ and $R'$ is in $\ker \sigma$ too: 
+$$\<R, R'\> \subset \ker \sigma.$$
+It follows from the first isomorphism theorem that there is a unique homomorphism $\bar{\sigma}: F(A \cup A') / \<R, R'\> \rightarrow K$ induced by $\sigma$. 
+This $\bar{\sigma}$ makes diagram \ref{fig:8_8_up} commute: 
+for example, given $a \in A$, identify $a$ as the coset $aR$ in  $F(A) / R \equiv G$, and suppose $aR \overset{\bar{\varphi}}{\mapsto} k \in K$. 
+Then 
+\begin{align*}
+  \bar{\sigma} j_1(aR) & = \bar{\sigma}(a\<R \cup R'\>) \\ 
+                       & = \sigma{a} \\ 
+                       & = \varphi(a) \\ 
+                       & = \bar{\varphi}(a) \\ 
+                       & = k
+\end{align*}
+where the second equality follows because $\bar{\sigma}$ is the map induced by $\sigma$, and the third equality follows because $\sigma$ is induced by $\varphi$ for elements of $F(A)$. 
+So the diagram commutes. 
+On the other hand, if $\bar{\sigma}: H \rightarrow K$ is any homomorphism that makes diagram \ref{fig:8_8_up} commute, then $\bar{\sigma}$ should be described entirely by how $\bar{\sigma}$ maps $A$ and $A'$ (technically, their projections) because they generate the quotient $F(A \cup A') / \<R, R'\>$. 
+So indeed, the specific $\bar{\sigma}$ induced by $\sigma: F(A \cup A') \rightarrow K$ is the unique homomorphism that makes the diagram commute. 
+
+\setcounter{subsection}{13} 
+\subsection{} 
+Let $m \defeq o(g)$. 
+Since $\gcd(n, k) = 1$ and $m \mid n$ by Lagrange, $\gcd(m, k) = 1$. 
+Hence $am + bk = 1$ for some $a, b \in \Z$. 
+Since $m$ is the order of $g$ in $G$, $g^{am} = 1$, from which follows 
+$$g^{1 - bk} = 1 \implies g = (g^{b})^{k}.$$
+So indeed, every element $g \in G$ is a $k$th power. 
+
+\setcounter{subsection}{17}
+\subsection{} 
+Suppose $g \neq h \in G$ such that $o(g) = o(h) = 2$. 
+Then clearly $\{1, g, h, gh\}$ is a subgroup of $G$ of order 4, hence $4 \mid \#G$. 
+This contradicts that assumption that $\#G = 2n$ for $n$ odd, i.e., $4 \nmid \#G$. 
+
+Clearly, the statement is not true for a general group. 
+For example, $\mathfrak{S}_3$ has order $6 = 2 \cdot 3$, but has many elements of order 2, namely, any of the transpositions: 
+$\cyc{12}, \cyc{13}, \cyc{23}$. 
+
+\subsection{} 
+The answer is `no.' 
+Consider the dihedral group $D_{12} = (x, y \mid x^6, y^2, xyxy)$. 
+$4 \mid \#D_{12} = 12$, but there is no element of order 4: 
+If $g \in D_{12}$ is a reflection, then $g$ necessarily has order 2. 
+If $g$ is a rotation, then $g = x^{k}$ for some $1 \leq k < 6$. 
+$\<x\> \equiv \Z / 6\Z$, so the order of $x^k$ in $\<x\>$ (as a subgroup of $D_{12}$ is given by $\frac{6}{\gcd(6, k)}$. 
+Namely, this shows that $o(x^k) \in \{1, 2, 3, 6\}$ in $\<x\>$, hence the order of $g = x^k$ cannot be 4 in the entire group $D_{12}$. 
+All elements of $D_{12}$ are either the identity, rotation, or reflection, so I have shown that no element of $D_{12}$ has order 12. 
+
+\subsection{}
+I use elementary facts from arithmetic. 
+Induct on $d$. 
+The case $d = 2$ follows immediately from exercise 8.17 and the fact that 2 is prime.
+Pick $\#G > d > 2$ and suppose for all $m \leq d - 1$, there is a subgroup of $G$ of order $m$. 
+It must be shown that there is a subgroup $H$ of $G$ of order $d$.  
+If $d$ is prime, then the result follows by exercise 8.17. 
+Suppose $d$ is composite. 
+If $d$ is not the power of a prime, then let $d = ab$ for relatively prime integers $a, b$ (e.g., pick such a pair via the fundamental  theorem of arithmetic), and pick elements of $g, h \in G$ with orders $a$ and $b$, respectively. 
+Then one can use Lagrange for the subgroup $\<g, h\>$, the fact that $\gcd(a, b) = 1$, and that $G$ is abelian to check that $\<g, h\>$ has order $ab = m$. 
+
+Consider the case that $d = p^n$ for a prime $p$ and exponent $n > 1$.  
+By the inductive hypothesis, there is an element $h \in G$ of order $p^{n - 1}$. 
+Let $H = \<h\>$ and consider $G / H$. 
+Writing $\#G = p^n k$ for some $k$, Lagrange says $\#G/H = pk$. 
+Hence there is an element $lH \in G / H$ with order $p$ (via Theorem 8.17, since $p$ is prime and $G / H$ is abelian). 
+Letting $L = \<lH\>$ be the subgroup generated by the coset $lH$ in $G / H$, the correspondence theorem (an extension of Prop 8.9 in the textbook) says $\pi^{-1} (L)$ is a subgroup of $G$ with order $\#L \cdot \#H = p^n$ ($\pi: G \rightarrow G / H$ denotes the projection).  
+
+\subsection{}
+It's straightforward to check that 
+$$h H \cap K \mapsto hK$$ 
+is a well-defined bijective map. 
+To obtain the formala, notice $HK = \cup_{h \in H} hK$. 
+Recall that distinct cosets are mutually disjoint. 
+This gives
+\begin{align*}
+  \#HK & = (\# \text{ of distinct cosets } hK) \#K \\ 
+       & = [H:H \cap K] \#K  \\ 
+       & = \frac{\#H \#K}{\#(H \cap K)}
+\end{align*}
+where the second equality follows from the bijection above and third equalty follows from Lagrange: 
+$\#H = [H : H \cap K]\#(H \cap K)$, which one can use because $H \cap K$ is a subgroup of $H$. 
+
+\subsection{} 
+Consider the diagram 
+\begin{center}
+  \begin{tikzcd} 
+    G \arrow[r, "\varphi"] \arrow[rr, bend left, "0"] & G' \arrow[r, "\alpha"] \arrow[d, "\pi"] & L \\ 
+                                                       & G' / N \arrow[ur, "\exists !\bar{\alpha}", swap]
+  \end{tikzcd} 
+\end{center}
+Since $\alpha \varphi = 0$, $\im \varphi \subset \ker \alpha$. 
+Additionally, $\ker \alpha$ is normal in $G'$, so $N \subset \ker \alpha$ by definition of $N$. 
+Hence the uniquely determined $\bar{\alpha}:G'/N \rightarrow L$ induced by $\alpha$ makes triangle block starting from $G'$ commute, whereas $\im \varphi \subset N \subset \ker \alpha$ guarantees the diagram commutes when starting from $G$. 
+
+\setcounter{subsection}{23}
+\subsection{} 
+Consider the projection $\pi: \Z \rightarrow \Z / 2\Z$. 
+Although it is surjective, and is hence an epimorphism in $\mathsf{Grp}$ (the direction (c) $\implies$ (a) does not use the assumption that $\varphi$ is a homomorphism between abelian groups), $\pi$ doesn't have a right inverse: 
+the only homomorphism $\Z / 2\Z \rightarrow \Z$ is the trivial homomorphism, and clearly the trivial homomorphism is not a right inverse to the projection. 
+
+\subsection{} 
+When $H$ is normal in $G$, the ``interesting" homomorphism $\inn{G} \rightarrow \aut{H}$ is the map $\gamma \mapsto \fnrest{\gamma}{H}$. 
+This map can be extended to $G \rightarrow \aut{H}$ by composing 
+$$g \mapsto \gamma_{g} \mapsto \fnrest{\gamma_{g}}{H}.$$
+
+Suppose additionally that $H$ is abelian. 
+Then there is a map 
+\begin{align}
+  G/H & \rightarrow \aut{H} \label {eq:8_25_interesting} \\ 
+  gH & \mapsto \fnrest{\gamma_{g}}{H}. \nonumber
+\end{align}
+I check that this map is well-defined; 
+verifying that the map is indeed a group homomorphism is easy. 
+Suppose $g_{1} H = g_{2} H$. 
+It must be shown that $\gamma_{g_1}: H \rightarrow H$ and $\gamma_{g_2}: H \rightarrow H$ are equivalent homomorphisms. 
+$g_{2}^{-1} g_{1} \in H$, say $g_{2}^{-1} g_{1} = h'$ for some $h' \in H$. 
+Take any $h \in H$. 
+Then 
+\begin{align*}
+  \gamma_{g_1}(h) & = g_{1}^{-1} h g_{1} \\ 
+                  & = g_2 h' h {h'}^{-1} g_{2}^{-1} \\ 
+                  & = g_2 h g_{2}^{-1} = \gamma_{g_2}(h)
+\end{align*}
+where the third equality follows from the commutativity of $H$. 
+Since $\gamma_{g_1}$ and $\gamma_{g_2}$ agree on every value of $H$, they are equivalent homomorphisms; 
+$\gamma_{g_1} = \gamma_{g_2}$ in $\aut{H}$. 
+Hence the map given in \eqref{eq:8_25_interesting} is well-defined. 
+
+\section{Group Actions}
+\newcommand{\cat}{\mathsf{G\text{-}Set}}
+
+\setcounter{subsection}{7} 
+\subsection{} 
+Recall that $\cat$ consists of objects $(\rho, A)$, where $\rho:G \times A \rightarrow A$ defines a group action on $A$, and morphisms from $(\rho, A) \rightarrow (\rho', A')$ are given by set functions $\varphi: A \rightarrow A'$ such that the diagram below commutes:
+\begin{center}
+  \begin{tikzcd}
+    G \times A \arrow[r, "\id_{G} \times \varphi"] \arrow[d, "\rho", swap] & G \times A' \arrow[d, "\rho'"] \\ 
+    A \arrow[r, "\varphi", swap] & A'
+  \end{tikzcd} 
+\end{center}
+As was noted in the text, such $\varphi$ are exactly equivariant functions. 
+This construction is indeed a category. 
+Obviously, $\id_{A}$ is $G$-equivariant, so $\mathcal{H}(A, A)$ has an identity; 
+that $\id_{A}$ is indeed the identity map in $\mathcal{H}(A, A)$ is induced from $\id_{A}$ satisfying the condition for the identity map in $\mathsf{Set}$. 
+The associativity of the morphisms in $\cat$ follows from the associativity of morphisms in $\mathsf{Set}$ as well. 
+Finally, morphisms in $\cat$ can be composed: 
+if $\varphi:A \rightarrow B$ and $\psi: B \rightarrow C$ are equivariant, then the composed function $\psi \varphi$ is equivariant as well: 
+$$g \psi \varphi(a) = \psi(g \varphi(a)) = \psi \varphi(ga),$$
+hence $\psi \varphi \in \hom{A}{C}$. 
+
+It is obvious that homomorphisms $\varphi: A \rightarrow A'$ in $\cat$ are equivariant bijections. 
+Conversely, suppose $\varphi: A \rightarrow A'$ is an equivariant bijection. 
+To show that $\varphi$ is an isomorphism in $\cat$, it must be demonstrated that the inverse function $\varphi^{-1}:A' \rightarrow A$ is also in $\cat$, i.e., $\varphi^{-1}$ is equivariant.  
+Indeed, this is true because the diagram below commutes: 
+\begin{center}
+  \begin{tikzcd}
+    G \times A' \arrow[r, "\id_{G} \times \varphi^{-1}"] \arrow[d, "\rho'", swap] & G \times A \arrow[d, "\rho"] \\ 
+    A' \arrow[r, "\varphi^{-1}", swap] & A
+  \end{tikzcd}
+\end{center}
+This is because 
+\begin{center}
+  \begin{tikzcd}
+    g \times \varphi(a) \arrow[r, maps to] \arrow[d, maps to] & g \times a \arrow[d, maps to] \\ 
+    \substack{g\varphi(a) \\ = \varphi(ga)} \arrow[r, maps to] & ga
+  \end{tikzcd}
+\end{center}
+for all $g \in G$, all $\varphi(a) \in A'$. 
+
+\setcounter{subsection}{10}
+\subsection{} 
+I use slightly different notation than the book. 
+The action of $G$ on left cosets $G/H$ by left multiplication can be realized as the induced permutation representation (not yet covered in the book...)
+\begin{align*}
+  \Phi: G \rightarrow \aut{G/H}; \hspace{1.5em} & g \mapsto \sigma_{g}, \\
+  \sigma_{g}: G/H \rightarrow G/H; \hspace{1.5em} & aH \mapsto gaH
+\end{align*}
+Since $\#(G/H) = p$, $\aut{G/H} \equiv \sym_{p}$, so $\Phi$ can be understood as a homomorphism into $\sym_{p}$.
+By the first isomorphism theorem, $G / \ker \Phi \equiv S < \sym_{p}$.
+Since $S$ is a subgroup of $\sym_{p}$, $[G : \ker \Phi] = \#S \mid \#\sym_{p}$, 
+i.e., 
+\begin{equation} \label{eq:9_11_div1}
+  [G : \ker \Phi] \mid p!.
+\end{equation}
+Next, notice $\ker \Phi < H$:
+If $g \in \ker \Phi$, then $\sigma_{g} = \id_{G / H}$, which means $H = \sigma_{g}(H) = gH$, i.e., $g \in H$. 
+By the tower law(?) for indices, $[G : \ker \Phi] = [G : H] [H : \ker \Phi]$, i.e., 
+\begin{equation} \label{eq:9_11_div2} 
+  [G : \ker \Phi] = p[H : \ker \Phi]  
+\end{equation}
+Combining constraints \eqref{eq:9_11_div1} and \eqref{eq:9_11_div2}, $[H : \ker \Phi] \mid (p - 1)!$.
+Namely, this shows that the prime factors of $[H : \ker \Phi]$ are less than $p$.  
+Then it is necessary that $[H : \ker \Phi] = 1$; 
+if not and a prime $q < p$ divides $[H : \ker \Phi]$, then $q \mid \#G$ by Lagrange, which contradicts the assumption that $p$ is the smallest prime factor of $\#G$. 
+$[H : \ker \Phi] = 1$ simply means $H = \ker \Phi$, hence $H$ is be a normal subgroup of $G$. 
+
+\setcounter{subsection}{12}
+\subsection{} 
+Suppose $f:G/H \rightarrow G/gHg^{-1}$ is an isomorphism between left multiplication by $G$ on $G / H$ and $G / gHg^{-1}$ in $\cat$. 
+Because $f$ is equivariant, the mapping $H \mapsto x(gHg)^{-1}$, where $x \in G$ is a placeholder group element, determines all of $f$: 
+$$f(aH) = af(H) = ax(gHg^{-1})$$
+Such a map must be well defined: 
+if $aH = bH$, then by assumption that $f$ is indeed well defined, 
+$$ax(gHg^{-1}) = bx(gHg^{-1}) \implies x^{-1} b^{-1} ax \in gHg^{-1},$$
+which means $x = g^{-1}$ satisfies the desired properties. 
+Indeed, one can determine that the map 
+$$f(aH) = ag^{1} (gHg^{-1})$$ 
+determines an equivariant bijection $G /H \rightarrow G/gHg^{-1}$
+
+\setcounter{subsection}{16}
+\subsection{} 
+Let $\varphi: G \rightarrow G$ be an equivariant bijection that makes the following diagram commute: 
+\begin{center}
+  \begin{tikzcd}
+    G \times G \arrow[r, "\id \times \varphi"] \arrow[d, "l", swap] & G \times G \arrow[d, "l"] \\ 
+    G \arrow[r, "\varphi"] & G
+  \end{tikzcd}
+\end{center}
+where $l: G \times G \rightarrow G$ is the action $G \curvearrowright G$ by left multiplication. 
+Since $\varphi$ is equivariant, the mapping is entirely determined by $\varphi(1) = x$ for some $x \in G$: 
+$$\varphi(g) = g\varphi(1) = gx$$
+So any equivariant bijection $G \rightarrow G$ can be identified by where $1$ gets mapped to. 
+Define 
+\begin{align*}
+  \Phi: G \rightarrow \text{Aut}_{\cat}(G); \hspace{1.5em} & g \mapsto \varphi_{g}, \\ 
+  \varphi_{g}: G \rightarrow G; \hspace{1.5em} & h \mapsto hg
+\end{align*}
+Then one can verify that $\Phi$ is a homomorphism with inverse 
+$$\Psi: \text{Aut}_{\cat}(G) \rightarrow G; \hspace{1.5em} \varphi \mapsto \varphi(1),$$
+hence $G \equiv \text{Aut}_{\cat}(G)$ as groups. 
+
+\section{Group Objects in Categories} 
+\setcounter{subsection}{0}
+\subsection{} 
+The only interesting assertions I want to check are that the compositions 
+\begin{center}
+  \begin{tikzcd}
+    G \arrow[r, "\epsilon \times \id"] & 1 \times G \arrow[r, "\pi"] & G 
+  \end{tikzcd}
+
+  \vspace{0.5em}
+  and 
+
+  \vspace{0.5em}
+  \begin{tikzcd}
+    1 \times G \arrow[r, "\id"] &  G \arrow[r, "\epsilon \times \id"] & 1 \times G 
+  \end{tikzcd}
+\end{center}
+are both identities. 
+To check that the first composition gives the identity, let $\psi: G \rightarrow H$ and $\varphi: K \rightarrow G$ be any morphisms. 
+Then the diagrams below commute because of the universal property for products:  
+\begin{center}
+  \begin{tikzcd}
+      & 1 \times G \arrow[dr, "\pi"] \\ 
+    G \arrow[rr, "\id"] \arrow[dr, "\psi", swap] \arrow[ur, "\epsilon \times \id"] & & G \arrow[dl, "\psi"]\\ 
+      & H
+  \end{tikzcd}
+  \hspace{1.5em} 
+  \begin{tikzcd}
+      & 1 \times G \arrow[dr, "\pi"] \\ 
+    G \arrow[rr, "id"] \arrow[ur, "\epsilon \times \id"] & & G \\ 
+                                                          & K \arrow[ur, "\varphi"] \arrow[ul, "\varphi"]
+  \end{tikzcd}
+\end{center}
+hence $\pi (\epsilon \times \id) \psi = \psi$ and $\varphi \pi (\epsilon \times \id)  = \varphi$,
+or in other words, $\pi (\epsilon \times \id) = \id$. 
+
+The second composition can be verified as the identity morphism once again by noting that the diagram below commutes: 
+\begin{center}
+  \begin{tikzcd}
+               & & & 1  \\
+    1 \times G \arrow[r, "\pi_{G}"] \arrow[urrr, "\pi_{1}", bend left] \arrow[drrr, "\pi_{G}", bend right] & G \arrow[r, "\epsilon \times \id"] & 1 \times G \arrow[ur, "\pi_{1}"] \arrow[dr, "\pi_{G}"] \\ 
+               & & & G
+  \end{tikzcd}
+\end{center}
+Here, the top arrow $1 \times G \rightarrow 1$ is indeed $\pi_{1}$ because $1$ is final; 
+there is only one map $1 \times G \rightarrow 1$, and it is the projection. 
+The bottom arrow is $1 \times G \rightarrow G$ is $\pi_{G}$ because, by the composition identity shown above, 
+$$\pi_{G} (\epsilon \times \id) \pi_{G} = (\pi_{G} (\epsilon \times \id)) \pi_{G} = \id_{G} \pi_{G} = \pi_{G}$$ 
+Therefore, the universal property for the product gives a map $\sigma: 1 \times G \rightarrow 1 \times G$ with repsect to $\pi_{1}$ and $\pi_{G}$, namely $\sigma = \id_{1 \times G}$: 
+\begin{center}
+  \begin{tikzcd}
+               & & & 1  \\
+    1 \times G \arrow[rr, bend left, "\id_{1 \times G}"]\arrow[r, "\pi_{G}"] \arrow[urrr, "\pi_{1}", bend left] \arrow[drrr, "\pi_{G}", bend right] & G \arrow[r, "\epsilon \times \id"] & 1 \times G \arrow[ur, "\pi_{1}"] \arrow[dr, "\pi_{G}"] \\ 
+               & & & G
+  \end{tikzcd}
+\end{center}
+which verifies that $(\epsilon \times \id)\pi_{G} = \id_{1 \times G}$. 
 
 \end{document}
