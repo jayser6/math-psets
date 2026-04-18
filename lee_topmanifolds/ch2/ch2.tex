@@ -1,3 +1,4 @@
+
 \documentclass[12pt]{article}
 
 %% Basic document formatting
@@ -43,10 +44,8 @@
 \newtheorem{claim}{Claim}
 \newtheorem*{lemma}{Lemma}
 
-\newcommand{\form}[2]{\<#1, #2\>}
-
 %% Headers & title setup
-\newcommand{\course}{\textit{Algebra}, Artin} 
+\newcommand{\course}{\textit{Introduction to Topological Manifolds}, Lee} 
 \newcommand{\myname}{Jay Ser}
 \setlength{\headheight}{14.5pt}
 \pagestyle{fancy}
@@ -56,9 +55,9 @@
 \rhead{\myname}
 \cfoot{\thepage}
 \setlength{\droptitle}{-4em} 
-\title{\course\ \\ Linear Algebra Chapters }
+\title{\course\ \\ Chapter 2: Topological Spaces}
 \author{\myname}
-\date{April 7 $\sim$ \today}
+\date{April 12, 2026 $\sim$ \today}
 
 \begin{document}
 \maketitle
@@ -66,28 +65,6 @@
 
 %------------------------------------------------------------------------------%
 
-TODO: Chapter 4 up to Jordan form, Chapter 8 up to Orthogonality, Chapter 10 things
 
-\setcounter{section}{7}
-\section{Bilinear Forms}
-\subsection*{1.1} 
-\newcommand{\symform}[2]{\form{#1}{#2}_{sym}}
-\newcommand{\skewform}[2]{\form{#1}{#2}_{sk}}
-Suppose such a decomposition exists: 
-given $\form{}{}$, let $\symform{}{}$ and $\skewform{}{}$ be symmetric and skew-symmetric forms on $V$ such that for all $v, w \in V$, 
-\begin{equation} \label{eq:8_1_1_formdef} 
-  \form{v}{w} = \symform{v}{w} + \skewform{v}{w}.
-\end{equation}
-Then by \eqref{eq:8_1_1_formdef}, 
-\begin{align*} 
-  \form{v}{w} + \form{w}{v} & = 2\symform{v}{w} \\ 
-  \form{v}{w} - \form{w}{v} & = 2\skewform{v}{w}
-\end{align*}
-So one can just define the forms $\symform{v}{w} \defeq \frac{1}{2}(\form{v}{w} + \form{w}{w})$ and $\skewform{v}{w} \defeq \frac{1}{2}(\form{v}{w} - \form{v}{w})$ and check that 
-\begin{enumerate}
-  \item $\symform{}{}$ and $\skewform{}{}$ are indeed bilinear forms 
-  \item $\symform{}{}$ is symmetric, while $\skewform{}{}$ is skew-symmetric
-  \item For all $v, w \in V$, $\form{v}{w} = \symform{v}{w} + \skewform{v}{w}$. 
-\end{enumerate}
 
 \end{document}

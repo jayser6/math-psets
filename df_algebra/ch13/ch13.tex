@@ -172,4 +172,14 @@ $$\varphi:F[x] \rightarrow R; \: g(x) \mapsto g(\alpha)$$
 is a well defined ring homomorphism with $\ker \varphi = \<f(x)\>$, which means $F(\alpha) \subset R$. 
 Hence $\alpha^{-1} \in R$, which shows that $R$ is a field.  
 
+\section{Splitting Fields and Algebraic Closures} 
+\subsection{} 
+$$x^4 - 2 = (x^2 - \sqrt{2})(x^2 + \sqrt{2}) = (x - \sqrt[4]{2})(x + \sqrt[4]{2})(x - i\sqrt[4]{2})(x + i\sqrt[4]{2})$$
+Gives the complete factorization of $x^4 - 2$. 
+The dumb answer to the question is that the splitting field for $x^4 - 2$ over $\Q$ is $\Q(\sqrt[4]{2}, \sqrt[4]{2})$ and that its degree is 8 because $x^2 + \sqrt{2}$ is irreducible (has no root) in $\Q(\sqrt[4]{2})$, which can be done by realizing $\Q(\sqrt[4]{2})$ as $\{a + b\sqrt[4]{2} + c\sqrt{2} + d\sqrt[4]{8} \mid a, b, c, d \in \Q\}$. 
+
+The much easier solution is that $\Q(\sqrt[4]{2}, i)$ is an isomorphic splitting field for $x^4 - 2$ over $\Q$. 
+Clearly $[\Q(\sqrt[4]{2}, i) : \Q(\sqrt[4]{2})] = 2$ since $\Q(\sqrt[4]{2})$ is a subfield of $\R$, whereas $i \in \C \setminus \R$. 
+It follows that $\Q(\sqrt[4]{2}, i)$ is a degree 8 extension of $\Q$.  
+
 \end{document}

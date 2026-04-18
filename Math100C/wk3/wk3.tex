@@ -1,0 +1,512 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math100C}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - WK3} 
+\author{\myname}
+\date{2026.04.17}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section{An Element of $\mathrm{GL}_n(\mathbb{C})$ of Infinite Order}
+
+Let $n$ be a positive integer and let $A$ be the $n \times n$ matrix over
+$\mathbb{C}$ such that $A_{ij} = 1$ if $j = i$ or $j = i+1$ and $0$
+otherwise.  For example, for $n = 4$ we have
+\[
+  A =
+  \begin{pmatrix}
+    1 & 1 & 0 & 0 \\
+    0 & 1 & 1 & 0 \\
+    0 & 0 & 1 & 1 \\
+    0 & 0 & 0 & 1
+  \end{pmatrix}.
+\]
+Prove that $A$ is an element of $\mathrm{GL}_n(\mathbb{C})$ of infinite order.
+
+\emph{Hint:} look at the $(1,2)$-entries of the powers of $A$.
+
+\emph{Optional second part (only do this if you are comfortable with the
+underlying linear algebra):} use this to give another proof that every matrix
+in $\mathrm{GL}_n(\mathbb{C})$ of finite order is diagonalizable, using the
+fact that every matrix over $\mathbb{C}$ can be conjugated into Jordan normal
+form.
+
+\noindent\dotfill
+
+Pick an arbitrary $n$ and let $A$ be the $n \times n$ matrix as described. 
+To show that $A$ has infinite order in $\GL_n{\C}$, it suffices to show that the $1, 2$th entry $A^k$ is $k$. 
+Induct on $k$; 
+For the sake of calculation, I further show that for each $k$, the $2, 2$th entry is 1. 
+This is true by definition of $A$ when $k = 1$. 
+Suppose the $1, 2$th entry of $A^{k - 1}$ is $k - 1$ and the $2, 2$th entry of $A^{k - 1}$ is 1. 
+Let $A = [a_{ij}]$ and $A^{k - 1} = [a_{ij}^{(k - 1)}]$. 
+Recalling that upper triangle matrices form a subgroup of $\GL_{n}(\C)$, one obtains the following simple calculation for $a_{12}^{(k)}$: 
+\begin{align*}
+  a_{12}^{(k)} & = \sum_{t = 1}^{n} a_{1t} a_{t2}^{(k - 1)} \\
+               & = a_{11} a_{12}^{(k - 1)} + a_{12} a_{22}^{(k - 1)} \\ 
+               & = k - 1 + 1 = k \\ 
+    a_{22}^{(k)} & = \sum_{t = 1}^{n} a_{2t} a_{t2}^{(k - 1)} \\ 
+                 & = a_{22}a_{22}^{(k - 1)} + a_{23} a_{32}^{(k - 1)} \\ 
+                 & = 1 + 0 = 1,
+\end{align*}
+as was to be shown. 
+
+%------------------------------------------------------------------------------%
+
+\section{A Character with $\langle \chi, \chi \rangle = 2$}
+
+Let $\chi$ be a character of a finite group $G$ such that
+$\langle \chi, \chi \rangle = 2$.  Using orthogonality, prove that the
+corresponding representation is the direct sum of two distinct irreducible
+representations.
+
+\noindent\dotfill
+
+Since $\<\chi, \chi\> \neq 1$, $\chi$ is a reducible character. 
+Let 
+$$\chi = \sum_{i = 1}^{n} c_i \chi_i $$
+where each $\chi_{i}$ is irreducible. 
+Then 
+\begin{align*}
+  \<\chi, \chi\> & = \<\sum_{i = 1}^{n} c_{i} \chi_{i}, \sum_{i = 1}^{n} c_{i} \chi_{i}\> \\ 
+                 & = \sum_{1 \leq i, j \leq n} c_i c_j \<\chi_{i}, \chi_{j}\> \\ 
+                 & = \sum_{i = 1}^{n} c_{i}^{2} 
+\end{align*}
+where the third equality follows from the orthogonality of irredicuble characters. 
+Because $\<\chi, \chi\> = 2$, it follows from simple arithmetic that $n = 2$ and $c_{1} = c_{2} = 1$, i.e., 
+$$\chi = \chi_{1} + \chi_{2}.$$
+
+%------------------------------------------------------------------------------%
+
+\section{Products of Characters}
+
+Let $\chi_1, \chi_2$ be two characters of a finite group $G$.
+
+\subsection{$\chi_1 \chi_2$ is a Character}
+
+Prove that $\chi_1 \chi_2$ (that is, the function taking $g$ to
+$\chi_1(g)\chi_2(g)$) is also a character of $G$.
+
+\emph{Hint:} during the proof of orthogonality of characters, we will see that
+$\overline{\chi_1}\chi_2$ is a character of $G$.  Use that same logic but
+starting from $\overline{\chi_1}$ in place of $\chi_1$.
+
+\noindent\dotfill
+
+If $R_1: G \rightarrow \GL(V)$ is the representation corresponding to $\chi_1$, then 
+$$R_{1}':G \rightarrow \GL(V); \hspace{1.5em} g \mapsto \overline{R_g}$$ 
+i.e., postcomposing $R$ with complex conjugation of a linear operator on $V_1$, is another group representation of $G$.
+Evidently, $\chi_{1}' = \overline{\chi_1}$. 
+Hence $\chi_1 \chi_2$ is a character of $G$. 
+
+
+\subsection{Irreducibility When $\chi_1(1) = 1$}
+
+Check that if $\chi_1(1) = 1$ and $\chi_2$ is irreducible, then
+$\chi_1 \chi_2$ is irreducible.
+
+\noindent\dotfill
+
+Since $\chi_1$ is a one-dimensional representation, $\overline{\chi_{1}(g) \chi_{1}(g)} = 1$ for all $g \in G$ because $\chi_{1}(g)$ is a root of unity. 
+It follows 
+\begin{align*}
+  \<\chi_1 \chi_2, \chi_1 \chi_2\> 
+  & = \frac{1}{\#G} \sum_{g \in G} \overline{\chi_1 \chi_2} \chi_1 \chi_2 \\ 
+  & = \frac{1}{\#G} \sum_{g \in G} \overline{\chi_1} \chi_1 \overline{\chi_2} \chi_2 \\ 
+  & = \frac{1}{\#G} \sum_{g \in G} \overline{\chi_2} \chi_2 = \<\chi_2, \chi_2\> = 1,
+\end{align*}
+hence $\chi_1 \chi_2$ is irreducible. 
+
+\subsection{Failure When $\chi_1$ is Merely Irreducible}
+
+Check that the previous point fails if we replace the condition
+$\chi_1(1) = 1$ by the condition that $\chi_1$ is irreducible.
+
+\emph{Hint:} look at $\sym_3$.
+
+\noindent\dotfill
+
+Recall 
+\[
+  \begin{array}{c|ccccc}
+    & 1   & \cyc{12}  & \cyc{123}   \\
+    \hline
+    \chi & 2 & 0 & -1 
+  \end{array}
+\]
+is the only irreducible character of $\sym_3$ with dimension greater than 1. 
+Clearly, $\chi^2$ is not an irreducible character of $\sym_3$. 
+
+%------------------------------------------------------------------------------%
+
+\section{Character Table of $\sym_4$}
+
+Build the character table for $\sym_4$ using the following steps.
+
+\noindent \dotfill 
+
+First, let's determine the conjugacy classes of $\sym_{4}$. 
+The conjugacy classes in $\sym_4$ are just the possible cycle types: 
+$$(1), \, (12), \, (12)(34), \, (123), \, (1234)$$
+give the representatives of all the conjugacy classes in $\sym_4$. 
+By doing a bit of combinatorics, one can check there are 
+\begin{itemize}
+  \item One identity 
+  \item $\binom{4}{2} = 6$ transpositions 
+  \item $\binom{4}{2} / 2 = 3$ double transpositions 
+  \item $\binom{4}{3} \cdot 2 = 8$ three-cycles 
+  \item $3! = 6$ four-cycles
+\end{itemize}
+which shows that $\sym_4$ has five irreducible characters. 
+
+\subsection{Trivial and Sign Representations}
+As with $S_3$, start with the trivial irreducible representation and the
+nontrivial one-dimensional representation coming from signs of permutations.
+
+\noindent\dotfill
+
+\[
+  \begin{array}{c|ccccc}
+    & (1) & (6) & (3) & (8) & (6) \\
+    & 1   & \cyc{12}   & \cyc{12}\cyc{23}   & \cyc{123}   & \cyc{1234}   \\
+    \hline
+    \chi_1 & 1 & 1 &  1 &  1 &  1 \\
+    \chi_2 & 1 & -1 & 1 & 1 &  -1 \\
+    \chi_3 &  \\
+    \chi_4 &  \\ 
+    \chi_5 & \\ 
+  \end{array}
+\]
+
+\subsection{Standard Three-Dimensional Representation}
+
+Again as with $\sym_3$, take the standard four-dimensional representation, then
+subtract a copy of the trivial representation, and use orthogonality to check
+that the result is irreducible.
+
+\noindent\dotfill
+
+Let $\chi_{R}$ be the character of the representation that sends a permutation to its permutation matrix. 
+Given any $w \in \sym_n$, recall that the trace of the permutation matrix is precisely the number of points fixed by $w$. 
+\[
+  \begin{array}{c|ccccc}
+    & 1   & \cyc{12}   & \cyc{12}\cyc{23}   & \cyc{123}   & \cyc{1234}   \\
+    \hline
+    \chi_R & 4 & 2 & 0 &  1 &  0 \\
+  \end{array}
+\]
+One can use this table to calculate 
+$$\<\chi_R, \chi_R\> = \frac{1}{24}\sum_{w \in \sym_4}\overline{\chi_{R}(w)}\chi_{R}(w) = 48/24 = 2$$
+which means $\chi_{R}$ is the sum of two irreducible characters. 
+As usual, the vector $[1, 1, 1, 1]^{t}$ is fixed by the permutation matrices, so one said irreducible character is the trivial character.  
+Hence $\chi_{3} \defeq \chi_R - \chi_1$ is the standard three-dimensional character. 
+\[
+  \begin{array}{c|ccccc}
+    & (1) & (6) & (3) & (8) & (6) \\
+    & 1   & \cyc{12}   & \cyc{12}\cyc{23}   & \cyc{123}   & \cyc{1234}   \\
+    \hline
+    \chi_1 & 1 & 1 &  1 &  1 &  1 \\
+    \chi_2 & 1 & -1 & 1 & 1 &  -1 \\
+    \chi_3 & 3 & 1 & -1 & 0 & -1 \\
+    \chi_4 &  \\ 
+    \chi_5 & \\ 
+  \end{array}
+\]
+
+\subsection{A Second Three-Dimensional Representation}
+
+Add a second three-dimensional representation by multiplying by the nontrivial
+one-dimensional representation.
+
+\noindent\dotfill
+
+Let $\chi_{4} \defeq \overline{\chi_2}\chi_3$ be another character of $G$. 
+\[
+  \begin{array}{c|ccccc}
+    & 1   & \cyc{12}   & \cyc{12}\cyc{23}   & \cyc{123}   & \cyc{1234}   \\
+    \hline
+    \chi_4 & 3 & -1 & -1 &  0 &  1 \\
+  \end{array}
+\]
+One can calculate $\<\chi_4, \chi_4\> = 1$, hence $\chi_4$ is an irreducible character of $G$. 
+\[
+  \begin{array}{c|ccccc}
+    & (1) & (6) & (3) & (8) & (6) \\
+    & 1   & \cyc{12}   & \cyc{12}\cyc{23}   & \cyc{123}   & \cyc{1234}   \\
+    \hline
+    \chi_1 & 1 & 1 &  1 &  1 &  1 \\
+    \chi_2 & 1 & -1 & 1 & 1 &  -1 \\
+    \chi_3 & 3 & 1 & -1 & 0 & -1 \\
+    \chi_4 & 3 & -1 & -1 & 0 & 1 \\ 
+    \chi_5 & \\ 
+  \end{array}
+\]
+
+\subsection{The Remaining Two-Dimensional Character}
+
+Note that the last character must be two-dimensional.  Use orthogonality to
+fill in its values.
+
+\noindent\dotfill
+
+By the identity $24 = \#\sym_4 = \chi_{1}(1)^2 + \ldots + \chi_{5}(1)^{2}$, obtain $\chi_5(1) = 2$. 
+The columns of the character table must be orthogonal, forcing the rest of the entries: 
+\[
+  \begin{array}{c|ccccc}
+    & (1) & (6) & (3) & (8) & (6) \\
+    & 1   & \cyc{12}   & \cyc{12}\cyc{23}   & \cyc{123}   & \cyc{1234}   \\
+    \hline
+    \chi_1 & 1 & 1 &  1 &  1 &  1 \\
+    \chi_2 & 1 & -1 & 1 & 1 &  -1 \\
+    \chi_3 & 3 & 1 & -1 & 0 & -1 \\
+    \chi_4 & 3 & -1 & -1 & 0 & 1 \\ 
+    \chi_5 & 2 & 0 & 2 & -1 & 0\\ 
+  \end{array}
+\]
+
+%------------------------------------------------------------------------------%
+
+\section{Partial Character Table of a Group of Order 20}
+
+The following is part of the character table of a group of order $20$.  Fill
+in the last row, then determine the orders of the elements $a, b, c, d$.
+(Here $i$ has its usual meaning of a square root of $-1$.)
+\[
+  \begin{array}{c|ccccc}
+    & (1) & (4) & (5) & (5) & (5) \\
+    & 1   & a   & b   & c   & d   \\
+    \hline
+    \chi_1 & 1 & 1 &  1 &  1 &  1 \\
+    \chi_2 & 1 & 1 & -1 & -1 &  1 \\
+    \chi_3 & 1 & 1 & -i &  i & -1 \\
+    \chi_4 & 1 & 1 &  i & -i & -1 \\
+    \chi_5 &   &   &    &    &
+  \end{array}
+\]
+
+\noindent\dotfill
+
+Since $\sum_{i = 1}^{5} \chi_{i}(1)^{2} = 20$, 
+$$\chi_{5}(1) = 4.$$
+The columns of a character table are orthogonal, so the following table is forced after knowing the value of $\chi_{5}(1)$: 
+\[
+  \begin{array}{c|ccccc}
+    & (1) & (4) & (5) & (5) & (5) \\
+    & 1   & a   & b   & c   & d   \\
+    \hline
+    \chi_1 & 1 & 1 &  1 &  1 &  1 \\
+    \chi_2 & 1 & 1 & -1 & -1 &  1 \\
+    \chi_3 & 1 & 1 & -i &  i & -1 \\
+    \chi_4 & 1 & 1 &  i & -i & -1 \\
+    \chi_5 & 4 & -1 &  0 & 0 & 0
+  \end{array}
+\]
+
+Next, let's determine the orders of $a, b, c$, and $d$. 
+Recall that conjugates have the same order in the group. 
+By Cauchy's theorem, there is an element of order 2 and an element of order 5. 
+Let $x \in G$ be an order 5 element. 
+Then the value of the one-dimensional characters at $x$ must all be fifth roots of unity. 
+Only the column for $a$ satisfies this condition, so $x$ must be conjugate to $a$. 
+Similarly, if $y \in G$ is an order 2 element, the one-dimensional characters should evaluate at $y$ to either $1$ or $-1$.
+Of the remaining columns, only the column for $d$ satisfies this condition. 
+\begin{align*}
+  o(a) & = 5 \\ 
+  o(d) & = 2
+\end{align*}
+What about $b$ and $c$? 
+Well, since the one-dimensional characters evaluate at $b$ and $c$ to a fourth root of unity, the order of $b$ and $c$ must be divisible by $4$. 
+Furthermore, the order of $b$ and $c$ divides the group order, which is 20. 
+So $o(b), o(c) \in \{4, 20\}$. 
+If either element has order 20, then $G$ is cyclic. 
+This contradicts the assumption given by the character table that the group is nonabelian; 
+if the group was abelian, then each of the 20 elements of $G$ would form its own conjugacy class. 
+Hence, 
+\begin{align*}
+  o(b) & = 4 \\ 
+  o(c) & = 4
+\end{align*}
+
+%------------------------------------------------------------------------------%
+
+\section{Non-Simplicity via Characters, and Simplicity of $A_5$}
+
+Let $G$ be a finite group.  Show that if $G$ is not simple, then we can find a
+nontrivial irreducible character $\chi$ of $G$ and an element $g \neq 1$ in
+$G$ such that $\chi(g) = \chi(1)$.  Then apply this criterion to the character
+table of $A_5$ to see that $A_5$ is a simple group.
+
+\noindent\dotfill
+
+Suppose $G$ is not simple; 
+take a proper nontrivial normal subgroup $N$ of $G$. 
+Since $G / N$ is not the trivial group, there is a nontrivial irreducible representation $\tilde{R}: G / N \rightarrow \GL(V)$. 
+Let 
+$$R: G \rightarrow \GL(V); \hspace{1.5em} R = \tilde{R} \pi.$$ 
+Since a composition of homomorphisms is a homomorphism, $R$ is a group representation. 
+Namely, it is an irreducible representation because $\tilde{R}$ is irreducible. 
+Hence for any $n \neq 1 \in N$, $R(n) = \tilde{R}(N) = R(1)$,
+i.e., 
+we have found an irreducible character of a group $G$ such that 
+$$\exists n \neq 1 \in G \st \chi(n) = \chi(1).$$
+
+Recall that the character table for $A_5$ looks like 
+\[
+  \begin{array}{c|ccccc}
+    & (1) & (15) & (20) & (12) & (12) \\
+    & \id   & \cyc{12}{34}   & \cyc{123}   & \cyc{12345}   & \cyc{12354}   \\
+    \hline
+    \chi_1 & 1 & 1 &  1 &  1 &  1 \\
+    \chi_2 & 3 & 0 & -1 & \bar{\alpha} &  \alpha \\
+    \chi_3 & 3 & 0 & -1 &  \alpha & \bar{\alpha} \\
+    \chi_4 & 4 & 1 &  0 & -1 & -1 \\
+    \chi_5 & 5 & -1 &  1 & 0 & 0
+  \end{array}
+\]
+where $\alpha$ is a complex number with nonzero complex part and $\bar{\alpha}$ denotes its complex conjugate. 
+There is no nontrivial irreducible character $\chi$ of $A_5$ such that $\exists w \neq 1 \in A_5$ with $\chi(w) = \chi(1)$. 
+One concludes that $A_5$ is simple. 
+
+%------------------------------------------------------------------------------%
+
+\section{Permutation Representation of $\sym_3$ Acting on Itself by Conjugation}
+
+Let $R$ be the permutation representation coming from the action of $\sym_3$ on
+itself via conjugation.  Decompose the associated character into irreducibles,
+then verify that $R$ is \emph{not} isomorphic to the regular representation of
+$\sym_3$.
+
+\noindent\dotfill
+
+Let the following be the associated permutation representation of this action: 
+\begin{align*}
+  \varphi: \sym_{3} \rightarrow \sym_{6}; \hspace{1.5em} & w \mapsto \sigma_{w} \\ 
+  \sigma_{w}: \sym_{3} \rightarrow \sym_{3}; \hspace{1.5em} & z \mapsto wzw^{-1}
+\end{align*}
+
+The following gives the action of $\cyc{12}$ on $\sym_{3}$: 
+\begin{align*}
+  \sigma_{\cyc{12}}\id = \id; \hspace{1.5em} & \sigma_{\cyc{12}}\cyc{12} = \cyc{12} \\ 
+  \sigma_{\cyc{12}}\cyc{123} = \cyc{132}; \hspace{1.5em} & \sigma_{\cyc{12}}\cyc{13} = \cyc{23} \\ 
+  \sigma_{\cyc{12}}\cyc{132} = \cyc{123}; \hspace{1.5em} & \sigma_{\cyc{12}}\cyc{23} = \cyc{13}
+\end{align*}
+If the elements of $\sym_{3}$ are ordered as $\{ \id, \cyc{12}, \cyc{13}, \cyc{23}, \cyc{123}, \cyc{132}\}$, then $\sigma_{\cyc{12}}$ can be identified as $\cyc{34}\cyc{56}$ in $\sym_{6}$. 
+Via a similar analysis, $\sigma_{\cyc{123}}$ can be identified as $\cyc{243}$ in $\sym_{6}$. 
+Realizing this permutation representation as a matrix representation $R$ via permutation matrices gives the following character $\chi$ of $R$: 
+\[
+  \begin{array}{c|ccc}
+    & 1   & \cyc{12}   & \cyc{123} \\
+    \hline
+    \chi & 6 & 2 & 3
+  \end{array}
+\]
+
+Recall that below is the character table for $\sym_{3}$: 
+\[
+  \begin{array}{c|ccc}
+    & 1   & \cyc{12}   & \cyc{123} \\
+    \hline
+    \chi_1 & 1 & 1 & 1 \\ 
+    \chi_2 & 1 & -1 & 1 \\ 
+    \chi_3 & 2 & 0 & -1
+  \end{array}
+\]
+$\chi$ can be decomposed into irreducibles by projecting $\chi$ onto each of the irreducible characters: 
+\begin{align*}
+  \<\chi, \chi_{1}\> & = \frac{1}{6}(6 + 6 + 6) = 3 \\ 
+  \<\chi, \chi_{2}\> & = \frac{1}{6}(6 -6 + 6) = 1 \\ 
+  \<\chi, \chi_{3}\> & = \frac{1}{6}(12 + 0 - 6) = 1
+\end{align*}
+Hence $\chi = 3\chi_1 + \chi_2 + \chi_1$. 
+The decomposition of the regular representation is $\chi_{R} = \chi_1 + \chi_2 + 2\chi_3$, so one concludes that $\chi$ and $\chi_{R}$ are not isomorphic. 
+
+%------------------------------------------------------------------------------%
+
+\section{Converse to Schur's Lemma}
+
+Prove the following converse to Schur's lemma: if $R \colon G \to \mathrm{GL}(V)$
+is a vector space representation of a finite group $G$ and the only
+$G$-invariant linear operators on $V$ are multiplication by scalars, then $R$
+is irreducible.
+
+\emph{Hint:} use Maschke's theorem.
+
+\noindent\dotfill
+
+Suppose $R: G \rightarrow \GL(V)$ is reducible. 
+Then there is a nontrivial $G$-invariant proper subspace $W \subsetneq V$; 
+by Maschke's theorem, $V = W \oplus W^{\perp}$ with $W^{\perp}$ $G$-invariant as well. 
+Let 
+$$\pi: V \rightarrow V; \: v \mapsto w\hspace{1.5em} (v = w + w' \mid w \in W, w' \in W^{\perp})$$
+be the projection onto $W$. 
+For the rest of the paragraph, let $w$ always denote a vector in $W$ and $w'$ a vector in $W^{\perp}$. 
+Projections are clearly linear operators. 
+Furthermore, $\pi$ is a $G$-invariant linear operator: 
+for any $g \in G$ and $v = w + w' \in V$, 
+\begin{align*}
+  R_{g} \pi R_{g^{-1}}(v) & = R_{g} \pi(R_{g^{-1}}(w) R_{g^{-1}}(w')) \\ 
+                          & = R_{g} R_{g^{-1}}(w) \\ 
+                          & = w = \pi(v)
+\end{align*}
+where the second equality follows because of the $G$-invariance of $W$ and $W^{\perp}$; 
+$R_{g^{-1}}(w) \in W$ and $R_{g^{-1}}(w') \in W^{\perp}$. 
+Finally, one can check that $\pi$ is not a scalar linear operator. 
+If it was, let $\pi(v) = \mu v$ for all $v = w + w' \in V$. 
+Then 
+$$w = \pi(v) = \mu(w + w') \iff (\mu - 1)w + \mu w' = 0$$ 
+and because $w$ and $w'$ are linearly independent, $\mu = 0$. 
+$\mu = 0$ says $\pi$ is the 0 map, which contradicts the definition of $\pi$ as the projection onto $W$ and the assumption that $W$ is an irreducible subspace of $V$, that is, $W \neq 0$. 
+This proves the contrapositive to the desired statement. 
+
+\end{document}
