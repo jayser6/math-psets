@@ -2,4 +2,4 @@
 
 ## Coursework: Math100B-C undergrad intro algebra, Math140B-C undergrad intro analysis, Math188 Algebraic Combinatorics
 
-## Self-Study: Dummit & Foote Algebra, Aluffi Algebra, Munkres Topology
+## Self-Study: Dummit & Foote Algebra, Aluffi Algebra, Lee Topological Manifolds
