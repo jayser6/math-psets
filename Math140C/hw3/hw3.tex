@@ -1,0 +1,153 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140C}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#3}
+\author{\myname}
+\date{2026.05.03} 
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\newcommand{\Djf}[3]{[D_{#1}#2(#3)]}
+\newcommand{\grad}[1]{[\nabla #1]}
+
+\section*{Q23} 
+$f(0, 1, -1) = 0 + 1 - 1 = 0$. 
+Next, 
+$$[f'(x, y_1, y_2)] = [2xy + e^x, x^2, 1 ],$$
+so $\Djf{1}{f}{0, 1, -1} = 1$.
+Namely, in the language of the implicit function theorem, $A_x$ is invertible. 
+Hence the implicit function theorem applies; 
+there is a neighborhood $W \subset \R^2$ of $(1, -1)$ and function $g: W \rightarrow \R$ such that $g(1, -1) = 0$ and  
+$$f(g(y_1, y_2), y_1, y_2) = 0, \quad ((y_1, y_2) \in W)$$
+Furthermore, the implicit function theorem gives the formula 
+\begin{align*}
+  [g'(1, -1)] & = -\Djf{1}{f}{0, 1, -1}^{-1} [\Djf{2}{f}{0, 1, -1}, \Djf{3}{f}{0, 1, -1}]  \\ 
+              & = -1[0, 1] = [0, -1]
+\end{align*}
+In other words, $\Djf{1}{g}{1, -1} = 0$ and $\Djf{2}{g}{1, -1} = -1$. 
+
+\section*{Q27}
+\subsection{} 
+\begin{align*}
+  \limsup_{(x, y) \rightarrow (0, 0)} \abs{\frac{xy(x^2 - y^2)}{x^2 + y^2}}
+  & \leq \lim_{(x, y) \rightarrow (0, 0)} \abs{\frac{x^3 y}{x^2 + y^2}} + \lim_{(x, y) \rightarrow (0, 0)} \abs{\frac{xy^3}{x^2 + y^2}} \\ 
+  & = \lim_{(x, y) \rightarrow (0, 0)} \abs{xy}\abs{\frac{x^2}{x^2 + y^2}} + \lim_{(x, y) \rightarrow (0, 0)} \abs{xy}\abs{\frac{y^2}{x^2 + y^2}} \\ 
+  & \leq 2 \lim_{(x,y ) \rightarrow (0, 0)} \abs{xy} = 0,
+\end{align*}
+So $\lim_{(x, y) \rightarrow (0, 0)} f(x, y) = 0$, meaning $f(x, y)$ is continuous at $(0, 0)$. 
+Of course, $f$ is continuous away from $(0, 0)$ because it is rational.  
+Away from $(0, 0)$, one can calculate using the quotient rule
+\begin{align}
+  \Djf{1}{f}{x, y} & = \frac{y(x^4 + 4x^2 y^2 -y^4)}{(x^2 + y^2)^2} \label{eq:27_D1f} \\ 
+  \Djf{2}{f}{x, y} & = \frac{x^5 - 4x^3 y^2 - xy^4}{(x^2 + y^2)^2} \label{eq:27_D2f}
+\end{align}
+Also, 
+\begin{align*}
+  \lim_{h \rightarrow 0} \frac{f(h, 0) - f(0, 0)}{h} & = 0 \\  
+  \lim_{h \rightarrow 0} \frac{f(0, h) - f(0, 0)}{h} & = 0
+\end{align*}
+shows $\Djf{1}{f}{0, 0} = 0$ and $\Djf{2}{f}{0, 0} = 0$. 
+\begin{align*}
+\limsup_{(x, y) \rightarrow (0, 0)} \abs{\frac{x^5 - 4x^3 y^2 - xy^4}{(x^2 + y^2)^2}}
+  & \leq \lim_{(x, y) \rightarrow (0, 0)} \abs{x}\abs{\frac{x^4}{(x^2 + y^2)^2}} + \lim_{(x, y) \rightarrow (0, 0)} \abs{4x}\abs{\frac{x^2 y^2}{x^2 + y^2)^2}} \\ 
+  &  \quad + \lim_{(x, y) \rightarrow (0, 0)} \abs{x}\abs{\frac{x^4}{(x^2 + y^2)^2}} \\ 
+  & \leq \lim_{(x, y) \rightarrow (0, 0)} \abs{x} + \lim_{(x, y) \rightarrow (0, 0)} \abs{4x} + \lim_{(x, y) \rightarrow (0, 0)} \abs{x} = 0
+\end{align*}
+shows $D_{2}f$ is continuous at $(0, 0)$, and similar bounding shows $D_{1}f$ is continuous at $(0, 0)$ as well. 
+
+\subsection{} 
+\eqref{eq:27_D1f} and \eqref{eq:27_D2f} show that away from $(0, 0)$, $D_{12}f$ and $D_{21}f$ exist and are continuous. 
+At $(0, 0)$,
+\begin{align*}
+  \Djf{21}{f}{0, 0} & = \lim_{h \rightarrow 0} \frac{\frac{h(-h^4)}{h^4} - 0}{h} = -1 \\ 
+  \Djf{12}{f}{0, 0} & = \lim_{h \rightarrow 0} \frac{\frac{h^5}{h^4} - 0}{h} = 1
+\end{align*}
+Since $\Djf{21}{f}{0, 0} \neq \Djf{12}{f}{0, 0}$, one concludes that neither $D_{21}f$ nor $D_{12}f$ are continuous at $(0, 0)$. 
+
+\subsection{} 
+See (b). 
+
+\section*{Q28}
+For a fixed $t > 0$, $\varphi(x, t)$ is continuous on each piece. 
+Further, the values of each piece match at $x = \sqrt{t}$ and $x = 2\sqrt{t}$, so $\varphi$ is continuous for all $x$ for this fixed $t > 0$. 
+By symmetry, $\varphi$ is continuous at all $(x, t)$ for $t < 0$. 
+For points at $t = 0$, notice that for every $(x, t)$ such that $t \neq 0$, 
+$$\abs{\varphi(x, t)} \leq \sqrt{\abs{t}}$$
+Hence in arbitrary small neighborhood around any point $(x, 0)$, the absolute value of $\varphi$ is arbitarily small. 
+This shows that $\varphi$ is continuous on all of $\R^2$. 
+
+Next, consider 
+\begin{equation} \label{eq:28_partial}
+  \lim_{h \rightarrow 0} \frac{\varphi(x, h) - 0}{h}
+\end{equation}
+By definition of $\varphi$ it is clear \eqref{eq:28_partial} is 0 when $x \leq 0$. 
+When $x > 0$, it is also clear that as $h$ gets arbitrarily small, $x$ lands on the ``otherwise" part of $\varphi$, hence \eqref{eq:28_partial} is 0 once again. 
+This shows $\Djf{2}{\varphi}{x, 0} = 0$. 
+
+Assume $\abs{t} < 1/4$. 
+Then $2\sqrt{t} < 1$, meaning $\varphi(x, t) = 0$ when $x \notin [0, 2\sqrt{t}]$ portion of $[-1, 1]$. 
+\begin{align*}
+  f(t) & = \int_{0}^{\sqrt{t}}xdx + \int_{\sqrt{t}}^{2\sqrt{t}} (-x + 2\sqrt{t})dx \\ 
+       & = \frac{1}{2}\left.x^2\right|_{0}^{\sqrt{t}} + \left[-\frac{x^2}{2} + 2\sqrt{t}x\right]_{\sqrt{t}}^{2\sqrt{t}} \\ 
+       & = \frac{t}{2} + (-2t + 4t - (-\frac{t}{2} + 2t)) \\ 
+       & = t
+\end{align*}
+So $f(t) = t$ for $t \in [-1/4, 1/4]$. 
+This gives $f'(0) = 1$. 
+However, $\Djf{2}{\varphi}{x, 0} = 0$ for every $x$, so 
+$$\int_{-1}^{1} \Djf{2}{\varphi}{x, 0} dx = 0.$$
+In conclusion, 
+$$\int_{-1}^{1} \Djf{2}{\varphi}{x, 0}dx \neq f'(0)$$
+
+\end{document}

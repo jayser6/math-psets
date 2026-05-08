@@ -1,0 +1,114 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math100C}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - WK4} 
+\author{\myname}
+\date{2026.04.24}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\section{}
+Identify (up to isomorphism) all finite groups $G$ which have exactly three irreducible
+characters of dimensions $1$, $2$, and $3$, respectively.
+(You may use the \textit{Sylow theorems}, which you can look up if they weren't covered
+in your 100A.)
+ 
+\section{}
+Let $G$ be a finite cyclic group. Let $S$ be the set of generators of $G$. Let $\chi$ be
+any character of $G$ (not necessarily irreducible).
+ 
+\begin{enumerate}
+    \item Show that
+    \[
+        \sum_{g \in S} \chi(g)
+    \]
+    is an integer. (\textit{Hint}: reduce to the irreducible case.)
+ 
+    \item Show that
+    \[
+        \prod_{g \in S} |\chi(g)|^{2}
+    \]
+    is a \emph{nonnegative} integer.
+ 
+    \item Show that if $\chi(g) \neq 0$ for all $g \in S$,
+    \[
+        \sum_{g \in S} |\chi(g)|^{2} \geq |S|.
+    \]
+    (\textit{Hint}: combine the previous part with the arithmetic-geometric mean
+    inequality.)
+\end{enumerate}
+ 
+\section{}
+Let $G$ be a finite group. Let $\chi$ be an irreducible character such that
+$\chi(g) \neq 0$ for all $g \in S$. Use the previous exercise to deduce that
+\[
+    \sum_{g \in G \setminus \{1\}} |\chi(g)|^{2} \geq |G| - 1
+\]
+and deduce that $\chi(1) = 1$. In other words, an irreducible character $\chi$ of
+dimension greater than $1$ must take the value $0$ somewhere; this theorem is originally
+due to Burnside.
+ 
+\section{}
+Let $G$ be a finite group. Prove that the following two conditions are equivalent.
+\begin{enumerate}
+    \item The entries of the character table of $G$ are all integers.
+    \item Any two elements of $G$ which generate the same cyclic subgroup of $G$ belong
+    to the same conjugacy class.
+\end{enumerate}
+(\textit{Hint}: use orthogonality to show that any two elements of $G$ which have the
+same value on every character are conjugate.)
+Then deduce as a corollary that for every positive integer $n$, the character table of
+$S_n$ contains only integers.
+
+\end{document}
