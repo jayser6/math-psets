@@ -172,6 +172,7 @@ $$\varphi:F[x] \rightarrow R; \: g(x) \mapsto g(\alpha)$$
 is a well defined ring homomorphism with $\ker \varphi = \<f(x)\>$, which means $F(\alpha) \subset R$. 
 Hence $\alpha^{-1} \in R$, which shows that $R$ is a field.  
 
+\setcounter{section}{3}
 \section{Splitting Fields and Algebraic Closures} 
 \subsection{} 
 $$x^4 - 2 = (x^2 - \sqrt{2})(x^2 + \sqrt{2}) = (x - \sqrt[4]{2})(x + \sqrt[4]{2})(x - i\sqrt[4]{2})(x + i\sqrt[4]{2})$$
@@ -181,5 +182,42 @@ The dumb answer to the question is that the splitting field for $x^4 - 2$ over $
 The much easier solution is that $\Q(\sqrt[4]{2}, i)$ is an isomorphic splitting field for $x^4 - 2$ over $\Q$. 
 Clearly $[\Q(\sqrt[4]{2}, i) : \Q(\sqrt[4]{2})] = 2$ since $\Q(\sqrt[4]{2})$ is a subfield of $\R$, whereas $i \in \C \setminus \R$. 
 It follows that $\Q(\sqrt[4]{2}, i)$ is a degree 8 extension of $\Q$.  
+
+\section{Separable and Inseparable Extensions} 
+\setcounter{subsection}{3} 
+\subsection{} 
+Let $f(x) = x^p - x + a$ and let $\alpha$ be a root of $f$. 
+Then 
+$$f(\alpha + 1) = \alpha^p + 1 - (\alpha + 1) + a = f(\alpha) = 0,$$
+so $\alpha + 1$ is a root of $f$ as well. 
+Repeating the process gives 
+$$\alpha, \alpha + 1, \ldots, \alpha + (p - 1)$$
+as the distinct roots of $f$ (i.e., the roots of $f$ is precisely the set above). 
+This shows that $f$ is separable. 
+
+Let $p(x)$ be the minimal polynomial for $\alpha$ over $\F_p$. 
+Then $f(x) = p(x) f_1(x)$. 
+If $f_1 = 1$, then $f = p$ is irreducible. 
+Suppose $f_1 \neq 1$ and let $\alpha + j_1$ be a root of $f_1$. 
+Notice $p(x - j_1)$ satisfies $\alpha + j_1$. 
+Since the substitution $x \mapsto x - j_1$ is an automorphism, $p(x - j_1)$ is irreducible, i.e., 
+$p(x - j_1)$ is the minimal polynomial for $\alpha + j_1$ over $\F_p$. 
+Hence 
+$$p(x - j_1) \mid f_1(x).$$
+If $f_1(x)$ is irreducible, then $f_1(x) = p(x - j_1)$ and $f(x) = p(x) p(x - j_1)$ gives the factorizaiton of $f$. 
+If $f_1(x)$ is not irreducible, then writing $f_1(x) = p(x - j_1)f_2(x)$, noticing $f_2$ contains a root $\alpha + j_2$ whose minimal polynomial is $p(x - j_2)$, etc. 
+gives the irreducible factorization 
+$$f(x) = p(x) p(x - j_1) p(x - j_2) \cdots p(x - j_k)$$
+for some $k$. 
+Each irreducible factor is a substitution of $p(x)$, so each factor has the same degree as $p(x)$, giving 
+$$\deg{p(x)} \mid \deg{f(x)}.$$
+This contradicts the assumption that $1 < \deg{p(x)} < \deg{f(x)}$ and $\deg{f(x)} = p$, a prime. 
+
+
+
+
+
+
+
 
 \end{document}

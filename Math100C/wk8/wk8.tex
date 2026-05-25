@@ -1,0 +1,291 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math100C}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - WK8} 
+\author{\myname}
+\date{2026.05.22}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\newtheorem*{hint}{Hint}
+
+%------------------------------------------------------------------------------%
+
+\section{} 
+Let $n$ be a positive integer. 
+Define the polynomials 
+$$s_i = u_1^i + \ldots + u_n^{i}, \quad (i \in \oneton{n})$$ 
+Prove that these generate the ring of symmetric polynomials in $u_1, \ldots, u_n$ over $\Q$ but not over $\Z$ when $n \geq 2$. 
+
+\noindent\dotfill 
+
+Newtons' identities (plural?) gives a recursive formula for calculating $ke_k$, $k \in \oneton{n}$ from $s_1, \ldots, s_k$ and $e_1, \ldots, e_{k - 1}$: 
+\begin{equation} \label{eq:1_newton} 
+  ke_k = \sum_{i = 1}^{k} e_{k - i} s_{i}
+\end{equation}
+Over $\Q$, the coefficient $k$ on the left hand side of \eqref{eq:1_newton} can be canceled, so Newton's identities says all the elementary symmetric polynomials $e_1, \ldots, e_n$ can be written in terms of $s_1, \ldots, s_n$; 
+the elementary symmetric polynomials generate the ring of symmetric polynomials over coefficients in any ring $R$, so $s_1, \ldots, s_n$ generate the ring of symmetric polynomials over $\Q$. 
+
+I don't really know how to proceed for the the symmetric polynomials over $\Z$. 
+
+\section{} 
+Let $n$ be a positive integer and $G$ a subgroup of $\mathfrak{S}_n$ containing at least one transposition. 
+\subsection{} 
+Suppose $G$ contains all the transpositions of $\mathfrak{S}_n$. 
+Prove $G = \mathfrak{S}_n$. 
+
+\noindent \dotfill
+
+Since every permutation in $\sym{n}$ has a unique cycle decomposition, it suffices to show that $G$ contains all the cycles of $\sym{n}$. 
+To do this, induct on cycle length $k$.
+$k = 2$ holds by the assumption on $G$. 
+Suppose $G$ contains all cycles of length less than $k$. 
+Since relabeling the elements $1, 2, \ldots, n$ doesn't affect the inductive hypothesis, showing that $G$ contains all $k$-cycles is equivalent to showing that $G$ simply contains $\cyc{12 \cdots k}$. 
+Well, by the inductive hypothesis, $\cyc{12 \cdots [k - 1]}, \cyc{[k - 1]k} \in G$, so 
+$$ \cyc{12 \cdots [k - 1]} \cdot \cyc{[k - 1]k} = \cyc{12 \cdots k} \in G,$$
+finishing the proof. 
+
+\subsection{} 
+Suppose $n = p$ is prime and $p \mid \#G$. 
+Prove $G = \mathfrak{S}_n$ by reducing to the previous question. 
+
+\noindent\dotfill 
+
+I first prove the lemma Kiran suggested: 
+\begin{lemma}
+  Let a subgroup $G < \sym{n}$ correspond to a graph $\Gamma = (V, E)$ with vertices $1, \ldots, n$ and edge $ij$ whenever $G$ contains a transposition $\cyc{ij}$. 
+  If $\Gamma$ is connected, then $G = \sym{n}$. 
+\end{lemma} 
+\begin{proof}[Proof of Lemma] 
+  First, consider the special case where the vertex 1 is connected to all other vertices, i.e., 
+  $G$ contains all transpositions $\cyc{1k}$ for $k \in \{2, \ldots, n\}$. 
+  Then $G$ contains all the transpositions $\sym{n}$: indeed, for any $i \neq j \in \oneton{n}$, 
+  $$\cyc{1 i}\cyc{1 j}\cyc{1 i} = \cyc{ij}$$
+  By part (a), $G = \sym{n}$. 
+
+  The general case will reduce to this special case. 
+  Given any $k \in \{2, \ldots, n\}$, $\cyc{1k} \in G$ by the following: 
+  since $\Gamma$ is connected, there is a walk 
+  $$1 \rightsquigarrow u_1 \rightsquigarrow \ldots \rightsquigarrow u_t = k$$
+  But the calculation 
+  $$\cyc{1 {u_1}} \cyc{{u_1} {u_2}} \cyc{1 {u_1}} = \cyc{1 {u_2}}$$ 
+  shows there is a direct path $1 \rightsquigarrow u_2$ in $\Gamma$. 
+  Inductively performing this calculation, one simply obtains a direct path $1 \rightsquigarrow k$, i.e., 
+  $\cyc{1 k} \in G$, as was to be shown. 
+\end{proof} 
+
+Let $G$ be a subgroup of $\sym{p}$ such that it contains a transposition and $p \mid \#G$. 
+By Cauchy's theorem, $G$ contains an element of $\sym{p}$ of order $p$. 
+The only such element is a $p$-cycle; 
+by relabeling the $p$-cycle as needed, one can assume that $G$ contains $\cyc{12 \cdots p}$ and some transposition $\cyc{ij}$. 
+$$\cyc{12 \cdots p} \cyc{ij} \cyc{1 p {[p - 1]} \cdots 2} = \cyc{{[i + 1]}{[j + 1]}}$$
+shows $G$ contains all transpositions of the form $\cyc{{[i + t]}{[j + t]}}$. 
+Namely, it contains $\cyc{1k}$ for some $k \in \{2, \ldots, p\}$ and therefore $\cyc{{[1 + t]} {[k + t]}}$ for all $t$. 
+If $\Gamma$ is the graph corresponding to $G$ as in the lemma, the notice that $\Gamma$ has vertices 
+$$1 \rightsquigarrow k \rightsquigarrow (2k - 1) \rightsquigarrow (3k - 2) \rightsquigarrow \ldots$$
+Hence if 
+$$x \mapsto xk - (x - 1) = (k - 1)x + 1$$
+is surjective mod $p$, then $\Gamma$ is connected. 
+Indeed, the map is surjective mod $p$ because $k - 1 \neq 0$ mod $p$ and linear equations always have a solution mod $p$ (since $\F_p$ is a field). 
+Hence $\Gamma$ is connected, and the lemma then gives $\sym{p} = G$. 
+
+\section{}
+Let $f$ be a polynomial of degree $n$ over a field $F$. 
+Prove that a splitting field for $f$ over $F$ has degree dividing $n!$
+
+\noindent\dotfill
+
+Let $K / F$ be the splitting field for the polynomial $f$ over $F$ of degree $n$. 
+Letting $G \defeq \gal{K}{F}$, recall $K / F$ is a Galois extension, $K^{G} = F$, and $[K : K^{G}] = \#G$.  
+Since $K / F$ is Galois, $G$ acts on the roots of $f$ faithfully, giving
+$$G \hookrightarrow \mathfrak{S}_n$$ 
+hence $\#G \mid \# \mathfrak{S}_n = n!$. 
+Putting together all the facts, 
+$$[K : F] \mid n!,$$
+as was to be shown. 
+
+\section{}
+Compute the Galois group of the splitting field $x^5 - 2$ over $\Q$. 
+
+\noindent\dotfill 
+
+The splitting field for $f(x) \defeq x^5 - 2$ over $\Q$ is 
+$$\Q(\zeta_5, 2^{1/5}):$$ 
+$\zeta_5$ and $2^{1/5}$ clearly generate all the roots of $f$; 
+meanwhile, any field containing all the roots of $f$ clearly contains $2^{1/5}$ and $\zeta_{5} 2^{1/5}$, and multiplying the inverse of the former with the latter gives $\zeta_5$ in that field as well. 
+
+Let $K \defeq \Q(\zeta_5, 2^{1/5})$. 
+The minimal polynomial for $2^{1/5}$ over $\Q$ is $f$, a degree 5 polynomial, whereas $\zeta_5$ is a degree 4 element over $\Q$. 
+Since these are coprime,
+$$\index{K}{\Q} = 20.$$
+Finally, it is clear $f$ is irreducible, for example by Eisenstein for $p = 2$, so the Galois group $G \defeq \gal{K}{\Q}$ is the unique transitive subgroup of $\sym{5}$ of order 20. 
+
+Let's compute this group. 
+Associate the roots of $f$ $2^{1/5}, 2^{1/5} \zeta_5, \ldots, 2^{1/5} \zeta_5^{4}$ with indices $1, 2, \ldots, 5$, respectively. 
+First, consider the permutation $\sigma \in G$ mapping 
+$$\zeta_5 \mapsto \zeta_5^{2}, \quad 2^{1/5} \mapsto 2^{1/5}.$$ 
+One can easily check that $\sigma$ has order 4 in $G$ and acts on the roots of $f$ as $\cyc{2354}$. 
+Next, consider $\tau \in G$ mapping 
+$$\zeta_5 \mapsto \zeta_5, \quad 2^{1/5} \mapsto 2^{1/5} \zeta_5.$$
+It is clear that $\tau$ is order 5 in $G$ acting on the roots of $f$ as $\cyc{12345}$. 
+A 5-cycle and a 4-cycle generates a group of order 20, i.e., 
+$$G = \<\sigma, \tau\>.$$
+This computes the Galois group for the splitting field of $x^5 - 2$ over $\Q$. 
+
+\section{}
+Prove that $\Q(\sqrt{2}, \sqrt{3}, \sqrt{5})$ is a Galois extension of $\Q$ and compute its Galois group. 
+
+\noindent \dotfill
+
+Let $K \defeq \Q(\sqrt{2}, \sqrt{3}, \sqrt{5})$. 
+The generators of $K$ over $\Q$ are precisely the roots (up to $\pm$) of 
+$$f(x) \defeq (x^2 - 2)(x^2 - 3)(x^2 - 5),$$
+so $K$ is a splitting field over $\Q$, 
+i.e., $K / \Q$ is a Galois extension. 
+We've shown many times in class that $\Q(\sqrt{2}, \sqrt{3})$ is a degree 4 extension of $\Q$, and it's clear $\sqrt{5} \notin \Q(\sqrt{2}, \sqrt{3})$, so 
+$$\index{K}{\Q} = 8.$$
+
+Let $G \defeq \gal{K}{\Q}$. 
+By the paragraph above, $G$ is a subgroup of $\sym{6}$ of order 8. 
+Since $K$ is the splitting field for $f$, any $\sigma \in G$ permutes the roots of each factor of $f$: 
+$$\sqrt{2} \mapsto \pm \sqrt{2}, \quad \sqrt{3} \mapsto \pm \sqrt{3}, \quad  \sqrt{5} \mapsto \pm \sqrt{5}$$
+None of the factors of $f$ share a root, so each of these three choices can be made independently; 
+i.e., the permutations of $G$ sending 
+\begin{itemize}
+  \item $\sqrt{2} \mapsto -\sqrt{2}$, identity on other elements 
+  \item $\sqrt{3} \mapsto -\sqrt{3}$, idnetity on other elements 
+  \item $\sqrt{5} \mapsto -\sqrt{5}$, identity on other elements 
+\end{itemize}
+correpond to disjoint $2$-cycles, hence they generate $(\Z / 2\Z) \times (\Z / 2\Z) \times (\Z / 2\Z)$, which has order 8. 
+Hence $G \equiv (\Z / 2\Z)^3$.
+
+\section{}
+Define a field $K = \C(t)$. 
+Define automorphisms $\sigma, \tau$ of $K$ over $\C$ mapping 
+$$\sigma(t) = \frac{t + i}{t - i}, \quad \tau(t) = \frac{it - i}{t + 1}$$
+Prove these automorphisms generate a group isomorphic to $A_4$ and compute the fixed field. 
+
+\noindent \dotfill 
+
+I utilize the isomorphism $\GL{2}{\C} / \C \equiv \text{Aut}(\C(t) / \C)$. 
+Identify 
+\begin{gather*}
+  \sigma(t) \rightsquigarrow M_\sigma \defeq \bmat{1 & i \\ 1 & -i} \\ 
+  \tau(t) \rightsquigarrow M_\tau \defeq \bmat{i & -i \\ 1 & 1}. 
+\end{gather*}
+Then 
+\begin{gather*}
+  (M_\sigma)^{2} = \bmat{1 + i & 1 + i \\ 1 - i & i - 1}, \quad (M_\sigma)^{3} = \bmat{2 + 2i & 0 \\ 0 & 2 + 2i} = I_2 \\ 
+  (M_\tau)^{2} = \bmat{-1 - i & 1 - i \\ i + 1 & 1 - i}, \quad (M_\tau)^{3} = \bmat{2 -2i & 0 \\ 0 & 2 - 2i} = I_2
+\end{gather*}
+So $(M_\sigma)^{3} = (M_\tau)^{3} = 1$. 
+Also, 
+$$M_\sigma M_\tau = \bmat{2i & 0 \\ 0 & -2i} = \bmat{1 & 0 \\ 0 & -1}$$
+shows $M_\sigma M_\tau \neq I_2$ and $(M_\sigma M_\tau)^{2} = I_2$. 
+This means $M_\sigma$ and $M_\tau$ satisfy the relations for the presentation 
+$$A_4 = \<x, y \mid x^3 = y^3 = (xy)^2 = 1\>$$
+In other words, $\sigma$ and $\tau$ generate $A_4$. 
+
+I'm unsure what the fixed field is. 
+I suspect it is some sum of the matrices computed above. 
+
+\section{} 
+Let $\zeta_n \defeq e^{2\pi / n}$ for some positive integer $n$. 
+Prove $\Q(\zeta_n)$ is a Galois extension of $\Q$ with Galois group isomorphic to $(\Z / n\Z)^{\times}$. 
+
+\noindent \dotfill
+
+Let $G = \gal{\Q(\zeta_n)}{\Q}$. 
+Recall that the minimal polynomial for $\zeta_n$ over $\Q$ is 
+
+\begin{equation} \label{eq:7_cyc} 
+  \Phi_n(x) = \prod_{\substack{a < n \\ (a, n) = 1}} (x - \zeta_n^{a})
+\end{equation}
+Thus it is clear that $\Q(\zeta_n) / \Q$ is a splitting field for $\Phi_n(x)$ over $\Q$,
+i.e., a Galois extension of $\Q$: 
+it contains all the roots of $\Phi_n(x)$, while obviously, any field containing all the roots of $\Phi_n(x)$ contains $\zeta_n$. 
+\eqref{eq:7_cyc} also shows that any $\sigma \in G$ maps 
+$$\zeta_n \mapsto \zeta_n^{a}$$
+for some $a < n$, $(a, n) = 1$. 
+Hence the following map $G \rightarrow (\Z / n\Z)^{\times}$ is well defined: 
+\begin{equation} \label{eq:7_isom} 
+  \sigma \mapsto a 
+\end{equation}
+where $a$ is such that $\sigma(\zeta_n) = \zeta_{n}^{a}$. 
+This map is clearly injective since $\sigma$ is defined entirely by how it sends $\zeta_n$, which means only one $\sigma \in G$ sends $\zeta_n$ to $\zeta_n^{a}$ for a fixed $a$. 
+The map is also a homomorphism: 
+given $\sigma_1, \sigma_2 \in G$ with $\sigma_1(\zeta_n) = \zeta_n^{a_1}$ and $\sigma_2(\zeta_n) = \zeta_n^{a_2}$, 
+\begin{align*}
+  \sigma_1 \sigma_2 (\zeta_n) & = \sigma_1 (\zeta_n^{a_2}) \\ 
+							  & = (\sigma_1(\zeta_n))^{a_2} \\ 
+							  & = \zeta_n^{a_1 a_2} 
+\end{align*}
+Finally, because $\Q(\zeta_n) / \Q$ is a splitting field, $\#G = \varphi(n)$. 
+$\varphi(n) = (\Z / n\Z)^{\times}$ as well, so \eqref{eq:7_isom} is surjective; 
+this finishes the proof that $G \equiv (\Z / n\Z)^{\times}$. 
+
+\section{}
+Let $f(x) = x^3 + x + 1$. 
+Prove the splitting field of $f$ over $\Q$ contains $\sqrt{-31}$. 
+
+\noindent\dotfill 
+
+I read about the discriminant not in Artin, but in Dummit and Foote because the latter makes more sense to me. 
+In general, for any $f$, the definition of the discriminant gives 
+$$\sqrt{D} = \prod_{i < j}(\alpha_i - \alpha_j)$$
+where the $\alpha_i$ and $\alpha_j$'s are roots of $f$, which shows $\sqrt{D}$ is always in the splitting field for $f$. 
+For $f(x) = x^3 + x + 1$, the discriminant is 
+$$D \defeq -4(1)^3 - 27(1)^2 = -31.$$
+Hence $\sqrt{-31}$ is in the splitting field for $f$ over $\Q$. 
+
+\end{document}

@@ -1,0 +1,248 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140C}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#5}
+\author{\myname}
+\date{2026.05.17} 
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\scrC}{\mathscr{C}}
+\newcommand{\sigalg}[1]{\sigma\text{-alg}(#1)}
+
+\section{} 
+\subsection{}
+Briefly explain why every singleton set in $\R$ is Lebesgue measurable and has Lebesgue measure 0. 
+Then, extend this result to every countable subset of $\R$. 
+
+\noindent\dotfill 
+
+Take any $x \in \R$. 
+Letting 
+$$A_n = (x - \frac{1}{n}, x + \frac{1}{n}), \quad (i \in \Zpl)$$
+Recall $X \triangle Y$ for sets denotes the symmetric difference of $X$ and $Y$. 
+For each $n$, 
+\begin{equation} \label{eq:1_a_An}
+  A_n \triangle \{x\} = (x - \frac{1}{n}, x) \sqcup (x, x + \frac{1}{n})
+\end{equation}
+The right hand side of \eqref{eq:1_a_An} is a finite union of intervals, so $A_n \triangle \{x\} \in \mathscr{E}$. 
+Hence $m^{\star} (A_n \triangle \{x\}) = m(A_n \triangle \{x\})$. 
+Additionally, it is clear that $m(A_n \triangle \{x\}) \rightarrow 0$ as $n \rightarrow \infty$, so
+$$d(A_n, \{x\}) \rightarrow 0 \text{ as } n \rightarrow \infty$$
+It immediately follows from this result that $\{x\}$ is Lebesgue measurable. 
+In fact, more is true: 
+For each $n \in \Zpl$, $A_n \in \mathscr{E}$ and is an open cover of $\{x\}$, which shows 
+$$m^{*}(\{x\}) \leq m(A_n).$$
+$m(A_n) \rightarrow 0$ as $n \rightarrow \infty$, so $m^{*} (\{x\}) = 0$, as was to be shown. 
+
+The result for singletons can be used to show that every countable subset of $\R$ is Lebesgue measurable with Lebesgue measure 0:
+if $U = \{x_1, x_2, \ldots\} \subset \R$ is any countable subset, $U$, being a countable (disjoint) union of singletons, is Lebesgue measurable because $\mathscr{M}(m)$ is a $\sigma$-algebra. 
+Furthermore, since $m^{*}$ is countably additive on $\mathscr{M}(m)$, 
+$$m^{*}(U) = \sum_{n \in \Zpl} m^{*} (\{x_n\}) = 0$$
+
+\subsection{} 
+Show directly from the definition of the Lebesgue measure that $m^{*}(\Q) = 0$. 
+
+\noindent\dotfill 
+
+Fix $\epsilon > 0$ and write $\Q = \{q_1, q_2, \ldots\}$. 
+For each $n \in \Zpl$, let 
+$$I_n = (q_n - \frac{\epsilon}{2^{n + 1}}, q_n + \frac{\epsilon}{2^{n + 1}})$$
+Each $I_n$ has measure $m(I_n) = \frac{\epsilon}{2^n}$. 
+$(I_n)_{n \in \Zpl}$ form an open cover for $\Q$, and 
+$$\sum_{n = 1}^{\infty} m(I_n) = \sum_{n = 1}^{\infty} \frac{\epsilon}{2^{n}} = \epsilon,$$
+as was to be shown. 
+
+\subsection{} 
+Show that $m^{*}(\R \setminus \Q) = \infty$ and $m^{*} (\Q \cap [0, 1]) = 1$. 
+
+\noindent\dotfill
+
+Since $\mathscr{M}(m)$ is a $\sigma$-algebra and $\Q$ is Lebesgue measurable, $\R \setminus \Q$ is also Lebesgue mesurable. 
+Recall also that $\sigma$-algebras always contain the ambient set, so $\R$ is Lebesgue measurable. 
+Because $m^{*}$ is monotonic on $\mathscr{M}(m)$ and there are bounded intervals of arbitrary length, it is clear that $m^{*}(\R) = \infty$. 
+Using the countable additivity of $m^{*}$ on $\mathscr{M}(m)$, 
+$$m^{*}(\R \setminus \Q) = m^{*} (\R) - m^{*} (\Q) = \infty,$$
+as was to be shown. 
+
+$[0, 1]$ and $\Q$ are Lebesgue measurable, so that $\mathscr{M}(m)$ is a $\sigma$-algebra means $[0, 1] \setminus \Q$ and $[0, 1] \cap \Q$ are also Lebesgue measurable. 
+The quick computations 
+\begin{gather*}
+  m^{*}[0, 1] = m[0, 1] = 1 \\ 
+  m^{*}(\Q \cap [0, 1]) = 0 \text{ (by monotonicity)} \\
+  ([0, 1] \setminus \Q) \sqcup ([0, 1] \cap \Q) = [0, 1]
+\end{gather*} 
+give
+$$m^{*} ([0, 1] \setminus \Q) = m^{*}[0, 1] - m^{*}(\Q) = 1.$$
+
+\section{} 
+\subsection{} 
+Find a Lebesgue measurable set set $A$ such that $m(\overline{A}) > m(A)$. 
+
+\noindent\dotfill 
+
+Take $A = \Q$. 
+$\overline{\Q} = \R$, and from Q1, 
+$$m(\Q) = 0 < m(\overline{\Q}) = \infty$$
+
+\subsection{} 
+Find a Lebesgue measurable set $A$ such that $m(A^{\circ}) < m(A)$. 
+
+\noindent \dotfill 
+
+Let $A = \R \setminus \Q$, the set of irrational numbers.  
+Since $\Q$ is measurable and measurable sets of a $\sigma$-algebra, $A$ is also measurable. 
+Further, since $m$ is countably additive on measurable sets, by Q1, $m(A) = \infty$. 
+$\Q$ is dense in $\R$ means $A^{\circ} = \emptyset$, and the fact $m(\emptyset) = 0$ means $A$ satisfies the desired properties. 
+
+\section{} 
+\subsection{} 
+Prove that if $A, B \in \mathscr{E}$, then $\mu(B) = \mu(A \cap B) + \mu(B \setminus A)$. 
+
+\noindent \dotfill 
+
+As Brandon noted, if $A, B \in \mathscr{E}$, then $A \cap B \in \mathscr{E}$, which also means $B \setminus A \in \mathscr{E}$. 
+$\mu$ is finitely additive on $\mathscr{E}$ and $B = (B \setminus A) \sqcup (A \cap B)$, giving 
+$$\mu(B) = \mu(A \cap B) + \mu(B \setminus A)$$
+
+\subsection{} 
+Prove that if $B \subset \R^{p}$ and $A \in \mathscr{E}$, then $\mu^{*}(B) = \mu^{*} (B \setminus A) + \mu^{*} (B \cap A)$. 
+
+\noindent \dotfill 
+
+Let's first show $\mu^{*}(B \cap A) + \mu^{*} (B \setminus A) \leq \mu^{*}(B)$. 
+Fix $\epsilon > 0$.
+There is a collection $(A_n)_{n \in \Zpl}$ such that 
+$$\text{each } A_n \in \mathscr{E} \text{ is open, } B \subset \bigcup_{n = 1}^{\infty} A_n, \text{ and } \sum_{n = 1}^{\infty} \mu(A_n) < \mu^{*}(B) + \epsilon$$
+Since $\mu$ is regular, for each $n \in \Zpl$, pick $F_n, G_n \in \mathscr{E}$ such that $G_n$ contains $A$ and is open, $F_n$ is contained in $A$ and is closed, and 
+$$\mu(A) - \epsilon / 2^n < \mu(F_n) \leq \mu(A) \leq \mu(G_n) < \mu(A) + \epsilon / 2^{n}.$$
+Recall that intersection of elementary sets is also elementary. 
+By construction of the collections $(E_n), \, (G_n)$, and $(F_n)$, 
+\begin{gather*}
+  \bigcup_{n = 1}^{\infty} (A_n \cap G_n) \text{ is an open cover for } B \cap A, \\  
+  \bigcup_{n = 1}^{\infty} (A_n \setminus F_n) \text{ is an open cover for } B \setminus A
+\end{gather*}
+Also, for each $n \in \Zpl$, the following holds by the construction of $G_n$ and the monotocity of $\mu$: 
+\begin{align*}
+  \mu(A_n \cap G_n) & = \mu(A_n) + \mu(G_n) - \mu(A_n \cup G_n)  \\ 
+					 & < \mu(A_n) + \mu(A) + \epsilon / 2^n - \mu(A_n \cup A) \\ 
+					 & = \mu(A_n \cap A) + \epsilon / 2^n
+\end{align*}
+Hence 
+\begin{align*}
+  \mu^{*} (B \cap A) & \leq \sum_{n = 1}^{\infty} \mu(A_n \cap G_n)  \\ 
+					 & < \sum_{n = 1}^{\infty} \mu(A_n \cap A) + \epsilon
+\end{align*} 
+Similarly, 
+\begin{align*}
+  \mu(A_n \setminus F_n) & = \mu(A_n \cup F_n) - \mu(F_n) \\ 
+						 & < \mu(A_n \cup A) - \mu(A) + \epsilon / 2^n \\ 
+						 & = \mu(A_n \setminus A) + \epsilon / 2^n,
+\end{align*}
+which gives 
+$$\mu^{*}(B \setminus A) < \sum_{n = 1}^{\infty} \mu(A_n \setminus A) + \epsilon$$
+Finally, since $(A_n \setminus A) \sqcup (A_n \cap A) = A_n$ for each $n$, 
+\begin{align*}
+  \mu^{*}(B \setminus A) + \mu^{*}(B \cap A) & < \sum_{n = 1}^{\infty} A_n + 2\epsilon \\ 
+											 & < \mu^{*}(B) + 3\epsilon
+\end{align*} 
+Letting $\epsilon \rightarrow 0$, $\mu^{*} (B \setminus A) + \mu^{*} (B \cap A) \leq \mu^{*} (B)$.
+
+Next, let's show $\mu^{*}(B) \leq \mu^{*} (B \cap A) + \mu^{*} (B \setminus A)$. 
+Fix $\epsilon > 0$. 
+There are collections $(A_n)_{n \in \Zpl}, (B_n)_{n \in \Zpl} \subset \mathscr{E}$ such that each $A_n$ and $B_n$ are open and 
+\begin{gather*}
+  B \setminus A \subset \bigcup_{n = 1}^{\infty} A_n, \quad \sum_{n = 1}^{\infty} \mu(A_n) < \mu^{*} (B \setminus A) + \epsilon \\ 
+  B \cap A \subset \bigcup_{n = 1}^{\infty} B_n, \quad \sum_{n = 1}^{\infty} \mu(B_n) < \mu^{*} (B \cap A) + \epsilon
+\end{gather*}
+For each $n \in \Zpl$, since $\mu$ is regular, there are also $F_n, G_n \in \mathscr{E}$ such that $G_n$ contains $A$ and is open, $F_n$ is contained in $A$ and is closed, and 
+$$\mu(A) - \epsilon / 2^{n + 1} < \mu(F_n) \leq \mu(A) \leq \mu(G_n) < \mu(A) + \epsilon / 2^{n + 1}.$$
+For each $n \in \Zpl$, $A_n \setminus F_n$ and $B_n \cap G_n$ are still both elementary. 
+Further, it is clear that $\bigcup_{n = 1}^{\infty} (A_n \setminus F_n) \text{ is an open cover for } B \setminus A$ and $\bigcup_{n = 1}^{\infty} (B_n \cap G_n) \text{ is an open cover for } B \cap A$, so  % FIXME: double check this? 
+$$\bigcup_{n = 1}^{\infty} ((A_n \setminus F_n) \cup (B_n \cap G_n)) \text{ is an open cover for } B$$
+For each $n \in \Zpl$, $(A_n \setminus F_n) \cap (B_n \cup G_n) \subset G_n \setminus F_n$, and $\mu(G_n \setminus F_n) = \mu(G_n) - \mu(F_n) < \epsilon / 2^n$. 
+Using the monotocity of $\mu$, 
+\begin{align*} 
+  \mu((A_n \setminus F_n) \cup (B_n \cap G_n)) & \geq \mu(A_n \setminus F_n) + \mu(B_n \cap G_n) - \mu(G_n \setminus F_n) \\ 
+											   & \geq \mu(A_n \setminus F_n) + \mu(B_n \cap G_n) - \epsilon / 2^{n} 
+\end{align*} 
+Putting all the information together and once again using the monoticity of $\mu$, 
+\begin{align*}
+  \mu^{*} (B) & \leq \sum_{n = 1}^{\infty} ((A_n \setminus F_n) \cup (B_n \cap G_n)) \\ 
+			  & \sum_{n = 1}^{\infty} 
+\end{align*} % FIXME: I would like both inequalities to flip
+
+\subsection{} 
+
+\section{} 
+Let $X$ be a set and $\mathscr{M} \subset 2^{X}$ be a $\sigma$-algebra. 
+
+\subsection{}
+Take another set $Y$ and a function $h:X \rightarrow Y$. 
+Show $\mathscr{M}' = \{B \subset Y \mid h^{-1}(B) \in \mathscr{M}\}$ is a $\sigma$-algebra on $Y$. 
+
+\noindent\dotfill 
+
+Take $B \in \mathscr{M}'$. 
+Since $\mathscr{M}$ is a $\sigma$-algebra, $X \setminus h^{-1}(B) \in \mathscr{M}$. 
+$$h^{-1}(Y \setminus B) = X \setminus h^{-1}(B),$$
+so $Y \setminus B \in \mathscr{M}'$. 
+
+Take $(B_n)_{n \in \Zpl} \subset \mathscr{M}'$. 
+Then 
+$$\bigcup_{n = 1}^{\infty} h^{-1}(B_n) = h^{-1}(\bigcup_{n = 1}^{\infty} B_n) \in \mathscr{M},$$
+so $\bigcup_{n = 1}^{\infty} B_n \in \mathscr{M}'$. 
+This shows $\mathscr{M}'$ is a $\sigma$-algebra on $Y$. 
+
+\end{document}

@@ -1,0 +1,297 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math100C}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - WK6} 
+\author{\myname}
+\date{2026.05.08}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\newtheorem*{hint}{Hint}
+
+%------------------------------------------------------------------------------%
+\section{Factoring \texorpdfstring{$x^3-2$}{x\^{}3-2} over \texorpdfstring{$F = \Q[x]/\<x^3-2\>$}{F}}
+ 
+Define the field $F = \Q[x]/\<x^3-2\>$. Prove that the polynomial $x^3-2$ does \emph{not} factor completely over $F$.
+ 
+\begin{hint}
+If it did, then $F$ would contain a primitive cube root of unity.
+\end{hint}
+
+\noindent\dotfill 
+
+Let $f = x^3 - 2$. 
+Suppose $f$ fully factors over $F$, i.e., all its roots are in $F$. 
+Besides $\sqrt[3]{2}$, $\sqrt[3]{2} \zeta_3$ is a root of $f$. 
+Since $F \equiv \Q(\sqrt[3]{2})$ is a field, $\sqrt[3]{2}$ is invertible, so if $\sqrt[3]{2}\zeta_3$ is in $F$, so is $\zeta_3$. 
+This gives the extensions 
+$$F / \Q(\zeta_3) / \Q,$$
+resulting in the degree relation 
+\begin{equation} \label{eq:1_tower}
+  \index{F}{\Q} = \index{F}{\Q(\zeta_3)} \index{\Q(\zeta_3)}{\Q}
+\end{equation}
+However, the left hand side of \eqref{eq:1_tower} is 3, whereas the right hand side is a multiple of 2 because the degree $\zeta_3$ is 2 over $\Q$. 
+Hence \eqref{eq:1_tower} results in a contradiction; 
+$f$ does not fully factor over $F$.
+
+ 
+% -----------------------------------------------------------------------
+\section{Field-Theoretic Characterization of Constructible Points}
+ 
+Give (with proof) a field-theoretic characterization of the complex numbers $x+iy$ for which the point $(x,y)$ is straightedge-and-compass constructible starting from $(0,0)$ and $(1,0)$.
+
+\noindent\dotfill 
+
+It is geometrically clear that $x + yi$ is constructible via straightedge-and-compass if and only if the lengths $x$ and $y$ are both constructible as extensions of $\Q$; 
+that is, if and only if $x$ and $y$ are both algebraic over $\Q$ with degree a power of two. 
+
+Suppose $a + bi$ and $c + di$ are constructible. 
+Taking some field $K$ of degree a power of two over $\Q$ that contains $a, b, c, d$, (such a field clearly exists)  
+$a + c, b + d \in K$ means $a - c$ and $b - d$ are both degree a power of two over $\Q$, hence $(a - c) + (b - d)i$ is constructible. 
+This demonstrates constructible elements in $\C$ are closed under addition with inverses. 
+Similarly, that $ac, bd, bc, ad \in K$ means the point $(a + bi)(c + di)$ is constructible, so constructible points are closed under multiplication.  
+To verify that multiplicative inverses of constructible points are also constructible, note that 
+conjugates of constructible points are clearly constructible points, and the lengths of constructible points are also constructible.
+Hence $(a + bi)^{-1} = \frac{a - bi}{\abs{a + bi}}$ is constructible. 
+This shows that the constructible points in $\C$ form a subfield of $\C$. 
+
+ 
+% -----------------------------------------------------------------------
+\section{A Subfield of the Cyclotomic Field and Constructibility of \texorpdfstring{$\cos(2\pi/17)$}{cos(2\unichar{"03C0}/17)}}
+ 
+Let $p$ be a prime and define $\zeta = e^{2\pi i/p} \in \C$. Let $a$ be a positive integer coprime to $p$, and let $d$ be the order of the image of $a$ in $\F_p^\times$. Prove that
+\[
+  \sum_{i=0}^{d-1} \zeta^{a^i}
+\]
+generates an extension of $\Q$ of degree $(p-1)/d$. Then deduce from this that $\cos(2\pi/17)$ is constructible.
+
+\noindent\dotfill 
+
+Have mercy, have mercy upon us. 
+ 
+% -----------------------------------------------------------------------
+\section{Primitive Elements in Finite Fields}
+ 
+Let $F$ be a finite field of order $p^a$ for some prime $p$. Prove that the following conditions on $\alpha \in F^\times$ are equivalent:
+\begin{enumerate}[label=(\roman*)]
+  \item The degree of the minimal polynomial of $\alpha$ over $\F_p$ equals $a$.
+  \item The order of $\alpha \in F^\times$ does not divide $p^d - 1$ for any proper divisor $d$ of $a$.
+\end{enumerate}
+Then deduce that $F \cong \F_p[x]/(f(x))$ for some polynomial $f(x)$ over $\F_p$; that is, the primitive element theorem is true for finite fields (but not for arbitrary fields of positive characteristic).
+
+\noindent\dotfill 
+
+The order of $F$ indicates that it is a degree $a$ extension of $\F_p$. 
+Suppose first that the degree of the minimal polynomial of $\alpha$ over $\F_p$ is $d \neq \alpha$. 
+Then the extensions $F / \F_{p}(\alpha) / \F_p$ and the corresponding relation of degrees $\index{F}{\F_p} = \index{F}{\F_p(\alpha)}\index{\F_p(\alpha)}{\F_p}$ says $d \mid a$. 
+Furthermore, $\F_p(\alpha)$ is a finite field of over $p^d$ and its group of units is cyclic of order $p^d - 1$, so $\alpha$ satisfies 
+$$\alpha^{p^d - 1} = 1.$$
+The relation continues to hold in $F$, so the order of $\alpha$ in $F^\times$ divides $p^d - 1$, where $d$ is a proper divisor of $a$. 
+ 
+Next, suppose the order of $\alpha$ in $F^\times$ divides $p^d - 1$ for some proper divisor $d \mid a$.
+Consider 
+$$F' \defeq \{z \in F \mid z^{p^d} = z\}.$$
+$F'$ is a subfield of $F$ containing $\F_p$. 
+Since the order of $\alpha$ in $F^\times$ divides $p^d - 1$, $\alpha^{p^d} = \alpha$, i.e., $\alpha \in F'$. 
+By Fermat's Little Theorem, for all $n \in \F_p$, $n^p = n$, so $n \in F'$. 
+Next, the fact that the Frobenius map is an automorphism on $F$ says $F'$ is closed under addition/subtraction. 
+Simple calculation shows that $F'$ is closed under multiplication and division as well. 
+This shows that $F'$ is a subfield of $F$ containing $\alpha$ and $\F_p$. 
+Now, since $F'$ is the collection of the roots of the polynomial $x^{p^d} - x$, $F'$ has at most $p^d$ elements. 
+$\alpha$, being an element of $F'$, must therefore have a minimal polynomial over $\F_p$ of degree at most $d$; 
+namely, the minimal polynomial for $\alpha$ over $\F_p$ is less than $a$. 
+ 
+% -----------------------------------------------------------------------
+\section{Automorphisms of Finite Fields and the Frobenius}
+ 
+Let $F$ be a finite field of order $p^a$ for some prime $p$. Prove that the group of field automorphisms of $F$ is generated by the Frobenius map.
+ 
+\begin{hint}
+Write $F \equiv \F_p[x]/(f(x))$; argue that Frobenius acts transitively on the roots of $f$; and check that the stabilizer of any root for the action by all field automorphisms is trivial.
+\end{hint}
+
+\noindent \dotfill 
+
+Identify $F \equiv \F_p / \<f\>$ where $f$ is a monic irreducible polynomial of degree $a$ with abstract root $\alpha$. 
+Since the Frobenius map is an automorphism on $F$,  
+$$f(\alpha^p) = f(\alpha)^p = 0,$$ 
+shows that $\alpha, \alpha^p, \ldots, \alpha^{p^{a - 1}}$ are all roots of $f$;
+in fact, the following shows that they are \textit{distinct} roots of $f$, thus giving all $a$ roots of $f$: 
+suppose $a^{p^k} = a^{p^l}$ with $k < l$ and, for contradiction, $l - k < d$. 
+Then $a^{p^k(p^{l - k} - 1)} = 1$ shows 
+$$o(\alpha)^{\times} \mid p^k(p^{l - k} - 1),$$
+where $o(\alpha)^{\times}$ denotes the order of $\alpha$ is the multiplicative group $F^{\times}$. 
+But since $\#F^{\times} = p^a - 1$, $o(\alpha)^{\times} \mid p^{\alpha} - 1$, so namely $p \nmid o(\alpha)^{\times}$. 
+Since this means $\gcd(o(\alpha)^{\times}, p^k) = 1$, 
+$$o(\alpha) \mid p^{l - k} - 1.$$ 
+This contradicts the result from question 4; 
+if $\alpha$ has order $a$, then the order of $a$ in $F^{\times}$ does not divide $p^d - 1$ for all proper divisors of $a$. 
+Hence $l - k \geq d$.
+This proves 
+$$\alpha, \alpha^p, \ldots, \alpha^{p^{a - 1}}$$ 
+give all the distinct roots of $f$; 
+the 1st to $(a - 1)$st powers of the Frobenius automorphism act transitively on the roots of $f$. 
+
+In an abuse of notation, now let $\alpha$ be any root of $f$ and denote by $G \defeq \text{Aut}(F)$, $H \defeq G_{\alpha}$. 
+Below, I will show that $H$ is trivial. 
+Assuming so, the paragraph above and the orbit-stabilizer theorem says that elements of $G$ correspond to the 1st to $(a - 1)$st powers of the Frobenius map, proving that the Frobenius map generates the group of automorphisms of $F$. 
+Suppose $\varphi:F \rightarrow F$ is an automorphism of $F$ that fixes $\alpha$. 
+Since $\varphi(1) = 1$ by definition, $\varphi$ fixes $\F_p$ as well. 
+Then the commuting diagram 
+\begin{center}
+  \begin{tikzcd} 
+    \F_p[x] \arrow[d, "\pi"] \arrow[dr, "\varphi \pi"] \\ 
+    F \arrow[r, "\varphi"] & F
+  \end{tikzcd}
+\end{center}
+where $\pi$ is the canonical projection $\F_p[x] \rightarrow \F_p[x] / \<f\> \equiv F$, shows that $\varphi \pi$ is the identity on the constants and sends $x$ to $\alpha$. 
+Thus $\varphi \pi$ is a unique substitution map. 
+But namely, such a substitution map is exactly the canonical projection $\F_p[x] \rightarrow F$ since $f$ is the minimal polynomial for $\alpha$. 
+Hence 
+$$\varphi \pi = \id_{F} \pi.$$
+Finally, because $\pi$ is a surjection, i.e., epimorphism, $\varphi = \id_{F}$. 
+The only automorphism of $F$ that fixes $\alpha$ is the identity; 
+the stabilizer of $\alpha$ is trivial, as was to be shown.  
+This finishes the problem!
+
+% -----------------------------------------------------------------------
+\section{A Computation in \texorpdfstring{$\F_3[x]/\<x^3-x+1\>$}{F\_3[x]/(x\^{}3-x+1)}}
+ 
+Check that $F = \F_3[x]/\<x^3 - x + 1\>$ is a finite field, then factor the polynomial
+\[
+  f(x) = x^3 + x^2 - x + 1
+\]
+into irreducibles over $F$.
+ 
+\begin{hint}
+For $\alpha \in F$ the image of $x$, first check that $\alpha^2 + 1$ is a root of $f$.
+\end{hint}
+
+\noindent\dotfill
+
+$x^3 - x + 1$ is irreducible over $\F_3$: 
+because it is cubic, if it is reducible, then it necessarily has a root. 
+However, one can easily compute that none of $0, 1$, or $2$ satisfy $x^3 - x + 1$. 
+Since $x^3 - x + 1$ is irreducible, one concludes the field $F$ is a three-dimensional vector space over $\F_3$;
+namely, $F$ is a finite field of order 27.  
+
+To verify $\alpha^2 + 1$ is a root of $f$, use the identity $\alpha^3 - \alpha + 1 = 0$ in $F$ to calculate  
+\begin{align*}
+  \alpha^4 & = \alpha^2 - \alpha \\ 
+  \alpha^6 & = \alpha^2 - 2\alpha + 1
+\end{align*}
+Now, 
+\newcommand{\myroot}{\alpha^2 + 1}
+\begin{align*}
+  (\myroot)^3 + (\myroot)^2 - (\myroot) + 1 
+  & = \alpha^6 + 1 + \alpha^4 + 2\alpha^2 + 1 - \alpha^2 - 1 + 1 \\ 
+  & = \alpha^6 + \alpha^4 + \alpha^2 +  2 \\ 
+  & = 0 
+\end{align*}
+verifies that $\alpha^2 + 1$ is indeed a root of $f$.
+Since $f$ is irreducible over $\F_3$, as one can verify by checking $f$ has no roots, and the Frobenius map is an automorphism on $F$ that fixes $\F_3$, 
+\begin{align*}
+  (\alpha^2 + 1)^3 = \alpha^6 + 1 & = \alpha^2 + \alpha + 2, \\ 
+  ((\alpha^2 + 1)^3)^3 = \alpha^6 + \alpha^3 + 2 & = \alpha^2 + 2\alpha + 2
+\end{align*}
+are both roots of $f$ as well.  
+Namely, $\alpha^2 + 1$, $\alpha^2 + \alpha + 2$, and $\alpha^2 + 2\alpha + 2$ are all distinct roots because $1, \alpha, \alpha^2$ form a basis for $F$ over $\F_3$. 
+Hence $f$ factors as 
+$$(x - (\alpha^2 + 1))(x - (\alpha^2 + \alpha + 2))(x - (\alpha^2 + 2\alpha + 2))$$
+over $F$. 
+ 
+% -----------------------------------------------------------------------
+\section{An Algebraic Closure of \texorpdfstring{$\F_p$}{F\_p}}
+ 
+Prove that for any prime $p$, there exists a (non-finite) extension $F$ of $\F_p$ such that:
+\begin{enumerate}[label=(\roman*)]
+  \item every element of $F$ is algebraic over $\F_p$;
+  \item \emph{every} polynomial over $\F_p$ factors completely over $F$.
+\end{enumerate}
+ 
+\begin{hint}
+List the polynomials over $\F_p$ in order, then make a sequence of finite extensions
+\[
+  \F_p = K_0 \subset K_1 \subset \cdots
+\]
+with the property that the first $n$ polynomials in your list all factor completely over $K_n$.
+\end{hint}
+ 
+\noindent\textit{Optional.} Show that every polynomial over $F$ also factors completely, which is to say $F$ is \emph{algebraically closed}.
+ 
+\begin{hint}
+Prove that every polynomial over $F$ divides some polynomial with coefficients in $\F_p$. For instance, this can be done using symmetric polynomials.
+\end{hint}
+
+\noindent\dotfill 
+
+Because $\F_p$ is countable and $\F_p[x]$ is generated as a $\F_p$-module by the countably infinite many elements $1, x, x^2, \ldots$, the number of polynomials over $\F_p$ is countably infinite. 
+(Arbitrarily) order the elements of $\F_p[x]$ as $(f_1, f_2, f_3, \ldots)$, and define $K_0 \subset K_1 \subset K_2 \subset \ldots$ as given in the hint. 
+Now, consider 
+$$K \defeq \bigcup_{i = 0}^{\infty} K_i.$$
+$K$ is a field:
+if $a, b \in K$, let $i$ and $j$ be such that $a \in K_i$ and $b \in K_j$. 
+Since the $K_t$'s form a chain, $a$ and $b$ are both elements of $K_{\max\{i, j\}}$, and hence $a - b, ab^{-1} \in K_{max\{i, j\}} \subset K$.  
+
+By definition, every polynomial over $\F_p$ splits in $K$: 
+for example, for any $n$, $f_n$ splits in $K_n \subset K$. 
+Also, since every element of $K$ comes from some $K_n$, where $K_n$ is a finite extension of $\F_p$, every element of $K$ is algebraic over $\F_p$. 
+Hence $K$ satisfies the desired properties. 
+
+ 
+% -----------------------------------------------------------------------
+\section*{Reading (Not a Problem)}
+ 
+Please read the proof of the Fundamental Theorem of Algebra at the end of Chapter~15 of Artin. A different proof will be given later.
+
+\end{document}

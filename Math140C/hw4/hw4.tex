@@ -1,0 +1,297 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140C}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#4}
+\author{\myname}
+\date{2026.05.10} 
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\scrC}{\mathscr{C}}
+\newcommand{\sigalg}[1]{\sigma\text{-alg}(#1)}
+
+\section{}
+Let $\M$ be an algebra on a set $X$. 
+\subsection{} 
+Show $\emptyset, X \in \M$ 
+
+\noindent \dotfill
+
+For any $A \in \M$, $A \cup (X \setminus A) = X \in \M$. 
+And hence $X \setminus X = \emptyset \in \M$. 
+
+\subsection{} 
+Show that if $A_1, \ldots, A_n \in \M$, then $\bigcap_{i = 1}^{n} A_i$. 
+Similarly, supposing $\M$ is a $\sigma$-algebra, show that if $\{A_n\}_{n \in \Zpl} \subset \M$, then $\bigcap_{i = 1}^{\infty} A_i \in \M$.
+
+\noindent\dotfill
+
+For the first part, it clearly suffices to show that if $A, B \in \M$, then $A \cap B \in \M$. 
+Well, deMorgan's law says  
+$$X \setminus ((X \setminus A) \cup (X \setminus B)) = A \cap B,$$
+and the left hand side is in $\M$, which shows $A \cap B \in \M$.  
+
+For $\sigma$-algebras, once again, use deMorgan's Law: 
+$$X \setminus \bigcup_{i = 1}^{\infty} (X \setminus A_i) = \bigcap_{i = 1}^{\infty} A_i$$
+If $\{A_i\}_{i \in \Zpl} \subset \M$, then the left hand side is in $\M$, so $\bigcap_{i} A_i \in \M$. 
+
+\section{} 
+\subsection{} 
+Let $I$ be any set and $\M_i$ a $\sigma$-algebra on $X$ for every $i \in I$. 
+Prove $\bigcap_{i \in I} \M_i$ is a $\sigma$-algebra on $X$. 
+
+\noindent\dotfill 
+
+Let $\M = \bigcap_{i \in I} \M_i$. 
+Take $A \in \M$. 
+For each $i \in I$, $A \in \M_i$, so it follows $X \setminus A \in \M_i$. 
+This holds for each $i \in I$, so $X \setminus A \in \M$. 
+Closure under arbitrary unions holds by the same line of reasoning. 
+
+\subsection{} 
+Take any $\mathscr{C} \subset \mathscr{P}(X)$. 
+Show there is a unique smallest $\sigma$-algebra $\M$ on $X$ that contains $\mathscr{C}$. 
+
+\noindent\dotfill
+
+Let $\{\M_i\}_{i \in I}$ be the collection of all $\sigma$-algebras that contain $\mathscr{C}$. 
+Then 
+$$\bigcap_{i \in I}\M_i$$
+is clearly the unique smallest $\sigma$-algebra that contains $\mathscr{C}$. 
+
+\section{} 
+\subsection{} 
+Let $\scrC_1, \scrC_2 \subset \mathscr{P}(X)$. 
+Show $\scrC_1 \subset \sigalg{\scrC_2} \iff \sigalg{\scrC_1} \subset \sigalg{\scrC_2}$ 
+
+\noindent\dotfill 
+
+The reverse direction is clear since $\scrC_1 \subset \sigalg{\scrC_1}$. 
+The forward direction is also immediate because $\sigalg{\scrC_1}$ is by definition the smallest $\sigma$-algebra containing $\scrC_1$, hence $\scrC_1 \subset \sigalg{\scrC_2}$ implies $\sigalg{\scrC_1} \subset \sigalg{\scrC_2}$ by definition. 
+
+\subsection{} 
+Let $\mathcal{I} = \{(a, b) \subset \R \mid a < b \text{ and } a, b \in \Q\}$. 
+Explain why $\mathcal{B}_{\R} = \sigalg{\mathcal{I}}$. 
+
+\noindent\dotfill 
+
+$\mathcal{I}$ is a subset of all the open sets of $\R$, so $\sigalg{\mathcal{I}} \subset \mathcal{B}_{\R}$ is immediate. 
+For the reverse inclusion, observe that open subsets in $\R$ form a subset of $\sigalg{\mathcal{I}}$: 
+suppose $U \subset \R$ is open and pick any $x \in U$. 
+By definition, there exists $r > 0$ such that $\ball{r}{x} \subset U$. 
+Since $\Q$ is dense in $\R$, one can choose $a, b \in \Q$ such that $(a, b) \subset \ball{r}{x} \subset U$. 
+Hence $U$ is a union intervals with rational endpoints, i.e., 
+$$U \in \sigalg{\mathcal{I}}.$$
+Since $U$ is an arbitrary open set in $\R$, the above shows the set of all open sets in $\R$ is a subset of $\sigalg{\mathcal{I}}$. 
+$\mathcal{B}_{\R} \subset \sigalg{\mathcal{I}}$ follows by part (a). 
+
+If one knows a bit of topology, this problem is immediate from the fact that open intervals with rational endpoints form a basis for the regular topology of $\R$. 
+
+\section{}
+Let $\scrC = \{\{x\} \mid x \in \R\}$ be the collection of singleton subsets of $\R$. 
+Find a characterization for the sets belonging to $\sigalg{\scrC}$. 
+Specifically, find an explicit condition, and show that the collection of sets satisfying your condition 
+\begin{itemize} 
+  \item includes every set in $\scrC$
+  \item is a $\sigma$-algebra 
+  \item is contained in $\sigalg{\scrC}$. 
+\end{itemize} 
+
+\noindent\dotfill 
+
+Note that the outlined conditions indeed show such a collection is $\sigalg{\scrC}$. 
+Well, I claim that $\powset{\R} = \sigalg{\scrC}$. 
+It is trivially true that $\powset{\R}$ contains all singletons in $\R$, i.e., every set in $\scrC$, and is a $\sigma$-algebra. 
+To see that $\powset{\R} \subset \sigalg{\scrC}$, take any $S \subset \R$. 
+By the definition of a set, 
+$$S = \bigcup_{x \in S} \{x\},$$
+hence $S \in \sigalg{\scrC}$. 
+This proves $\powset{R} = \sigalg{\scrC}$. 
+
+\section{} 
+Let $R = \prod_{i = 1}^{p} I_i \in \mathcal{R}$ where each $I_i \subset \R$ is connected. 
+A coordinate-wise partition of $R$ is a partition $P$ of $R$ such that there exists finite partitions $Q_i$ of $I_i$ for each $i \in \oneton{p}$ such that 
+\begin{itemize}
+  \item for each $i \in \oneton{p}$, each set in $Q_i$ is connected 
+  \item $P = \{\prod_{i = 1}^{p} J_i \mid J_i \in Q_i \text{ for each } i \in \oneton{p}\}$ 
+\end{itemize}
+
+\subsection{} 
+Show that if $P$ is a coordinate-wise partition, then 
+\begin{equation} \label{eq:5_a_wts}
+m(R) = \sum_{D \in P} m(D) = \sum_{J_1 \in Q_1} \sum_{J_2 \in Q_2} \cdots \sum_{J_p \in Q_p} m(\prod_{i = 1}^{p} J_i).
+\end{equation}
+
+\noindent\dotfill
+
+After observing that each element of $P$ is itself a bounded rectangle, the second equality in \eqref{eq:5_a_wts} holds by definition, so it suffices to show the equality between the first and third expressions in \eqref{eq:5_a_wts}. 
+Let $a_i, b_i$ be for each $i \in \oneton{p}$ such that 
+\begin{gather*}
+  \prod_{i = 1}^{p} (a_i, b_i) \subset R \subset \prod_{i = 1}^{p} [a_i, b_i] \\ 
+  m(R) = \prod_{i = 1}^{p} (b_i - a_i)
+\end{gather*}
+
+Consider any index $i \in \oneton{p}$. 
+Without loss of generality, suppose $I_i = [a_i, b_i]$ 
+(in the treatment below, I will write all segments as closed, just for notational simplicity; 
+the distinction of a segment being closed is unimportant for part (a)). 
+Let $Q_i$ be as defined in the problem statement. 
+By the restrictions on $Q_i$, there exist $x_{i0}, x_{i1}, \ldots, x_{it_i}$ for some integer $t_i$ such that $x_{i0} = a_i$, $x_{it_i} = b_i$, and 
+$$Q_i = \{[x_{i0}, x_{i1}], [x_{i1}, x_{i2}], \ldots, [x_{i(t_i - 1)}, x_{it_i}]\}.$$
+By definition of the $x_{ij}$'s,  
+$$b_i - a_i = \sum_{j = 1}^{t_i} (x_{ij} - x_{i(j - 1)}).$$
+With $t_i$ and $x_{ij}$ defined as above for all $i \in \oneton{p}$ and $j \in \oneton{t_i}$, 
+\begin{align}
+  m(R) = \prod_{i = 1}^{p} (b_i - a_i) 
+  & = \prod_{i = 1}^{p} (\sum_{j = 1}^{t_i} (x_{ij} - x_{i(j-1)})) \nonumber \\ 
+  & = \sum_{j_i = 1}^{t_1}\sum_{j_2 = 1}^{t_2} \cdots \sum_{j_p = 1}^{t_p} \prod_{k = 1}^{p} (x_{kj_i} - x_{k(j_i - 1)}) \label{eq:5_a_dist} \\ 
+  & = \sum_{J_1 \in Q_1}\sum_{J_2 \in Q_2} \cdots \sum_{J_p \in Q_p} m(\prod_{k = 1}^{p} J_k), \nonumber
+\end{align}
+where \eqref{eq:5_a_dist} is due to the distributive property.
+
+\subsection{} 
+Show that if $R = \bigsqcup_{k = 1}^{n} A_k$ for disjoint squares $A_1, \ldots, A_n \in \mathcal{R}$, then for every $k \in \oneton{n}$, there is a coordinate-wise partition $P_k$ of $A_k$ such that $P = \bigcup_{k = 1}^{n} P_k$ is a coordinate-wise partition of $R$. 
+
+\noindent\dotfill
+
+Associate with each $A_k$ points $a_{ki}, b_{ki}$ for all $i \in \oneton{p}$ such that 
+$$\prod_{i = 1}^{p}(a_{ki}, b_{ki}) \subset A_k \subset \prod_{i = 1}^{p} [a_{ki}, b_{ki}]$$
+For each $i \in \oneton{p}$, define 
+$$T_i = \{a_{ki} \mid k \in \oneton{n}\} \cup \{b_{ki} \mid k \in \oneton{n}\}$$ 
+Clearly, $T_i$ is a finite collection of points lying in the segment $[a_i, b_i]$. 
+Ordering the points of $T_i$ under $<$ as in $T_i = \{p_0, p_1, \ldots, p_{t_i}\}$ for some $t_i$, each $p_{j} < p_{j + 1}$, let 
+$$Q_i = \{(p_0, p_1), (p_1, p_2), \ldots, (p_{t_i - 2}, p_{t_i - 1}), (p_{t_i - 1}, p_{t_i})\} \cup \bigcup_{j = 0}^{t} \{p_{j}\}$$
+By construction, the $Q_i$'s are a finite partition of the corresponding $I_i$'s such that 
+$$P = \left\{\prod_{i = 1}^{p} J_i \mid J_i \in Q_i \text{ for each } i \in \oneton{p}\right\}$$
+is a coordinate-wise partition of $R$. 
+Crucially, $P$ induces a coordinate-wise partition for each $A_k$.
+For a fixed dimension $i \in \oneton{p}$ and fixed rectangle $A_k$ for $k \in \oneton{n}$, one can form the segment $I_{ki}$ defining the $i$th dimension of $A_k$ by taking union of elements of $Q_i$; 
+namely, that the endpoints of $I_{ki}$ are added to $Q_i$ as singletons means the elements of $Q_i$ can form open, closed, and half-open intervals with endpoints $a_{ki}, b_{ki}$. 
+In other words, given a rectangle $A_k$, each $Q_i$ admits a subset partitioning $I_{ki}$ that defines the coordinate-wise partition for $A_k$. 
+Furthermore, it is clear that the only shared points among the $P_k$'s are rectangles of measure zero; 
+in each coordinate, the segments $I_{k_1 i}$ and $I_{k_2 i}$ for $k_1 \neq k_2 \in \oneton{n}$ share at most their endpoints.
+Conversely, all elements of $P$ belong to a coordinate-wise partition of at least one of the $A_k$'s. 
+
+Writing $P_k$ as this induced coordinate-wise partition of $A_k$, the conclusion obtained from the above paragraph is that $P = \bigcup_{k = 1}^{n} P_k$. 
+
+\subsection{}
+Let the notation be as in part (b). 
+Combining the results from parts (a) and (b), 
+\begin{align*}
+  m(R) = \sum_{D \in P} m(R) 
+  & = \sum_{k = 1}^{n} \sum_{D \in P_k} m(D) \\ 
+  & = \sum_{k = 1}^{n} m(A_k),
+\end{align*}
+as was to be shown.
+
+\section{}
+\subsection{}
+Let $R \in \mathcal{R}$ and let $R_1, \ldots, R_n \in \mathcal{R}$ be disjoint subsets of $R$. 
+Show there is a coordinate-wise partition $P$ of $R$ so that each $R_k$ is a union of sets from $P$.
+Conclude that $R \setminus (R_1 \cup \ldots \cup R_n)$ can be expressed as a finite union of disjoint rectangles.
+
+\noindent\dotfill 
+
+For the first part of this question, proceed more or less exactly as in Q5(b). 
+The only thing to note is that excluding sets of $P$ of measure 0, each $R_k$ is a disjoint union of sets of $P$; 
+since the $R_k$'s are themselves disjoint, the sets of $P$ used to build the rectangles $R_k$ contribute to only one $R_k$ if they have measure greater than 0.  
+Since $P$ partitions $R$ into subrectangles, and $P$ induces further coordinate-wise partitions of the $R_k$'s, $R \setminus (R_1 \cup \ldots \cup R_n)$ can be expressed as a union of disjoint rectangles. 
+
+\subsection{} 
+Prove that every $A \in \mathscr{E}$ can be expressed as a finite union of disjoint rectangles. 
+
+\noindent\dotfill 
+
+By definition, $A = \bigcup_{k = 1}^{n} A_k$ for some integer $n$, $A_k \in \mathcal{R}$, where the $A_k$'s may not be pairwise disjoint. 
+To show that any $A \in \mathcal{E}$ can be expressed as the union of disjoint rectangles, induct on $n$. 
+The $n = 1$ is trivially true. 
+Consider $n > 1$ with the proposition true for $n - 1$. 
+Rewrite
+$$A = \bigcup_{k = 1}^{n - 1} A_k \cup A_n$$
+$A' \defeq \bigcup_{k = 1}^{n - 1}A_k$ is an element of $\mathscr{E}$, so by the inductive hypothesis, $A'$ can be expressed as the union of disjoint rectangles. 
+If $A'$ is disjoint from $A_n$, then $A$ is the union of pairwise disjoint rectangles. 
+Suppose $A'$ intersects $A_n$; 
+particularly, there are some number of disjoint rectangles $B_1, \ldots, B_t$ of $A'$ that intersect $A_n$. 
+Clearly, each $B_j \cap A_n$ is a rectangle subset of $A_n$, hence part (a) says that 
+$$A_n \setminus (A_n \cap \bigcup_{j = 1}^{t} B_t)$$
+can be written as a union of disjoint rectangles. 
+In other words, part of $A_n$ that doesn't intersect $A'$ can be writ as a union of disjoint rectangles. 
+Hence $A$ can be writ as a union of disjoint rectangles. 
+
+\subsection{} 
+Let $A \in \mathscr{E}$ and $R_1, \ldots, R_k \in \mathcal{R}$ be one set of pairwise disjoint rectangles, $S_1, \ldots, S_l \in \mathcal{R}$ another set of pairwise disjoint rectangles, and $A = \bigsqcup_{i = 1}^{k} R_i = \bigsqcup_{j = 1}^{k} S_j$. 
+Show $\sum_{i = 1}^{k} m(R_i) = \sum_{j = 1}^{l} m(S_j)$. 
+
+\noindent\dotfill 
+
+For any $i \in \oneton{k}$, $R_i \subset A = \bigsqcup_{j = 1}^{l} S_j$ means 
+\begin{align}
+  R_i & = R_i \cap \bigsqcup_{j = 1}^{l} S_j \nonumber \\ 
+      & = \bigsqcup_{j = 1}^{l} (R_i \cap S_j) \label{eq:6_c_sqcup}
+\end{align}
+(and indeed, simple set theory shows \eqref{eq:6_c_sqcup} is still a disjoint union). 
+The intersection of rectangles is clearly another rectangle; 
+\eqref{eq:6_c_sqcup} shows the rectangle $R_i$ is a disjoint union of rectangles. 
+Hence Q5(c) applies to give 
+$$m(R_i) = \sum_{j = 1}^{l} m(R_i \cap S_j)$$
+Not only is the choice of $i$ arbitrary, but also a symmetric analysis can be to write each $S_j$ as a disjoint union of rectangles, yielding 
+$$m(S_j) = \sum_{i = 1}^{k} m(S_j \cap R_i).$$
+Putting these results together,  
+\begin{align*}
+  \sum_{i = 1}^{k} m(R_i) & = \sum_{i = 1}^{k} \sum_{j = 1}^{l} m(R_i \cap S_j) \\ 
+                          & = \sum_{j = 1}^{l} \sum_{i = 1}^{k} m(R_i \cap S_j) = \sum_{j = 1}^{l} m(S_j), 
+\end{align*}
+as was to be shown. 
+
+\end{document}
