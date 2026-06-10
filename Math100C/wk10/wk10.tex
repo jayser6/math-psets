@@ -1,0 +1,180 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math100C}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - WK10} 
+\author{\myname}
+\date{2026.06.09}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+
+%------------------------------------------------------------------------------%
+
+\section{} 
+Let $G$ be a group of order $p^n$ for a prime $p$ and integer $n > 1$. 
+Prove $G$ has a normal subgroup of order $p$. 
+
+\noindent \dotfill 
+
+Consider the class equation for $G$: 
+$$\#G = \#Z(G) + \sum_i \# \mathcal{O}(x_i)$$
+The size of the nontrivial orbits (i.e., orbits of elements not in the center) each divide $\#G = p^n$, i.e., 
+$p \mid \#\mathcal{O}(x_i)$ for each $i$. 
+Suppose $G$ has a trivial center. 
+Then 
+$$p^n - 1 = \sum_{i} \# \mathcal{O}(x_i)$$
+and $p$ divides the right hand side by the observation above. 
+But clearly $p$ does not divide the left hand side, a contradition. 
+It must be that $G$ has a nontrivial center; 
+by the order of the group, $p \mid \#Z(G)$. 
+Namely, there is an element of order $p$ in the center; 
+this element generates a normal subgroup of $G$ of order $p$. 
+
+\section{} 
+Let $K / F$ be a Galois extension and $p$ any prime number. 
+Show there exists an intermediate field $K / E / F$ such that 
+\begin{itemize}
+  \item $E / F$ has degree not divisible by $p$. 
+  \item $K / E$ is Galois with degree a power of $p$. 
+\end{itemize}
+
+\noindent \dotfill 
+
+Given a Galois extension $K / F$, recall that for any intermediate field $K / E / F$, $K / E$ is Galois. 
+If $p \nmid \index{K}{F}$, then just take $E \defeq K$. 
+Assume $\index{K}{F} = p^n a$ for $p \nmid a$ and $n \geq 1$. 
+By Sylow's first theorem, there is a subgroup $H < \gal{K}{F}$ of order $p^n$. 
+Using the Galois correspondence, one immediately checks that the fixed field of $H$ satisfies the desired properties. 
+
+
+\section{} 
+Show that every finite extension of $\R$ other than itself has even degree. 
+Then, together with the previous problems, prove that every finite extension of $\C$ is trivial; 
+in other words, every polynomial over $\C$ splits completely.  
+
+\noindent \dotfill 
+
+Take any finite, nontrivial extension $K / \R$. 
+By the primitive element theorem, there is an element $\gamma \in K$ such that $K = \R(\gamma)$. 
+$\R \subsetneq K$ shows $\gamma$ is of degree greater than 1 over $\R$. 
+Since every non-linear odd-degree polynomimal over $\R$ has a root, the minimal polynomial for $\gamma$ must be of even degree. 
+Hence $\index{K}{\R}$ is even. 
+
+Suppose there exists a finite, nontrivial extension $K / \C$. 
+Since $\C = \R(i)$ is a degree two extension of $\R$, $K / \R$ is a finite extension. 
+Let $L / K$ be the Galois closure of $K$ with respect to $\R$. 
+Applying the case $p = 2$ to the result of Q2, there is an intermediate field $L / E$ containing $\R$ such that $\index{L}{E} = 2^{t}$ and $2 \nmid \index{E}{\R}$. 
+As shown above, the only finite extension of $\R$ of degree is the trivial extension; 
+it follows $\index{L}{\R} = 2^t$, where $t > 1$ by assumption on $L, K$ and $\C$. 
+
+If $t = 2$, i.e., $\index{L}{\R} = 4$, then namely $L$ is a degree 2 extension of $\C$, i.e., 
+$L = \C(\sqrt{a})$ for some $a \in \C$. 
+But De Moivre's theorem says $\sqrt{a} \in \C$, hence $L = \C$, a contradiction. 
+Hence assume $t > 2$.  
+By Q1, the Galois group $\gal{L}{\R}$ of order $2^{t}$ has a normal subgroup of order 2, thus yielding a degree $2^{t - 1}$ Galois extension of $\R$. 
+In fact, repeating this argument gives Galois extensions $L_0 = L / L_1 / L_2 / \ldots / L_{t} = \R$ of degrees $2^t, 2^{t - 1}, 2^{t - 2}, \ldots, 2^{0} = 1$, respectively. 
+Now, the $L_{t - 1}$, the degree 2 extension of $\R$, is just $\C$ since every degree two extension of $\R$ is $\C$; 
+$\C$ itself is degree 2 over $\R$, and if $\R(\sqrt{-a})$, $a \in \R_{+}$, is any degree two extension of $\R$, then $\R(\sqrt{-a})$ contains $\sqrt{-a} \sqrt{1 / a} = i$ and therefore $\C$ as well. 
+But then $L_{t - 2}$ is a degree 2 extension of $\C$, once again contradicting the fact that $\C$ doesn't have any quadratic extensions. 
+
+The conclusion is that there are no nontrivial finite extensions $K / \C$. 
+Namely, this shows every polynomial over $\C$ splits: 
+if an irreducible polynomial over $\C$ has degree greater than 1, then its furnishes a nontrivial finite extension of $\C$, a contradiction. 
+
+\section{} 
+Prove every abelian group occurs as the Galois group of some Abelian extension of $\Q$. 
+
+\noindent \dotfill 
+
+I follow a line of reasoning sketched out in Dummit and Foote. 
+Let $G$ be a finite abelian group. 
+By the classification theorem for finitely generated modules over PIDs, namely the PID $\Z$, 
+$$G \equiv (\Z / n_1 \Z) \times (\Z / n_2 \Z) \times \cdots \times (\Z / n_k \Z)$$
+I will just write $Z_{n_i}$ in place of $\Z / n_i \Z$. 
+By the (true) assumption that there are infinitely many primes congruent to 1 mod any integer $m$, one can take distinct primes $p_1, \ldots, p_k$ such that 
+\begin{gather*}
+  p_1 \cong 1 \mod n_1 \\ 
+  \vdots  \\ 
+  p_k \cong 1 \mod n_k
+\end{gather*}
+Since the primes $p_1, \ldots, p_k$ are distinct (namely, $p_i, p_j$ are coprime for $i \neq j$), one can apply the Chinese Remainder Theorem: 
+letting $n = p_1 \cdots p_k$, 
+$$\Z / n\Z \equiv (\Z / p_1 \Z) \times \cdots \times (\Z / p_k \Z)$$
+as rings. 
+Of course, this isomorphism of rings induces an isomorphism between the group of units: 
+\begin{align*}
+  (\Z / n\Z)^\times & \equiv (\Z / p_1 \Z)^{\times} \times \cdots \times (\Z / p_k \Z)^{\times} \\ 
+					& \equiv Z_{p_1 - 1} \times \cdots \times Z_{p_k - 1}
+\end{align*}
+where the last isomorphism recalls the fact that the multiplicative group of $\Z / pZ$ for any prime $p$ is cyclic. 
+
+Now, by construction, for each $i \in \oneton{k}$, $n_i \mid p_i - 1$. 
+Recall that abelian groups have a subgroup of any order that divides the order of the group. 
+Hence let $H_i < Z_{p_i - 1}$ be a subgroup of order $\frac{p_i - 1}{n_i}$; 
+subgroups and quotients of cyclic groups are cyclic, so $Z_{p_i - 1} / H_i \equiv Z_{n_i}$. 
+This identification gives the isomorphism 
+\begin{align*}
+  (\Z / n\Z)^\times / (H_1 \times \cdots \times H_k) 
+  & \equiv (Z_{p_1 - 1} / H_1) \times \cdots \times (Z_{p_k - 1} / H_k) \\ 
+  & \equiv Z_{n_1} \times \cdots \times Z_{n_k}  \\ 
+  & \equiv G
+\end{align*}
+
+Finally, to realize $G$ as the Galois group of an abelian extension over $\Q$, recall, for any $m$, $\Q(\zeta_m) / \Q$, where $\zeta_m = e^{2\pi i / m}$ denotes the primitive $m$th root of unity, is a Galois extension with Galois group $(\Z / m\Z)^{\times}$. 
+Also recall that if $a, b$ are coprime, then $\Q(\zeta_a, \zeta_b) \equiv \Q(\zeta_{ab})$. 
+From these facts, one can see 
+$$\Q(\zeta_{p_1}, \ldots, \zeta_{p_k}) \equiv \Q(\zeta_n)$$
+and this field has Galois group $(\Z / n\Z)^\times$ over $\Q$. 
+Furthermore, the Galois group has a (normal) subgroup isomorphic to $H \defeq H_1 \times \cdots \times H_k$, and thus the Galois correspondence says the fixed field $\Q(\zeta_n)^{H}$ is an (abelian) Galois extension of $\Q$ with Galois group $G$. 
+
+\end{document}

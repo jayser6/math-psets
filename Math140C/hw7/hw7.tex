@@ -1,0 +1,182 @@
+\documentclass[12pt]{article}
+
+%% Basic document formatting
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage[left=0.4in,right=0.4in,top=1in,bottom=1in]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{environ}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,skins,breakable}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\setlist[enumerate,1]{labelindent=\parindent}
+\setlist[enumerate,2]{labelindent=0pt}
+
+\input{../../template/commands.tex}
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newtheorem{claim}{Claim}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{lemma}{Lemma}
+
+%% Headers & title setup
+\newcommand{\course}{Math140C}
+\newcommand{\myname}{Jay Ser}
+\setlength{\headheight}{14.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\course}
+\rhead{\myname}
+\cfoot{\thepage}
+\setlength{\droptitle}{-4em} 
+\title{\course\ - HW \#7}
+\author{\myname}
+\date{2026.06.07} 
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+%------------------------------------------------------------------------------%
+
+\newcommand{\piInt}{[-\pi, \pi]} 
+\newcommand{\Ltwospace}[2]{\mathscr{L}^{2}(#1, #2)}
+\newcommand{\Ltwonorm}[1]{\abs{\abs{#1}}_2}
+\newcommand{\Lonespace}[2]{\mathscr{L}^{1}(#1, #2)}
+\newcommand{\integral}[4]{\int_{#1}^{#2} #4 \, d#3} 
+
+\section*{Q9} 
+Fix some $x \in (a, b)$ and take an arbitrary sequence $(x_n)$ converging to $x$. 
+Clearly $f(t) \chi_{[a, x_n]}(t) \rightarrow f(t)\chi_{[a, x]}(t)$ for every $t \in [a, b] \setminus \{x\}$. 
+Further, $\abs{f_n} \leq \abs{f}$ on $[a, b]$, hence the dominated convergence theorem gives 
+\begin{align*}
+  F(x) = \int_{a}^{b} f\chi_{[a, x]}dt 
+  & = \lim_{n \rightarrow \infty} \int_{a}^{b} f \chi_{[a, x_n]} dt \\  
+  & = \lim_{n \rightarrow \infty} \int_{a}^{x_n} f dt \\ 					
+  & = \lim_{n \rightarrow \infty} F(x_n)
+\end{align*}
+$(x_n)$ is an arbitrary sequence converging to $x$, so $F$ is continuous at $x$. 
+
+\section*{Q10} 
+Recall $f \in \Lonespace{X}{\mu} \iff \abs{f} \in \Lonespace{X}{\mu} \iff \int_{X} \abs{f} \, d\mu < \infty$. 
+Let $A = \{x \in X \mid \abs{f(x)} < 1\}$ and $B = \{x \in X \mid \abs{f(x)} \geq 1\}$ partition $X$. 
+\begin{align}
+  \integral{X}{}{\mu}{\abs{f}} & = \integral{A}{}{\mu}{\abs{f}} + \integral{B}{}{\mu}{\abs{f}} \nonumber \\ 
+							   & \leq \integral{A}{}{\mu}{1} + \integral{B}{}{\mu}{\abs{f}^2} \nonumber \\
+							   & = m(A) + \Ltwonorm{f\chi_{B}}^2 \label{eq:10_sum}
+\end{align}
+The first term in \eqref{eq:10_sum} is finite because $A \subset E$ and $m(E) < \infty$ by assumption. 
+The second term in \eqref{eq:10_sum} is also finite because $f \in \Ltwospace{X}{\mu}$ and $\abs{f\chi_B} \leq \abs{f}$ on $E$. 
+This shows $f \in \Lonespace{X}{\mu}$. 
+
+Next, let $f(x) = \frac{1}{1 + \abs{x}}$. 
+Notice $f$ is symmetric about $x = 0$. 
+$f$ is nonnegative everywhere and decreases monotonically on $[1, \infty)$, so one can apply the integral test to $f^2$: 
+\begin{equation} \label{eq:10_integraltest} 
+  \sum_{n = 1}^{\infty} f(n)^2 \text{ converges} \iff \integral{1}{\infty}{x}{f^2} \text{ converges}
+\end{equation}
+$\sum_{n = 1}^{\infty} f(n)^2 = \sum_{n = 1}^{\infty} \frac{1}{(1 + n)^2}$ converges, so the integral in \eqref{eq:10_integraltest} converges and is finite.  
+By symmetry, $\integral{-\infty}{-1}{x}{f^2}$ converges and is finite. 
+Of course, $\int_{-1}^{1} f^2 \, dx$ is finite, hence 
+$$\int_{\R} \abs{f}^2 \, dx < \infty,$$
+
+Meanwhile, a similar analysis via the integral test applied to $f$ shows 
+$$\int_{\R} f \, dx = \infty$$
+because $\sum_{n = 1}^{\infty} f(n) = \sum_{n = 1}^{\infty} \frac{1}{1 + n}$ diverges. 
+The conclusion is that $f \in \Ltwospace{\R}{m}$ but $f \notin \Lonespace{\R}{m}$. 
+
+\section*{Q12} 
+Yes, $g$ is continuous on $[0, 1]$. 
+To emphasize which variable is fixed, let 
+\begin{align*}
+  f^{x}(t) & = f(x, t) \text{ be a function in } y \\ 
+  f^{y}(s) & = f(s, y) \text{ be a function in } x.
+\end{align*}
+Pick an arbitrary $x \in [0, 1]$ and take any sequence $(x_n)$ converging to $x$. 
+Since $f^{y}(s)$ is continuous for any fixed $s$, 
+$$f^{x_n}(t) \rightarrow f^{x}(t) \text{ upon fixing any } t \in [0, 1].$$
+By assumption, $\abs{f^{x_n}(t)} \leq 1$ for all $t \in [0, 1]$, so dominated convergence theorem gives 
+\begin{align*}
+  g(x) = \integral{0}{1}{y}{f^{x}(y)}  
+  & = \lim_{n \rightarrow \infty} \integral{0}{1}{y}{f^{x_n}(y)} \\ 
+  & = \lim_{n \rightarrow \infty} g(x_n)
+\end{align*}
+$(x_n)$ is an arbitrary sequence converging to $x$, so $g$ is continuous at $x$. 
+
+\section*{Q16} 
+Note $E$ is measurable by Question 3 of Rudin. 
+Take any measurable $A \subset E$. 
+Clearly, $\chi_A \in \Ltwospace{\piInt}{m}$ and, with respect to $(e^{inx})$, has Fourier coefficients 
+\begin{align*}
+  c_n & \defeq \frac{1}{2\pi} \int_{-\pi}^{\pi} \chi_A e^{-inx} dx \\ 
+	  & = \frac{1}{2\pi} \int_{A} (\cos{nx} - i\sin{nx}) dx 
+\end{align*}
+$\sum_{-\infty}^{\infty} \abs{c_n}^{2}$ converges, so $(c_n)$ and all its subsequences converge to 0. 
+Namely, $c_{n_k}, c_{2n_k} \rightarrow 0$ as $k \rightarrow \infty$. 
+This gives 
+$$\int_{A} \sin{n_k x} dx \rightarrow 0$$
+and 
+\begin{align*}
+  2 \int_{A} (\sin{n_k x})^2 dx & \overset{\text{trig}}{=} \int_{A} (1 - \cos{2n_k x})dx \\ 
+								  & \rightarrow \int_{A} 1 dx = m(A)
+\end{align*}
+as $k \rightarrow \infty$, proving the two hints given by Rudin. 
+
+Define 
+$$f(x) \defeq \lim_{k \rightarrow \infty} \sin{n_k x}, \quad (x \in E).$$
+Take any measurable $A \subset E$. 
+On $A$, the sequence $(\sin{n_k x})_k$ still converges to $f(x)$ pointwise; 
+further, the sequence is dominated by 1, so the results from the hint give 
+\begin{gather}
+  \int_{A} f dm = 0 \label{eq:16_hint1} \\ 
+  \int_{A} f^2 dm = \frac{1}{2}m(A) \label{eq:16_hint2} 
+\end{gather}
+\eqref{eq:16_hint2} can be rearranged as $\int_{A} (f^2 - \frac{1}{2}) dm = 0$; 
+Letting $A = E$, the result from Question 2 of Rudin says 
+\begin{equation} \label{eq:16_Eae} 
+  f = \pm\sqrt{\frac{1}{2}} \text{ almost everywhere on } E
+\end{equation}
+Let $A_1 = \{x \in E \mid f(x) = +\sqrt{\frac{1}{2}}\}$ and $A_2 = \{x \in E \mid f(x) = -\sqrt{\frac{1}{2}}\}$. 
+Then 
+$$\int_{A_1} f dm = \sqrt{\frac{1}{2}} m(A_1), \quad \int_{A_2} f dm = -\sqrt{\frac{1}{2}} m(A_2),$$
+and considering the cases $A = A_1$ and $A = A_2$ gives $m(A_1) = m(A_2) = 0$. 
+Combining this result with \eqref{eq:16_Eae} gives $m(E) = 0$, as was to be shown. 
+
+\section*{Q17} 
+Once again, clearly $\chi_E \in \Ltwospace{\piInt}{m}$. 
+With respect to the orthogonal system $(e^{inx})$, it has Fourier coefficients 
+\begin{align*}
+  c_n & \defeq \frac{1}{2\pi} \int_{-\pi}^{\pi} \chi_{E} e^{-inx} dx \\ 
+	  & = \frac{1}{2\pi} \int_{E} e^{-inx}dx \\ 
+	  & = \frac{1}{2\pi} \int_{E} (\cos{nx} - \sin{nx})dx
+\end{align*}
+
+For contradiction, suppose there exists $\delta > 0$ such that infinitely many integers $n$ satisfy 
+$$\forall x \in E, \quad \sin nx > \delta$$
+Then for such integers $n$, 
+\begin{align*}
+  4\pi^2 \abs{c_n}^2 & = \left(\int_{E} \cos{nx}\,dx\right)^2 + \left(\int_{E} \sin{nx}\,dx\right)^2 \\ 
+					 & \geq \delta^2 m(E)^2
+\end{align*}
+That there are infinitely many such $n$ contradicts a consequence of Bessel's inequality, $c_n \rightarrow 0$. 
+
+\end{document}
